@@ -1,0 +1,71 @@
+---
+title: "50 yr Flood: Coal Creek"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+```
+
+## Estimating 50 year Flood
+
+Goal is to predict the peak of a river for flood planning. Imagine building a bridge over a river. How high does it need to be?
+
+Coal Creek, Cedar City UT
+
+# Import:
+
+```{r}
+peak <- read_csv('CoalCreekAnnualMax.csv')
+```
+
+# Tidy:
+
+```{r}
+tail(peak)
+```
+
+# Visualize:
+
+```{r}
+ggplot(peak, aes(x = Max_Height)) +
+  geom_density(adjust = 1.8, bounds = c(0, Inf)) +
+  geom_point(aes(y = 0), size = 5, alpha = 0.5, color = "royalblue") +
+  xlim(0, 20) +
+  labs(x = "Annual Max Gage Height (ft)",
+       y = "Density",
+       title = "Coal Creek, Cedar City UT")
+```
+
+Annual maximum height follows a skewed distribution. The data varies from 6.12 (min) to 14.2 (max) with typical value approx 9.
+
+# Model:
+
+```{r}
+library(EnvStats)
+
+# mle of GEV
+out <- egevd(peak$Max_Height)
+out
+# estimated quantile Q(0.98) for 50-year flood
+qgevd(0.98, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3])
+```
+
+# **Communicate:**
+
+```{r}
+x <- seq(0, 30, length = 300)
+fx <- dgevd(x, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3])
+plot(x, fx, type = "l", xlab = "Coal Creek Height (ft)", ylab = "Density")
+abline(v = qgevd(0.98, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3]), col = "royalblue", lwd = 3)
+points(peak$Max_Height, rep(0, length(peak$Max_Height)), cex = 2)
+text(28, 0.20, "50 year flood", adj = 1, col = "royalblue")
+```
+
+The estimated 50 year flood is much higher than we have observed in the last few years. The 50 year flood is the height we expect to exceed with probability 1/50. Formally, it is the estimated quantile function evaluted at 0.98 (1 - 1/50).
