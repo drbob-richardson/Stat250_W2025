@@ -1,0 +1,81 @@
+---
+title: "Mini-Project 1: Star Wars"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 50)
+```
+
+## Announcements
+
+
+## Recap of last few lectures
+
+-   Types of variables (numerical, categorical)
+
+-   Univariate data analysis
+
+-   Bivariate data analysis
+
+-   Multivariate data analysis
+
+### Goal of Mini-Project is to apply what we've learned so far
+
+## Data: Star Wars Characters {.smaller}
+
+What's in the dataset?
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+library(tidyverse)
+starwars
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+glimpse(starwars)
+```
+:::
+:::
+
+## Luke Skywalker
+
+![](images/luke-skywalker.png)
+
+
+## Data Dictionary
+
+![](images/starwars-help.png)
+
+## Your Turn!
+
+-   Be Authentic
+
+-   Often we collaborate with fields and research questions where we don't have much / any expertise. Be curious. Find and listen to others who have thoughts to share. Use the internet. Connect to what you do know.
+
+-   Don't let perfect be the enemy of good. Do something for each question. If you have 15 more minutes, what would make it better?

@@ -1,0 +1,104 @@
+---
+title: "HW 2: Palmer Island Penguins"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## 1. Palmer Penguins
+
+Measurements for penguin species, island in Palmer Archipelago, size (flipper length, body mass, bill dimensions), and sex.
+
+**Import:**
+
+```{r}
+penguins
+```
+
+**Visualize:**
+
+Make a plot showing differences between penguins and their bills.
+
+*Hint*: Look at the "Coding Out Loud" lecture for the graphic that answers this question.
+
+*Note*: Replace the `"___"` and uncomment (remove the `#`) to see the effect
+
+```{r}
+ggplot(penguins,
+       aes(x = bill_depth_mm,
+           y = bill_length_mm,
+           color = species)) +
+  #geom_"___"() +
+  labs(
+    #"___" = "Bill depth and length",
+       
+    #"___" = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
+    #"___" = "Bill depth (mm)", "___" = "Bill length (mm)",
+    #"___" = "Species",
+    #"___" = "Source: Palmer Station LTER / palmerpenguins package"
+    ) +
+    scale_color_viridis_d() 
+```
+
+## 2. Chinstrap Penguins
+
+Chinstrap penguins are one of the species in the Palmer Archipelago.
+
+**Import:**
+
+```{r}
+chinstrap <- penguins |>
+  filter(species == "Chinstrap") |>
+  na.omit()
+chinstrap
+```
+
+**Visualize flipper length:**
+
+*Hint*: Since penguin flipper length is univariate data, to answer this question you will want to try a histogram, density plot, boxplot and your answer will be the one of them that you think best communicates the shape, center, variation, and anything unusual about the distribution.
+
+*Note*: Change `eval` to `true` and replace the `"___"`
+
+```{r}
+#| eval: false
+ggplot(chinstrap, aes(x = "___")) +
+  geom_"___"("___") +
+  labs(
+    x = "___",
+    y = "___",
+    title = "___"
+  )
+```
+
+**Communicate:**
+
+Prompt: What should someone know about the Chinstrap penguin flipper length distribution? (shape, center, spread, anything unusual)
+
+**Visualize distribution of year (data collection over time):**
+
+*Note*: Change `eval` to `true` and replace the `"___"`
+
+```{r}
+#| eval: false
+ggplot(chinstrap, aes(x = "___")) +
+  geom_"___"("___") 
+```
+
+**Communicate:**
+
+Prompt: What should someone know about how the Chinstrap penguin data was collected over time (different years)?
+
+## Stretch Exercise:
+
+Is the Chinstrap penguin flipper length distribution approximately normal?
+
+(Insert R code cell and write appropriate code)

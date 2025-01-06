@@ -1,0 +1,381 @@
+---
+title: "Compute New Columns"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100)
+```
+
+## Announcements
+
+## Recap of last lecture
+
+Grammar of Data Wrangling
+
+-   Rows (`filter`, `arrange`)
+
+-   Columns (`select`)
+
+Pipe Operator
+
+Base R Subsetting `data[ , ]`
+
+## Outline
+
+Compute New Columns
+
+-   tidyverse
+
+-   Base R
+
+Stock Returns Forecast (Your Turn!)
+
+
+## Stocks {.smaller}
+
+The Walt Disney Company 
+
+<https://finance.yahoo.com/quote/DIS/>
+
+![](images/DisneyStock.png){width="150%"}
+
+
+## Historical Daily Closing Stock Price {.smaller}
+
+```{r}
+#| echo: true
+library(tidyverse)
+
+DIS <- read_csv("https://query1.finance.yahoo.com/v7/finance/download/DIS?period1=-252374400&period2=9999999999&interval=1d&events=history&includeAdjustedClose=true")
+
+tail(DIS, 12)
+```
+
+## Historical Stock Price {.smaller}
+
+```{r}
+#| echo: true
+DIS |>
+  ggplot(aes(x = Date, y = Close)) +
+      geom_line() +
+      labs(
+        x = NULL, y = "Closing Stock Price",
+        title = "The Walt Disney Company (DIS)",
+        caption = "\nfinance.yahoo.com"
+      ) +
+      scale_y_continuous(labels = scales::dollar) +
+      theme_minimal()
+```
+
+## Last Year's Historical Stock Price {.smaller}
+
+```{r}
+#| echo: true
+DIS |>
+  ggplot(aes(x = Date, y = Close)) +
+      geom_line() +
+      labs(
+        x = NULL, y = "Closing Stock Price",
+        title = "The Walt Disney Company (DIS)",
+        caption = "\nfinance.yahoo.com"
+      ) +
+      scale_y_continuous(limits = c(75, 125), labels = scales::dollar) +
+      scale_x_date(limits = c(today() - years(1), NA)) +
+      theme_minimal()
+```
+
+## Stock Return
+
+Stock price isn't how we should be looking at this
+
+Instead, view it as an investment with a return (like the interest rate on savings)
+
+Daily Continuously Compounded Return (log Return)
+
+$$
+R_t = \ln \left(\frac{P_t}{P_{t-1}} \right)
+$$
+
+Our dataset needs a new column computed from existing columns
+
+## Mutate
+
+```{r}
+#| echo: false
+DIS1 <- DIS 
+```
+  
+```{r}
+#| echo: true
+DIS <- DIS |>
+  mutate(logreturn = log(Close / lag(Close)) )
+
+tail(DIS)
+```
+
+Notice the new column `logreturn`
+
+
+## What did it do with the first row?
+
+```{r}
+#| echo: true
+head(DIS, 3)
+```
+
+
+## Base R: `$`
+
+```{r}
+#| echo: false
+DIS <- DIS1 
+```
+  
+```{r}
+#| echo: true
+DIS$logreturn <- log(DIS$Close / lag(DIS$Close))
+
+tail(DIS)
+```
+
+## Stock Return (All Data) {.smaller}
+
+::: panel-tabset
+### Summary Statistics
+```{r}
+#| echo: true
+summary(DIS$logreturn)
+```
+
+### Distribution
+```{r out.width = "50%"}
+#| echo: true
+DIS |>
+  ggplot(aes(x = logreturn)) +
+      geom_density() +
+      scale_x_continuous(labels = scales::percent)
+```
+
+### Over Time
+```{r out.width = "50%"}
+#| echo: true
+DIS |>
+  ggplot(aes(x = Date, y = logreturn)) +
+      geom_line() +
+      labs(
+        x = NULL, y = "Log Return",
+        title = "The Walt Disney Company (DIS)",
+        caption = "\nfinance.yahoo.com"
+      ) +
+      scale_y_continuous(labels = scales::percent) +
+      theme_minimal()
+```
+
+:::
+
+
+## Stock Return (2019 - present) {.smaller}
+
+::: panel-tabset
+### Summary Stat
+```{r}
+#| echo: true
+DIS |>
+  filter(Date >= ymd("2019-1-1")) |>
+  select(logreturn) |>
+  summary()
+```
+
+### Distribution
+```{r out.width = "50%"}
+#| echo: true
+DIS |>
+  filter(Date >= ymd("2019-1-1")) |>
+  ggplot(aes(x = logreturn)) +
+      geom_density() +
+      scale_x_continuous(labels = scales::percent)
+```
+
+### Normal?
+```{r out.width = "50%"}
+#| echo: true
+DIS |>
+  filter(Date >= ymd("2019-1-1")) |>
+  ggplot(aes(sample = logreturn)) +
+      geom_qq() +
+      geom_qq_line()
+```
+
+:::
+
+
+## GARCH Model
+
+Time Series Model for Mean
+
+Time Series Model for Variance
+
+
+
+# Your Turn! 
+
+<https://grimshawville.byu.edu/BYUStat250/Wrangling3YourTurn.qmd>
+
+
+## Applying the Statistics / DS Project Cycle
+
+![](images/projectcycle.png)
+
+## Import
+
+Read Historical Data from `finance.yahoo.com` website
+
+```{r}
+#| echo: true
+library(tidyverse)
+
+DIS <- read_csv("https://query1.finance.yahoo.com/v7/finance/download/DIS?period1=-252374400&period2=9999999999&interval=1d&events=history&includeAdjustedClose=true")
+```
+
+## Tidy
+
+```{r}
+#| echo: true
+tail(DIS, 12)
+```
+
+## Transform
+
+```{r}
+#| echo: true
+DIS <- DIS |>
+  mutate(logreturn = log(Close / lag(Close)) )
+
+tail(DIS)
+```
+
+## Visualize
+
+```{r out.width = "75%"}
+#| code-fold: true
+#| echo: true
+DIS |>
+  filter(Date >= ymd("2019-1-1")) |>
+  ggplot(aes(x = Date, y = logreturn)) +
+      geom_line() +
+      labs(
+        x = NULL, y = "Log Return",
+        title = "The Walt Disney Company (DIS)",
+        caption = "\nfinance.yahoo.com"
+      ) +
+      scale_y_continuous(labels = scales::percent) +
+      theme_minimal()
+```
+
+## Model
+
+```{r}
+#| echo: true
+library(rugarch)
+
+spec <- ugarchspec()
+fit1 <- ugarchfit(spec, DIS$logreturn[-1])
+fit1
+```
+
+## Model
+
+Data with +/- 2 SD
+
+```{r out.width = "75%"}
+#| echo: true
+plot(fit1, which = 1)
+```
+
+## Communicate {.smaller}
+
+GARCH Model Forecast
+
+::: panel-tabset
+
+### Plot
+```{r out.width = "55%"}
+#| echo: true
+forecast1 <- ugarchforecast(fit1, n.ahead = 14)
+plot(forecast1, which = 1)
+```
+
+### Log Returns and Volatility
+```{r}
+#| echo: true
+forecast1
+```
+
+:::
+
+
+
+## Lecture Review {.smaller}
+
+Computing New Columns
+
+-   tidyverse (`mutate`)
+
+-   Base R (`$`)
+
+
+\
+
+-   Appendix:
+
+    -   SQL code
+
+    -   Python code
+
+
+
+
+## SQL: New Column from Existing Columns
+
+```{r}
+#| echo: true
+#| eval: false
+alter table DIS
+  add logreturn as float;
+update DIS
+  set logreturn = log(Close / lag(Close));
+```
+
+## Python: New Column from Existing Columns 
+
+```{r}
+#| echo: true
+#| eval: false
+DIS["logreturn"] = log(DIS["Close"] / DIS["Close"].shift(1))
+```
+
+
+
+

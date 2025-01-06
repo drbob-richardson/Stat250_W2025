@@ -1,0 +1,317 @@
+---
+title: "HW 5: Baseball"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+## Lahman's Baseball Database
+
+The Lahman Baseball database is an open source collection of baseball statistics. This database contains pitching, hitting, and fielding statistics for Major League Baseball from 1871 through the last completed season. It includes data from the two current leagues (American and National), the four other "major" leagues (American Association, Union Association, Players League, and Federal League), and the National Association of 1871-1875.
+
+This database was created by Sean Lahman, who pioneered the effort to make baseball statistics freely available to the general public. What started as a one man effort in 1994 has grown tremendously, and now a team of researchers have collected their efforts to make this the largest and most accurate source for baseball statistics available anywhere.
+
+The main form of this database is a relational database. The design follows these general principles: Each player is assigned a unique code (`playerID`). All of the information in different tables relating to that player is tagged with his `playerID`. The `playerIDs` are linked to names and birthdates in the `People` table. Similar links exist among other tables via analogous `*ID` variables.
+
+The database is composed of the following main tables:
+
+`People` Player names, dates of birth, death and other biographical info
+
+`Batting` batting statistics
+
+`Pitching` pitching statistics
+
+`Fielding` fielding statistics
+
+A collection of other tables is also provided. [The many files and their linkages](https://github.com/cdalzell/Lahman/blob/master/man/figures/Lahnan-db-diagram.jpg)
+
+### Import:
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+library(Lahman)
+```
+
+## Exercises
+
+### Exercise 1.
+
+Create a table of the Top 5 countries of players.
+
+```{r}
+#| eval: true
+
+# Look at the People dataset
+People |>
+  slice_sample(n = 5)
+```
+
+Thinking:
+
+-   create `nCountry` from `People` using `group_by` on `birthCountry`
+
+    -   note: `People` has a row for each player so the number of players from each country can use `count`
+
+-   sort the dataset largest to smallest tally
+
+-   print only the first 5 rows
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+```{r}
+#| eval: false
+
+nCountry <- People |>
+  group_by(____) |>
+  ____() |>
+  arrange(____(n))
+
+print(nCountry, n = ____)
+```
+
+### Exercise 2.
+
+Create a table of Bryce Harper's home runs and walks by year.
+
+Datasets to use:
+
+We learned about the `People` dataset above.
+
+```{r}
+#| eval: true
+
+# Look at the Batting dataset
+glimpse(Batting)
+```
+
+Thinking:
+
+-   filter `People` to a single row with Bryce Harper (`nameFirst`, `nameLast`)
+
+-   join result with `Batting`
+
+-   print columns `yearID`, `HR`, `BB`
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+```{r}
+#| eval: false
+
+# Bryce Harper's homeruns and walks by year
+
+```
+
+### Exercise 3.
+
+What does the `distinct` function do?
+
+Your answer should refer to <https://r4ds.hadley.nz/data-transform.html#distinct> and what is demonstrated in the following code and the `HallOfFame` dataset.
+
+```{r}
+HallOfFame |>
+  arrange(playerID) |>
+  head(10)
+
+HallOfFame |>
+  distinct(playerID) |>
+  arrange(playerID) |>
+  head(10)
+
+HallOfFame |>
+  distinct(playerID, .keep_all = TRUE) |>
+  arrange(playerID) |>
+  head(10)
+```
+
+### Exercise 4.
+
+Who are all the BYU players considered for the Hall of Fame?
+
+Datasets to use:
+
+```{r}
+#| eval: true
+
+# Look at the Schools dataset
+Schools |>
+  slice_sample(n = 5)
+
+# Look at the CollegePlaying dataset
+CollegePlaying |>
+  slice_sample(n = 5)
+
+# Look at the HallOfFame dataset
+HallOfFame |>
+  arrange(playerID) |>
+  head()
+```
+
+Thinking:
+
+-   filter `Schools` to a single row with "Brigham Young University" (`name_full`)
+
+-   join result with `CollegePlaying`
+
+    note: complication is rows are player-year and only want player once
+
+-   join the result with `HallOfFame`
+
+    note: complication is rows are player-year and only want player once
+
+-   join the result with `People` to get name (don't report `playerID`)
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+```{r}
+#| eval: false
+
+# BYU players considered for the Hall of Fame
+
+```
+
+### Exercise 5.
+
+Did Hall of Fame inducted players receive more awards than players who were nominated but not inducted?
+
+Datasets to use:
+
+We learned about the `HallOfFame` dataset above. Recall that there is a row for each year a player is considered. Some are "first ballot Hall of Fame" but others are considered several years before being included or not.
+
+First, how many players have been on the ballot and how many inducted in the Hall of Fame?
+
+```{r}
+#| eval: true
+
+HallOfFame |>
+  group_by(inducted) |>
+  count()
+```
+
+Next learn a little about the `AwardsPlayers` dataset.
+
+```{r}
+#| eval: true
+
+glimpse(AwardsPlayers)
+
+AwardsPlayers |>
+  arrange(playerID) |>
+  head()
+```
+
+Now answer the question "Did HOF inducted players receive more awards than players who were nominated but not inducted?"
+
+Thinking:
+
+-   create `nAwards` from `AwardsPlayers` using `group_by` on `playerID`
+
+    -   note: `AwardsPlayers` has a row for each award a player receives so the number of awards can use `count`
+
+-   reduce `HallofFame` to a single row for each player with `distinct`
+
+    -   note: include the `.keep_all = TRUE` argument because we will be using `inducted` later
+
+-   join result with `nAwards`
+
+-   compute the mean number of awards for inducted or not using `group_by` and `summarize`
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+First create `nAwards`
+
+```{r}
+#| eval: false
+
+nAwards <- AwardsPlayers |>
+  
+head(nAwards)
+```
+
+Then
+
+```{r}
+#| eval: false
+
+# Awards by HOF
+```
+
+### Exercise 6.
+
+For players who made the All-Star team, compute the total HRs by year and then plot.
+
+Datasets to use:
+
+```{r}
+#| eval: true
+
+# Look at the AllstarFull dataset
+AllstarFull |>
+  slice_sample(n = 5)
+```
+
+Thinking:
+
+-   create the dataset `ASG_hr` by first joining `AllstarFull` and `Batting`
+
+    -   note: each row of both datatsets is a player-year so the join needs to match on both keys using the argument `by = c("playerID", "yearID")`
+
+-   compute the number of homeruns for each year using `group_by` with `yearID` and `summarize` with the `sum` function
+
+-   make a scatterplot of `ASG_hr` with `yearID` on the horizontal axis and the number of homeruns on the vertical axis
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+First create `ASG_hr`
+
+```{r}
+#| eval: false
+
+ASG_hr <- AllstarFull |>
+
+ASG_hr
+```
+
+Then create graphic
+
+```{r}
+#| eval: false
+
+ggplot()
+```
+
+
+### Stretch Exercise 1:
+
+Using the `People` dataset what players have the longest `nameLast` (count the number of characters after removing spaces).
+
+### Stretch Exercise 2:
+
+Identify the most successful teams in terms of winning percentage over the last 10 years. What are the batting stats for the players on the top 5 teams?
+
+
+Datasets to use:
+
+-   `Teams`: Contains information about baseball teams, including team name, league, and year-specific performance data such as wins and losses.
+
+-   `Batting`
+
+-   `People`
+
+Thinking:
+
+-   Calculate the winning percentage for each team in the last 10 years. Winning percentage can be calculated as (wins / (wins + losses)).
+
+-   Rank the teams based on their winning percentage.
+
+-   Select the top 5 teams and create a table displaying the team name, league, year, and winning percentage (If a team is in the top 5 twice, you can either add another team or leave it)
+
+-   Join the Team IDs with the batting dataset to get the individual batting stats
+
+-   Calculate the average batting average (H/AB) and home runs (HR) for players in these top teams ("AB" will have to be filtered to > 0 to not include games where the players didn't play).
+
+-   Present the results in a table, including team name, year, player name, batting average, and home runs.
+

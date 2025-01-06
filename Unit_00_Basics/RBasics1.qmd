@@ -1,0 +1,571 @@
+---
+title: "R Basics 1"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 100)
+library(tidyverse)
+```
+
+## Announcements
+
+
+## Recap of last lecture
+
+How character and factor types differ
+
+Why does it look like character type "works"? (coercion)
+
+R Operations Change for Numeric and Factor Types
+
+Specifying `factor` levels (Base R, `forcats`)
+
+
+## Outline
+
+Atomic Vectors
+
+Lists
+
+
+## {.smaller}
+
+### Atomic Vectors 
+
+::: columns
+::: {.column width="50%"}
+Join elements into a vector
+
+```{r}
+#| echo: true
+#| eval: true 
+c(2, 4, 7)
+```
+
+An integer sequence
+
+```{r}
+#| echo: true
+#| eval: true 
+3 : 12
+```
+
+
+Complex Sequences
+
+```{r}
+#| echo: true
+#| eval: true 
+seq(2, 6, by = 0.5)
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+seq(2, 4, length = 10)
+```
+
+
+Repeat a vector
+
+```{r}
+#| echo: true
+#| eval: true 
+rep(1 : 4, times = 3)
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+rep(1 : 6, each = 2)
+```
+
+
+:::
+
+::: {.column width="50%"}
+Stores its values as a one-dimensional vector
+
+```{r}
+#| echo: true
+#| eval: true 
+y <- seq(0, 1, by = 0.1)
+y
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+is.vector(y)
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+length(y)
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(y)
+```
+
+Can only store one type of data
+
+```{r}
+#| echo: true
+#| eval: true 
+z <- rep(c(TRUE, FALSE, TRUE), each = 2)
+z
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+is.vector(z)
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(z)
+```
+
+:::
+:::
+
+## {.smaller}
+
+### Selecting Values from Atomic Vectors `[ ]` 
+
+```{r}
+#| echo: true
+#| eval: true 
+y <- seq(0, 1, by = 0.125)
+y
+```
+
+
+::: columns
+::: {.column width="40%"}
+By Position
+
+```{r}
+#| echo: true
+#| eval: true 
+y[4]
+y[-4]
+y[3 : 6]
+y[-(3 : 6)]
+y[c(2, 8)]
+```
+
+:::
+::: {.column width="60%"}
+By Value
+
+```{r}
+#| echo: true
+#| eval: true 
+y == 0.75
+y[y == 0.75]
+y[y != 0.75]
+y < 0.3
+y[y < 0.3]
+y %in% c(0.25, 0.50, 0.75)
+y[y %in% c(0.25, 0.50, 0.75)]
+```
+
+
+:::
+:::
+
+
+## Lists
+
+Lists group together R objects
+
+::: columns
+::: {.column width="70%"}
+```{r}
+#| echo: true
+#| eval: true 
+a <- list(x = c(2, 4, 9),
+          y = seq(0, 1, by = 0.1),
+          z = TRUE)
+a
+```
+:::
+::: {.column width="30%"}
+```{r}
+#| echo: true
+#| eval: true 
+typeof(a)
+attributes(a)
+names(a)
+```
+
+:::
+:::
+
+## {.smaller}
+
+### Selecting Values from Lists `$` and `[[ ]]` 
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: true 
+a$x
+a[[1]]
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(a$x)
+
+typeof(a[[3]])
+```
+
+:::
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: true 
+a$y[a$y >= 0.5]
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: true 
+a[[2]][a[[1]]]
+```
+:::
+:::
+
+
+## Unexpected Behavior from List
+
+```{r}
+#| echo: true
+#| eval: true 
+a[1]
+```
+
+How is this different from `a[[1]]`?
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(a[1])
+typeof(a[[1]])
+```
+
+Does it matter?
+
+```{r}
+#| echo: true
+#| eval: true 
+#| error: true
+sum(a[[1]])
+sum(a[1])
+```
+
+
+## Examples of Lists
+
+::: panel-tabset
+### Experiment
+
+Effect of Crayon Color on Burn Time
+
+Response Variable: Time Until Burning Candle Goes Out (sec)
+
+Factor: Crayon Color (Yellow, Red, Black)
+
+Resources for 3 replicates
+
+### Data
+
+```{r}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+burn <- read_csv("
+Order, Color, Time
+Run1, Yellow, 270
+Run2, Black, 177
+Run3, Red, 121
+Run4, Red, 200
+Run5, Yellow, 259
+Run6, Red, 125
+Run7, Black, 118
+Run8, Yellow, 233
+Run9, Black, 154
+")
+burn
+```
+
+### Analysis
+
+```{r}
+#| echo: true
+#| eval: true 
+out <- aov(Time ~ Color, data = burn)
+summary(out)
+```
+
+### Details 1
+
+```{r}
+#| echo: false
+#| eval: true 
+options(width = 60)
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(out)
+attributes(out)
+```
+
+### Details 2
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| echo: true
+#| eval: true 
+summary.aov
+```
+:::
+::: {.column width="40%"}
+```{r}
+#| echo: true
+#| eval: true 
+temp <- summary(out)
+typeof(temp)
+attributes(temp)
+```
+:::
+:::
+
+:::
+
+
+## Examples of Lists {.smaller}
+
+Simulation Study: Effect of Correlation on Confidence Interval Coverage
+
+```{r}
+#| echo: false
+#| eval: true 
+options(width = 100)
+```
+
+
+::: panel-tabset
+### SimStudy Function
+
+```{r}
+#| echo: false
+#| eval: true 
+sim_AR1 <- function(n, phi){
+
+  sigma_epsilon <- 1
+  simdata_AR1 <- rep(0, n)
+
+  for(i in 1 : n){
+    if(i == 1){
+      simdata_AR1[1] <- rnorm(1, mean = 0, sd = sigma_epsilon / sqrt(1 - phi^2))
+    } else{
+      simdata_AR1[i] <- phi * simdata_AR1[i - 1] + rnorm(1, mean = 0, sd = sigma_epsilon)
+    }
+}  
+
+    simdata_AR1
+}
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+#| code-line-numbers: 13-15
+sim_MP <- function(n, phi, Nsim = 10^5){
+  CI_L <- rep(0, Nsim)
+  CI_U <- rep(0, Nsim)
+
+  for(i in 1 : Nsim){
+    y <-  sim_AR1(n, phi)
+      
+    out <- t.test(y)
+  
+    CI_L[i] <- out$conf.int[1]
+    CI_U[i] <- out$conf.int[2]
+  }
+  list(CI_coverage = mean(CI_L < 0 & 0 < CI_U),
+       CI_L = CI_L,
+       CI_U = CI_U)
+}
+```
+
+### Cases
+
+```{r}
+#| echo: false
+#| eval: true 
+set.seed(2112)
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+sim1 <- sim_MP(n = 50, phi = 0)
+sim2 <- sim_MP(n = 50, phi = 0.6)
+
+typeof(sim1)
+attributes(sim1)
+typeof(sim2)
+attributes(sim2)
+```
+
+
+### CI Coverage
+
+```{r}
+#| echo: true
+#| eval: true 
+sim1$CI_coverage
+sim2$CI_coverage
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: true 
+sim1[[1]]
+sim2[[1]]
+```
+
+:::
+
+## Examples of Lists {.smaller}
+
+Simulation Study: Effect of Correlation on Confidence Interval Coverage
+
+::: panel-tabset
+
+### Repeated Samples
+
+```{r}
+#| echo: true
+#| eval: true 
+typeof(sim1$CI_L)
+typeof(sim1$CI_U)
+
+head(sim1$CI_L)
+head(sim1$CI_U)
+```
+
+Details from simulation 2319
+
+```{r}
+#| echo: true
+#| eval: true 
+sim1$CI_L[2319]
+sim1$CI_U[2319]
+```
+
+### Independent
+
+```{r out.width = "50%"}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+plot(0,1, type = "n",
+     xlab = "Sample", ylab = "95% CI",
+     xlim = c(5050,5100), ylim = c(-0.75, 0.75))
+arrows(x0 = 5051:5100, y0 = sim1$CI_L[5051:5100],
+       x1 = 5051:5100, y1 = sim1$CI_U[5051:5100],
+       code = 3, angle = 90, length = 0.05)
+abline(h = 0, col = "red", lwd = 2)
+```
+
+### Correlated 1
+
+```{r out.width = "50%"}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+plot(0,1, type = "n",
+     xlab = "Sample", ylab = "95% CI",
+     xlim = c(5050,5100), ylim = c(-1.25, 1.25))
+arrows(x0 = 5051:5100, y0 = sim2$CI_L[5051:5100],
+       x1 = 5051:5100, y1 = sim2$CI_U[5051:5100],
+       code = 3, angle = 90, length = 0.05)
+abline(h = 0, col = "red", lwd = 2)
+```
+
+### Correlated 2
+
+```{r out.width = "50%"}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+plot(0,1, type = "n",
+     xlab = "Sample", ylab = "95% CI",
+     xlim = c(5050,5100), ylim = c(-1.25, 1.25))
+arrows(x0 = 5051:5100, y0 = sim2$CI_L[5051:5100],
+       x1 = 5051:5100, y1 = sim2$CI_U[5051:5100],
+       code = 3, angle = 90, length = 0.05)
+lines(5051:5100, (sim2$CI_L[5051:5100] + sim2$CI_U[5051:5100]) / 2, type = "b", pch = 19)
+abline(h = 0, col = "red", lwd = 2)
+```
+
+:::
+
+
+
+## Lecture Review 
+
+Atomic Vectors
+
+Lists
+
+
+    

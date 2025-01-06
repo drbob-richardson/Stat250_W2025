@@ -1,0 +1,236 @@
+---
+title: "Import Advanced"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 100)
+library(tidyverse)
+```
+
+## Announcements
+
+
+## Recap of last lecture
+
+R Project
+
+Local Dataset Files
+
+Comma-, Space-Delimited
+
+Excel 
+
+Code to build what we want, copy of dataset to share
+
+## Outline
+
+Webpage Table (`html`)
+
+Ethics and Terms of Service
+
+
+
+## Webpage Table {.smaller}
+
+Example: BYU Women's Volleyball Record
+
+<https://byucougars.com/sports/womens-volleyball/schedule/season/2022?view=list>
+
+::: {layout="[-5,20,-5,20]"}
+![](images/BYUSports1.png)
+![](images/BYUSports2.png)
+:::
+
+## Webpage Table  (`html`)  {.smaller}
+
+::: panel-tabset
+### `rvest` package
+
+Part of `tidyverse`
+
+Not loaded with `package(tidyverse)`
+
+`read_html` reads all the code for a website url
+
+`html_element("table")` identifies the `table` part of the code
+
+`html_table()` extracts the `table` as an R dataframe
+
+### Webpage code
+
+::: {layout="[-1,40,-1],[-1,40,-1]"}
+![](images/BYUSports3.png)
+![](images/BYUSports4.png)
+:::
+
+### Import
+```{r}
+#| echo: true
+#| eval: true
+library(rvest)
+
+url <- "https://byucougars.com/sports/womens-volleyball/schedule/season/2022?view=list"
+html <- read_html(url)
+
+data <- html |> 
+  html_element("table") |> 
+  html_table()
+data
+```
+
+### Tidy
+```{r}
+#| echo: true
+# better column names
+colnames(data) <- c("date", "opponent", "location", "results", "links")
+# parse opponent to clean up and create new column for home/away
+data <- data |>
+  mutate(where = ifelse(substr(opponent, 1, 2) == "at", "away", "home")) |>
+  mutate(opponent = ifelse(where == "away", substr(opponent, 3, length(opponent)-2), substr(opponent, 4, length(opponent)-3))) 
+# parse score
+data <- data |>
+  mutate(result = substr(results, 1, 1)) |>
+  mutate(byu_score = as.numeric( substr(results, 4, 4) )) |> 
+  mutate(opponent_score = as.numeric( substr(results, 6, 6) ))
+# columns to keep
+data <- data |>
+  select(date, opponent, where, byu_score, opponent_score, result)
+
+data
+```
+
+### To Share
+
+```{r}
+#| echo: true
+#| eval: false 
+write_csv(data, "BYUwvb2022.csv")
+```
+
+In the folder with the R Project, there is now the file `BYUwvb2022.csv`
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+date,opponent,where,byu_score,opponent_score,result
+"Sat., Aug. 201:00 PM MDT",BYU,home,NA,NA,N
+"Fri., Aug. 2612:00 PM MDT",Rider,home,3,0,W
+"Fri., Aug. 267:00 PM MDT",Duke,home,3,1,W
+"Sat., Aug. 277:00 PM MDT",Washington State,home,3,0,W
+"Thu., Sep. 17:00 PM MDT",Utah State,home,3,0,W
+"Fri., Sep. 27:00 PM MDT",Cincinnati,home,3,1,W
+"Sat., Sep. 37:00 PM MDT",No. 10 Pitt,home,1,3,L
+"Thu., Sep. 87:00 PM MDT",No. 5 Georgia Tech,away,0,3,L
+"Fri., Sep. 97:00 PM MDT",No. 8 Ohio State,home,0,3,L
+"Thu., Sep. 157:00 PM MDT",Utah,away,3,1,W
+"Sat., Sep. 176:00 PM MDT",Utah Valley,home,3,0,W
+"Thu., Sep. 227:00 PM MDT",Loyola Marymount,home,3,0,W
+"Sat., Sep. 241:00 PM MDT",No. 17 Pepperdine,home,3,1,W
+"Thu., Sep. 296:00 PM MDT",Portland,away,3,0,W
+"Sat., Oct. 112:00 PM MDT",Gonzaga,away,3,1,W
+"Thu., Oct. 67:00 PM MDT",Santa Clara,home,3,0,W
+"Sat., Oct. 81:00 PM MDT",San Francisco,home,3,0,W
+"Thu., Oct. 137:00 PM MDT",Saint Mary's,away,3,0,W
+"Sat., Oct. 1512:00 PM MDT",Pacific,away,2,3,L
+"Fri., Oct. 217:00 PM MDT",No. 4 San Diego,away,0,3,L
+"Thu., Oct. 277:00 PM MDT",Gonzaga,home,3,0,W
+"Sat., Oct. 291:00 PM MDT",Portland,home,3,0,W
+"Thu., Nov. 37:00 PM MDT",San Francisco,away,3,1,W
+"Sat., Nov. 51:00 PM MDT",Santa Clara,away,3,0,W
+"Thu., Nov. 107:00 PM MST",Pacific,home,NA,NA,P
+"Sat., Nov. 121:00 PM MST",Saint Mary's,home,3,0,W
+"Thu., Nov. 177:00 PM MST",Pepperdine,away,3,0,W
+"Sat., Nov. 191:00 PM MST",Loyola Marymount,away,3,1,W
+"Tue., Nov. 228:00 PM MST",No. 2 San Diego,home,1,3,L
+"Fri., Dec. 24:00 PM MST",James Madison,home,3,0,W
+"Sat., Dec. 37:00 PM MST",No. 2 seed Pitt,away,0,3,L
+```
+
+:::
+
+
+## Ethics
+
+Legalities depend a lot on where you live. However, as a general principle, if the data is public, non-personal, and factual, you’re likely to be ok. 
+
+If the data isn’t public, non-personal, or factual or you’re scraping the data specifically to make money with it, you’ll need to talk to a lawyer.
+
+## Terms of Service {.smaller}
+
+If you look closely, you’ll find many websites include a “terms and conditions” or “terms of service” link somewhere on the page, and if you read that page closely you’ll often discover that the site specifically prohibits web scraping. These pages tend to be a legal land grab where companies make very broad claims. It’s polite to respect these terms of service where possible, but take any claims with a grain of salt.
+
+US courts have generally found that simply putting the terms of service in the footer of the website isn’t sufficient for you to be bound by them, e.g., HiQ Labs v. LinkedIn. 
+
+Generally, to be bound to the terms of service, you must have taken some explicit action like creating an account or checking a box. This is why whether or not the data is public is important; if you don’t need an account to access them, it is unlikely that you are bound to the terms of service. 
+
+Note, however, the situation is rather different in Europe where courts have found that terms of service are enforceable even if you don’t explicitly agree to them.
+
+
+
+## Terms of Service {.smaller}
+
+::: panel-tabset
+### Webpage Table
+![](images/BoxOfficeMojo1.png)
+
+### Webpage Code
+![](images/BoxOfficeMojo2.png)
+
+### Terms of Service
+![](images/BoxOfficeMojo4.png)
+
+### Subscription
+
+<https://developer.imdb.com/>
+
+1 month free trial
+
+12 month IMDb Essential Metadata $150,000
+
+12 month IMDb and Box Office Mojo $400,000
+
+<https://aws.amazon.com/marketplace/seller-profile?id=0af153a3-339f-48c2-8b42-3b9fa26d3367>
+
+:::
+
+## Terms of Service {.smaller}
+
+Sports Reference Websites
+
+<https://www.sports-reference.com/data_use.html>
+
+![](images/SportsReference1.png)
+
+
+## Lecture Review {.smaller}
+
+Webpage Table (`html`)
+
+Ethics and Terms of Service
+
+
+
+    
+    

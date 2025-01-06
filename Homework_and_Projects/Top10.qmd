@@ -1,0 +1,85 @@
+---
+title: "Top 10 Languages for Stat / DS"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+## Introduction
+
+What are the top 10 languages in Statistics / Data Science?
+
+## Data
+
+The 2022 Stack Overflow Developer Survey examines all aspects of the developer experience from learning to code to their favorite technologies to version control and the workplace experience of professional developers. The data is shared under the Open Database License.
+
+In the code chunk (hidden in the report) below we **input** the data and do some **tidying** and **transforming**
+
+```{r}
+#| echo: false
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+
+# Data: Stack Overflow Survey (2022)
+# https://insights.stackoverflow.com/survey
+
+# downloaded zip file from Stack Overflow,
+# copied survey csv file to grimshawville.byu.edu so it's easier 
+# to input data into R
+survey_big <- read_csv("https://grimshawville.byu.edu/survey_results_public.csv")
+
+# reduce the columns to this research question
+# since multiple responses for Language are allowed, 
+# this is a bigger dataset than the "row is a person" dataset
+survey<- survey_big |>
+  transmute(ResponseId,
+    Language = LanguageHaveWorkedWith,
+    Employment
+  ) |>
+  # survey didn't have 'statistics' as job choice, but
+  # this appears to capture the Stat/DS popn
+  filter(str_detect(Language, "R;")) |>
+  mutate(Language = str_split(Language, pattern = ";")) |>
+  unnest(Language) |>
+  filter(!is.na(Language)) |>
+  filter(Employment == "Employed, full-time")
+```
+
+## Top 10 Languages for Statistics & Data Science
+
+In the code chunk below we **transform** to tally the data and reduce to the top 10 before **visualizing** the results in a graphic
+
+```{r}
+survey |>
+  mutate(Language = fct_infreq(Language)) |>
+  count(Language, sort = TRUE) |>
+  slice_head(n = 10) |>
+  ggplot(aes(x = Language, y = n)) +
+    geom_col() +
+    labs(
+      title = "Top Languages for Statistics & Data Science Jobs",
+      y = "Tally", x = ""
+    ) +  
+    scale_y_continuous(label = scales::comma)
+```
+
+## Communicate
+
+Prompt 1: What languages on the Top 10 for Statistics / Data Science make sense to you (and why)?
+
+Prompt 2: What languages on the Top 10 for Statistics / Data Science don't make sense to you (and why)?
+
+## Some Stretch Activities
+
+-   If you wanted a "Top 20" list, identify the line in the code and change it appropriately.
+
+-   Create the Top 10 list for students.
+
+    -   Change `filter(Employment == "Employed, full-time") |>` to `"Student, full-time"`
+
+    -   Change the `title` line to clarify the population

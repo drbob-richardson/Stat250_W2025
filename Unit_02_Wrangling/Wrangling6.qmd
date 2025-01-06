@@ -1,0 +1,483 @@
+---
+title: "Transform / Feature Engineering: Character / String Data"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100)
+```
+
+
+## Announcements
+
+
+
+## Recap of last lecture
+
+Dividing a dataset into groups and performing computations on group chunks
+
+`summarize` and `group_by` / `.by`
+
+
+## Outline
+
+Character / String Data
+
+Tallies
+
+Queries
+
+
+## Seattle Pet Names {.smaller}
+
+Data: Seattle Pet Registry
+
+Import
+```{r}
+#| echo: true
+library(tidyverse)
+
+pets <- read_csv("https://data.seattle.gov/api/views/jguv-t9rb/rows.csv?accessType=DOWNLOAD")
+```
+
+Tidy 
+```{r}
+#| echo: true
+tail(pets)
+```
+
+See the [`]{style="color:teal;"} in names? We could use that, but it would be easier without them.
+
+## Transform {.smaller}
+
+Clean up column names
+```{r}
+#| echo: true
+library(janitor)
+pets <- pets |>
+  clean_names()
+
+pets
+```
+
+We can do a little better
+```{r}
+#| echo: true
+pets <- pets |>
+  rename(name = animals_name,
+         license = license_number)      
+```
+
+## Transform {.smaller}
+
+Change license date from character
+```{r}
+#| echo: false
+print(pets, n = 3)
+```
+
+\ 
+
+```{r}
+#| echo: true
+pets <- pets |>
+  mutate(date = mdy(license_issue_date)) |>
+  select(-license_issue_date) 
+pets
+```
+
+## Visualize 
+
+```{r}
+#| echo: true
+ggplot(pets, aes(x = species)) +
+  geom_bar()
+```
+
+## Visualize
+
+If we wanted the table
+
+::: panel-tabset
+### Base R
+```{r}
+#| echo: true
+table(pets$species)
+```
+
+### tidyverse
+```{r}
+#| echo: true
+pets |>
+  group_by(species) |>
+  count()
+```
+
+:::
+
+
+## Visualize {.smaller}
+
+Seattle Pet Trends: Names 
+
+::: panel-tabset
+### Data
+```{r}
+#| echo: false
+pets
+```
+
+### Code Aloud
+
+Use only 2023 rows
+
+Divide into `name` groups
+
+Count how many times each name occurs
+
+Sort largest counts first
+
+Print Top 10
+
+### Code
+```{r}
+#| echo: true
+#| eval: false
+pets |>
+  filter(year(date) == 2023) |>
+  group_by(name) |>
+  count() |>
+  arrange(desc(n)) |>
+  head(n = 10)
+```
+
+### Top 10 Names
+```{r}
+#| echo: false
+pets |>
+  filter(year(date) == 2023) |>
+  group_by(name) |>
+  count() |>
+  arrange(desc(n)) |>
+  head(n = 10)
+```
+
+:::
+
+
+
+## Visualize {.smaller}
+
+Seattle Pet Trends: Type
+
+::: panel-tabset
+### Data
+```{r}
+#| echo: false
+pets
+```
+
+### Code Aloud
+
+Use only 2023 rows
+
+Divide into `primary_breed` and `species` groups
+
+Count how many times each group occurs
+
+Sort largest counts first
+
+Print Top 10
+
+### Code
+```{r}
+#| echo: true
+#| eval: false
+pets |>
+  filter(year(date) == 2023) |>
+  group_by(primary_breed, species) |>
+  count() |>
+  arrange(desc(n)) |>
+  head(n = 10)
+```
+
+### Top 10 
+```{r}
+#| echo: false
+pets |>
+  filter(year(date) == 2023) |>
+  group_by(primary_breed, species) |>
+  count() |>
+  arrange(desc(n)) |>
+  head(n = 10)
+```
+
+:::
+
+## Queries of a Database
+
+This is Meeko!
+
+::: {layout="[-5,5,-10]"}
+![](images/Meeko.png)
+:::
+
+Are there any other Meekos in Seattle?
+
+
+## Queries of a Database {.smaller}
+
+```{r}
+#| echo: true
+pets |>
+  filter(name == "Meeko")
+```
+
+
+## Queries of a Database {.smaller}
+
+Similar Sounding or Different Spelling
+
+```{r}
+#| echo: true
+#| eval: false
+pets |>
+  filter(name %in% c("Meeko", "Miko", "Mico", "Neeko", "Niko", "Nico")) 
+```
+
+```{r}
+#| echo: false
+pets |>
+  filter(name %in% c("Meeko", "Miko", "Mico", "Neeko", "Niko", "Nico")) |>
+  print(n = 61)
+```
+
+## Queries of a Database {.smaller}
+
+Just one of their names
+
+```{r}
+#| echo: true
+pets |>
+  filter(str_detect(name, "Meeko")) 
+```
+
+## Queries of a Database {.smaller}
+
+What is the longest name? Count characters
+
+::: panel-tabset
+
+### Step 1
+First, how long are names?
+
+```{r}
+#| echo: true
+pets |>
+  count(length = str_length(name)) |>
+  arrange(desc(length))
+```
+
+### Step 2
+Second, find the large ones
+```{r}
+#| echo: true
+pets |>
+  mutate(length = str_length(name)) |>
+  filter(length >= 40) |>
+  arrange(desc(length))
+```
+
+### Table
+```{r}
+#| echo: true
+#| code-line-numbers: "5"
+pets |>
+  mutate(length = str_length(name)) |>
+  filter(length >= 40) |>
+  arrange(desc(length)) |>
+  pull(name, length)
+```
+
+:::
+
+## Queries of a Database {.smaller}
+
+What is the longest name? Count Words (separated by spaces)
+
+::: panel-tabset
+
+### Step 1
+First, how long are names?
+
+Note: One word names will have no spaces, so word count is 1 + space count
+
+```{r}
+#| echo: true
+pets |>
+  count(words = 1 + str_count(name, " ")) |>
+  arrange(desc(words)) 
+```
+
+### Step 2
+Second, find the large ones
+```{r}
+#| echo: true
+pets |>
+  mutate(words = 1 + str_count(name, " ")) |>
+  arrange(desc(words)) |>
+  filter(words >= 6) 
+```
+
+### Table
+```{r}
+#| echo: true
+#| code-line-numbers: "5"
+pets |>
+  mutate(words = 1 + str_count(name, " ")) |>
+  arrange(desc(words)) |>
+  filter(words >= 6) |>
+  pull(name, words)
+```
+
+:::
+
+
+## Transform {.smaller}
+
+Count the number of vowels and consonants in names
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "4,5"
+pets |>
+  count(name) |>
+  mutate(
+    vowels = str_count(name, "[aeiou]"),
+    consonants = str_count(name, "[^aeiou]")
+  )    
+```
+
+```{r}
+#| echo: false
+pets |>
+  count(name) |>
+  mutate(
+    vowels = str_count(name, "[aeiou]"),
+    consonants = str_count(name, "[^aeiou]")
+  ) |>
+  print(n = 4)
+```
+
+Why isn't the counting quite right?
+
+`"\"Zippy\""` should count 4 consonants
+
+`"'Alani"` should count 3 vowels (counted `A` as a consonant!)
+
+Consonant counted [NOT]{style="color:teal;"} `aeiou`
+
+Vowel didn't count [UPPERCASE]{style="color:teal;"}
+
+## Transform {.smaller}
+
+Count the number of vowels and consonants in names
+
+Lots of ways to solve this
+
+```{r}
+#| echo: true
+#| code-line-numbers: "4,5"
+pets |>
+  count(name) |>
+  mutate(
+    vowels = str_count(str_to_lower(name), "[aeiou]"),
+    consonants = str_count(str_to_lower(name), "[b-df-hj-np-tv-z]")
+  )    
+```
+
+## Transform {.smaller}
+
+Count the number of vowels and consonants in names
+
+Lots of ways to solve this
+
+```{r}
+#| echo: true
+#| code-line-numbers: "4,5"
+pets |>
+  count(name) |>
+  mutate(
+    vowels = str_count(name, regex("[aeiou]", ignore_case = TRUE)),
+    consonants = str_count(name, regex("[b-df-hj-np-tv-z]", ignore_case = TRUE))
+  )    
+```
+
+
+## Transform {.smaller}
+
+Remove the rare characters from name
+
+Lots of ways to solve this
+
+```{r}
+#| echo: true
+#| code-line-numbers: "4"
+pets |>
+  count(name) |>
+  mutate(
+    name1 = str_remove_all(name, "[ \"'().-]")
+  )    
+```
+
+Notice the `"` is confusing to the code so we escape it `\"` to mean literally `"`
+
+
+## Transform {.smaller}
+
+Remove the rare characters from name
+
+Lots of ways to solve this
+
+```{r}
+#| echo: true
+#| code-line-numbers: "4"
+pets |>
+  count(name) |>
+  mutate(
+    name1 = str_remove_all(name, regex("[^a-z0-9]", ignore_case = TRUE))
+  )    
+```
+
+
+
+## Lecture Review 
+
+Character / String Data
+
+Tallies
+
+Queries
+

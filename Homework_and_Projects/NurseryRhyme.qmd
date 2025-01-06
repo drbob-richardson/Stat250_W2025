@@ -1,0 +1,66 @@
+---
+title: "Mini-Project 3: Nursery Rhyme"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+Select one of the following nursery rhymes; YouTube links are provided in case you don't know the lyrics.
+
+Five little speckled frogs <https://www.youtube.com/watch?v=WSC-gHBU_d0>
+
+Five little men in a flying saucer <https://www.youtube.com/watch?v=2E3p_51tJx0>
+
+Five little Monkeys <https://www.youtube.com/watch?v=b0NHrFNZWh0>
+
+There were ten in the bed <https://www.youtube.com/watch?v=2yFkQVgSBfM>
+
+One Grey Elephant Balancing <https://www.youtube.com/watch?v=nhBqS8Nbilk>
+
+Ten Little Fishies <https://www.youtube.com/watch?v=lf5lYxE0c5c>
+
+## STEP ONE:
+
+Use the `cat()` function to print out the first verse.
+
+**Note:** You will need to set `eval: true` when you have an answer you want to try out.
+
+```{r}
+#| echo: true
+#| eval: false
+
+cat("____ 
+____")
+```
+
+## STEP TWO:
+
+Write a function that takes the number of animals as input and prints out the verse for that number of animals. Show that it works for 5 animals.
+
+**Stretch Exercise:** Adapt your function to take a second argument that allows you to specify the type of animal
+
+```{r}
+#| echo: true
+#| eval: false
+
+____ <- function(____){
+
+cat(
+)
+
+}
+
+____(5)
+```
+
+## STEP THREE:
+
+Write a loop to print the lyrics for all the verses that uses the function in STEP TWO.
+
+```{r}
+#| echo: true
+#| eval: false
+for
+```

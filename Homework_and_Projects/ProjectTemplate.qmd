@@ -1,0 +1,34 @@
+---
+title: "YOUR PROJECT TITLE"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+Prompt: Research Statement
+
+```{r}
+#| include: false
+# load packages
+library(tidyverse)
+```
+
+## IMPORT
+
+
+## TIDY
+
+
+## TRANSFORM
+
+
+## VISUALIZE
+
+
+## MODEL
+
+
+## COMMUNICATE
+

@@ -1,0 +1,769 @@
+---
+title: "Loops to Assemble Datasets"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+library(tidyverse)
+```
+
+## Announcements
+
+
+## Recap of last lecture
+
+Functions
+
+Structure
+
+Difference between `ifelse` and `if`
+
+Repeating code chunks for `for` loops
+
+## Outline
+
+Using `for` loop to assemble component datasets
+
+`bind_rows` to stack rows
+
+`join` to add columns
+
+## NFL in UT {.smaller}
+
+Goal: Advise FOX13 in week-to-week selection from slate of FOX broadcasts
+
+![](images/NFLFOXslate.png)
+
+Utah is the #29 TV market and 8th largest without an NFL team
+
+NFL on FOX (primarily NFC)
+
+-   America's Game of the Week (6 weeks, often include Eagles & Cowboys)
+
+-   One game will get the FOX lead broadcast team (2023: Kevin Burkhardt, Greg Olsen, Erin Andrews, Tom Rinaldi) and the assumption is that Utah would get that game
+
+## 
+
+### NFL in UT
+
+Data: 2002-2012
+
+::: {layout="[-5,40,-10]"}
+![](images/NFLspreadsheet1.png)
+:::
+
+## NFL in UT {.smaller}
+
+```{r}
+#| echo: true
+#| eval: false
+library(tidyverse)
+library(readxl)
+
+try1 <- read_excel("NFLinUT.xlsx")
+```
+
+```{r}
+#| echo: false
+#| eval: true
+library(tidyverse)
+library(readxl)
+
+try1 <- read_excel("data/NFLinUT.xlsx")
+try1
+```
+
+What went wrong? Should have a thousand observations!
+
+[**Only read first Sheet**]{style="color:teal;"} !
+
+## 
+
+### NFL in UT
+
+Loop over each sheet
+
+::: {layout="[-5,20,-10]"}
+![](images/NFLspreadsheet2.png)
+:::
+
+## NFL in UT {.smaller}
+
+Get the 2006 Sheet
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "1"
+try2006 <- read_excel("NFLinUT.xlsx", sheet = "2006")
+try2006
+```
+
+```{r}
+#| echo: false
+#| eval: true
+try2006 <- read_excel("data/NFLinUT.xlsx", sheet = "2006")
+print(try2006, n = 5)
+```
+
+Notice there is no `season` column (it's inferred from the Sheet Name)
+
+Note: Also need to combine date and time into a single column
+
+## NFL in UT
+
+Get the 2006 Sheet
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "3-7"
+try2006 <- read_excel("NFLinUT.xlsx", sheet = "2006")
+try2006 <- try2006 |>
+  mutate(season = 2006) |>
+  mutate(date = make_datetime(year = year(date), month = month(date), day = day(date),
+                              hour = hour(time), min = minute(time))) |>
+  select(!time) |>
+  select(season, date, everything())
+
+try2006
+```
+
+```{r}
+#| echo: false
+#| eval: true
+try2006 <- read_excel("data/NFLinUT.xlsx", sheet = "2006")
+try2006 <- try2006 |>
+  mutate(season = 2006) |>
+  mutate(date = make_datetime(year = year(date), month = month(date), day = day(date),
+                              hour = hour(time), min = minute(time))) |>
+  select(!time) |>
+  select(season, date, everything())
+print(try2006, n = 5)
+```
+
+## Loop over All Sheets
+
+Now that we have the code for any sheet we just need to write a `for` loop over Sheet Names
+
+ 
+
+How do we know the Sheet Names?
+
+```{r}
+#| echo: true
+#| eval: false
+sheet_names <- excel_sheets("NFLinUT.xlsx")
+sheet_names
+```
+
+```{r}
+#| echo: false
+#| eval: true
+sheet_names <- excel_sheets("data/NFLinUT.xlsx")
+sheet_names
+```
+
+Notice the `"` (character data, not numeric data)
+
+## Loop over All Sheets
+
+Psuedo Code to create `NFLinUT`
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+for(i in sheet_names){
+  
+  Read in Sheet i
+  
+  Add Sheet i data at the bottom of NFLinUT
+  
+}
+```
+
+Once we have `NFLinUT` this will work, but what is `NFLinUT` the first time through the `for` loop?
+
+## 
+
+### Loop over All Sheets to create `NFLinUT`
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "4,5,7,8,10-13,16,22,23,26,27"
+library(tidyverse)
+library(readxl)
+
+# initialize NFLinUT to be a thing, but empty
+NFLinUT <- NULL
+
+# get Sheet Names
+sheet_names <- excel_sheets("NFLinUT.xlsx")
+
+# loop over Sheets
+for(i in sheet_names){
+  # ith Sheet
+  this_sheet <- read_excel("NFLinUT.xlsx", sheet = i)
+  # address some data issues
+  this_sheet <- this_sheet |>
+    mutate(season = parse_number(i)) |>
+    mutate(date = make_datetime(year = year(date), month = month(date), day = day(date),
+                                hour = hour(time), min = minute(time))) |>
+    select(!time) |>
+    select(season, date, everything())
+  
+  # add this sheet to the bottom of NFLinUT
+  NFLinUT <- bind_rows(NFLinUT, this_sheet)
+}
+
+# create csv file for future work
+write_csv(NFLinUT, "NFLinUT.csv")
+```
+
+### Dataset `NFLinUT`
+
+```{r}
+#| echo: false
+#| eval: true
+NFLinUT <- read_csv("data/NFLinUT.csv")
+print(NFLinUT, n = 20)
+```
+:::
+
+## 
+
+### NFL in Utah
+
+::: panel-tabset
+### Code
+
+```{r NFLinUT1, fig.show = "hide"}
+#| echo: true
+#| eval: true
+ggplot(NFLinUT, aes(x = ou, y = Audience)) +
+  geom_point() +
+  geom_smooth(method = "loess", formula = y ~ x, span = 0.6) +
+  scale_y_continuous(label = scales::comma,
+                     limits = c(0, 180000)) +
+  labs(x = "Expected Total Scoring (Over/Under Bet)",
+       y = "Utah TV audience",
+       title = "NFL broadcasts 2002-2012")
+```
+
+### Output
+
+```{r ref.label = "NFLinUT1", echo = FALSE, warning = FALSE, out.width = "55%"}
+```
+:::
+
+## 
+
+### NFL in Utah
+
+::: panel-tabset
+### Code
+
+```{r NFLinUT2, fig.show = "hide"}
+#| echo: true
+#| eval: true
+NFLinUT |>
+  mutate(network = factor(network, levels = c("FOX", "CBS", "ABC", "ESPN", "NBC", "NFLN"))) |>
+  ggplot(aes(x = network, y = Audience)) +
+    geom_boxplot() +
+    scale_y_continuous(label = scales::comma) +
+    labs(x = NULL,
+         y = "Utah TV audience",
+         title = "NFL broadcasts 2002-2012")
+```
+
+### Output
+
+```{r ref.label = "NFLinUT2", echo = FALSE, warning = FALSE, out.width = "55%"}
+```
+:::
+
+
+## Food Prices
+
+Each food item has their own economy / market
+
+-   Bananas are different from Potato Chips
+
+Grocery basket is the market
+
+-   All prices move up / down together
+
+## Food Prices
+
+::: {layout="[-5,30,-10]"}
+![](images/FoodPrices1.png){width="120%"}
+:::
+
+## Food Prices {.smaller}
+
+Chicken Drumsticks
+
+<https://fred.stlouisfed.org/series/APU0000706212>
+
+Tomatoes
+
+<https://fred.stlouisfed.org/series/APU0000712311>
+
+Bananas
+
+<https://fred.stlouisfed.org/series/APU0000711211>
+
+Ice Cream
+
+<https://fred.stlouisfed.org/series/APU0000710411>
+
+Potato Chips
+
+<https://fred.stlouisfed.org/series/APU0000718311>
+
+## Food Prices
+
+::: {layout="[-5,30,-10]"}
+![](images/FoodPrices2.png){width="120%"}
+:::
+
+## {.smaller}
+
+### Food Prices 
+
+URL / Links to FRED Data Downloads
+
+Chicken Drumsticks
+
+https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000706212
+
+Tomatoes
+
+https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000712311
+
+Bananas
+
+https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000711211
+
+Ice Cream
+
+https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000710411
+
+Potato Chips
+
+https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000718311
+
+
+
+### Need to Loop over all URLs
+
+
+## Food Prices
+
+```{r}
+#| echo: true
+#| eval: true
+fred_id <- c("APU0000706212", "APU0000712311", "APU0000711211",
+             "APU0000710411", "APU0000718311")
+paste0("https://fred.stlouisfed.org/graph/fredgraph.csv?id=",
+       fred_id)
+```
+
+## Food Prices
+
+Psuedo Code to create `prices`
+
+```{r}
+#| echo: true
+#| eval: false
+for(i in urls){
+  
+  Read in url
+  
+  Join prices with data from url
+  
+}
+```
+
+\ 
+
+What does this do the first time in the loop?
+
+```{r}
+#| echo: true
+#| eval: false
+prices |>
+  full_join(this_food)
+```
+
+## 
+
+### Loop over All URLs to create `prices`
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "3-6,8,9,11-15,17-25,29,30"
+library(tidyverse)
+
+# provide the `id` and name of each food
+fred_id <- c("APU0000706212", "APU0000712311", "APU0000711211",
+             "APU0000710411", "APU0000718311")
+fred_food <- c("chicken", "tomato", "banana", "icecream", "chips")
+
+# loop over foods
+for(i in 1 : 5){
+
+    # ith dataset
+    thisfoodcsv <- paste0("https://fred.stlouisfed.org/graph/fredgraph.csv?id=",
+                          fred_id[i])
+    thisfood <- read_csv(thisfoodcsv, na = ".")
+    names(thisfood)[2] <- fred_food[i]
+
+    # for the first dataset 
+    if(i == 1){
+        prices <- thisfood
+    }
+    # use join for all other datasets
+    else{
+        prices <- prices |>
+          full_join(thisfood, by = "DATE")
+    }
+    
+}
+
+# create csv file for future work
+write_csv(prices, "FoodPrices.csv")
+```
+
+### Dataset `prices`
+
+```{r}
+#| echo: false
+#| eval: true
+prices <- read_csv("data/FoodPrices.csv")
+print(prices, n = 20)
+```
+:::
+
+## 
+
+### Food Prices
+
+::: panel-tabset
+### Code
+
+```{r prices1, fig.show = "hide"}
+#| echo: true
+#| eval: true
+library(GGally)
+ggpairs(prices) +
+      theme_bw()
+```
+
+### Output
+
+```{r ref.label = "prices1", echo = FALSE, warning = FALSE, out.width = "55%"}
+```
+:::
+
+
+## Lecture Review
+
+Using `for` loop to assemble component datasets
+
+`bind_rows` to stack rows
+
+`join` to add columns
+
+\ 
+
+Appendix:
+
+-   Full Analysis of NFL in UT
+
+-   Full Analysis of Food Prices
+
+
+##
+### NFL in Utah
+
+### Import
+
+```{r}
+#| echo: true
+#| eval: false
+NFLinUT <- read_csv("NFLinUT.csv")
+```
+
+```{r}
+#| echo: true
+#| eval: true
+slice_sample(NFLinUT, n = 11)
+```
+
+## 
+
+### NFL in Utah
+
+### Visualize
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(NFLinUT, aes(x = ou, y = Audience)) +
+  geom_point() +
+  geom_smooth(method = "loess", formula = y ~ x, span = 0.6) +
+  scale_y_continuous(label = scales::comma,
+                     limits = c(0, 180000)) +
+  labs(x = "Expected Total Scoring (Over/Under Bet)",
+       y = "Utah TV audience",
+       title = "NFL broadcasts 2002-2012")
+```
+
+### Output
+
+```{r ref.label = "NFLinUT1", echo = FALSE, warning = FALSE, out.width = "45%"}
+```
+:::
+
+## 
+
+### NFL in Utah
+
+### Visualize
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+NFLinUT |>
+  mutate(network = factor(network, levels = c("FOX", "CBS", "ABC", "ESPN", "NBC", "NFLN"))) |>
+  ggplot(aes(x = network, y = Audience)) +
+    geom_boxplot() +
+    scale_y_continuous(label = scales::comma) +
+    labs(x = NULL,
+         y = "Utah TV audience",
+         title = "NFL broadcasts 2002-2012")
+```
+
+### Output
+
+```{r ref.label = "NFLinUT2", echo = FALSE, warning = FALSE, out.width = "40%"}
+```
+:::
+
+## 
+
+### NFL in Utah
+
+### Model
+
+![](images/NFLjqas1.png){width="50%"} ![](images/NFLjqas2.png){width="50%"}
+
+## 
+
+### NFL in Utah
+
+### Communicate
+
+![](images/NFLjqas1.png){width="50%"}
+
+![](images/NFLjqas3.png){width="50%"}
+
+## 
+
+### NFL in Utah
+
+### Communicate
+
+![](images/NFLjqas1.png){width="50%"}
+
+::: {layout-ncol="2"}
+![](images/NFLjqas4.png){width="50%"}
+
+![](images/NFLjqas5.png){width="50%"}
+:::
+
+
+
+##
+### Food Prices
+
+### Import
+
+```{r}
+#| echo: true
+#| eval: false
+prices <- read_csv("FoodPrices.csv")
+```
+
+```{r}
+#| echo: true
+#| eval: true
+slice_sample(prices, n = 11)
+```
+
+## 
+
+### Food Prices
+
+### Visualize
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+library(GGally)
+ggpairs(prices) +
+      theme_bw()
+```
+
+### Output
+
+```{r ref.label = "prices1", echo = FALSE, warning = FALSE, out.width = "45%"}
+```
+:::
+
+## {.smaller}
+
+#### Food Prices
+
+#### Modeling 
+
+Unsupervised Learning
+
+Principal Components Analysis
+
+-   If you're a whale shark approaching a krill swarm, to get as many krill as possible in the fewest number of passes, you're going to want to rotate your face (@allison_horst)
+
+::: {layout="[-5,20, 20,-10]"}
+![](images/HorstShark.png){width="30%"}
+
+![](images/HorstKrill.png){width="30%"}
+:::
+
+-   Notice the krill on the rotated shark axes have most variation horizontally (and a little vertically)
+
+
+## {.smaller}
+
+#### Food Prices
+
+#### Modeling
+
+Unsupervised Learning
+
+Principal Components Analysis
+
+-   Imagine the [**5 food prices**]{style="color:teal;"} in [**5 dimensions**]{style="color:teal;"}
+
+-   Rotate those dimensions in order of capturing the most variation
+
+-   Reduce the number of dimensions (number of principal components)
+
+-   Each dimension is a linear combination of the original columns, and the largest weights help us interpret the principal components
+
+## 
+
+### Food Prices
+
+### Modeling
+
+```{r}
+#| echo: true
+#| eval: true
+# remove date and missing values
+prices1 <- prices |>
+  na.omit()
+prices1 <- prices1[ , -1]
+
+out <- prcomp(prices1, scale = TRUE)
+# scale = TRUE means we use correlations (not covariances)
+```
+
+## {.smaller}
+
+### Food Prices
+
+### Modeling
+
+How many principal components?
+
+```{r}
+#| echo: true
+#| eval: true
+summary(out)
+plot(out)
+```
+
+
+## 
+
+### Food Prices
+
+### Modeling
+
+::: panel-tabset
+### Principal Components
+```{r}
+#| echo: true
+#| eval: true
+out$rotation
+```
+### Graphic
+```{r out.width = "45%"}
+#| echo: true
+#| eval: true
+biplot(out, scale = 0)
+```
+:::
+
+## Food Prices
+
+### Communication
+
+PC1 is interpreted as they all go up or down together (CPI)
+
+PC2 is interpreted as a contrast between (chicken & chips) compared to tomato meaning when tomato goes up (down) then chicken & chips go down (up)
+
+
+
+
+

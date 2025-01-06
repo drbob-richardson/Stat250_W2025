@@ -1,0 +1,568 @@
+---
+title: "Visualize: Data over Time"
+subtitle: BYU STAT 250
+author: Dr. Scott D. Grimshaw
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100)
+```
+
+
+## Announcements
+
+
+## Recap of previous lecture
+
+Multivariate data analysis
+
+-   `color` to identify another variable
+
+-   faceting
+
+-   table of summary statistics
+
+## Data over time (Time Series Plot)
+
+A single variable measured at regular time intervals
+
+## Data: Egg Prices
+
+google FRED Egg Prices
+
+<https://fred.stlouisfed.org/series/APU0000708111>
+
+Monthly Egg Price (Grade A Large)
+
+Cost per Dozen in US City Average
+
+## Data: Egg Prices {.smaller}
+
+```{r}
+#| echo: true
+library(tidyverse)
+library(scales)
+
+eggs <- read_csv("https://fred.stlouisfed.org/graph/fredgraph.csv?id=APU0000708111")
+
+# choose a better column name than FRED id
+eggs <- eggs |>
+  rename(EggPrice = APU0000708111)
+
+# look at data
+tail(eggs, 12)
+```
+
+## Time Series Plot
+
+```{r}
+#| echo: true
+#| code-line-numbers: "2"
+ggplot(eggs, aes(x = DATE, y = EggPrice)) +
+    geom_line() 
+```
+
+## Customized Time Series Plot
+
+::: panel-tabset
+### Plot
+
+```{r ref.label = "eggs1", echo = FALSE, warning = FALSE, out.width = "50%", fig.width = 8}
+```
+
+### Code
+
+```{r eggs1}
+#| echo: true
+#| fig-show: "hide"
+#| code-line-numbers: "2,8"
+ggplot(eggs, aes(x = DATE, y = EggPrice)) +
+    geom_line() +
+    labs(
+      x = NULL, y = NULL,
+      title = "Monthly Egg Price",
+      caption = "FRED"
+    ) +
+    scale_y_continuous(labels = label_dollar()) +
+    theme_minimal()
+```
+:::
+
+## Dates
+
+Dates and times are as tricky in R as they were in preschool
+
+-   7 days in a week
+-   12 months in a year
+-   30 days in a month (except when it's 31, or 28, or 29)
+-   24 hours in a day (unless flying to NY that day)
+
+Base R uses `POSIXlt` (seconds since January 1, 1970)
+
+tidyverse includes `lubridate` package with objects and functions to make working with dates easier
+
+## lubridate basics {.smaller}
+
+date data type
+
+```{r}
+#| echo: true
+today() 
+```
+
+date-time data type
+
+```{r}
+#| echo: true
+now() 
+```
+
+One year ago
+
+```{r}
+#| echo: true
+today() - years(1)
+```
+
+One month ago
+
+```{r}
+#| echo: true
+today() - months(1)
+```
+
+Four weeks ago
+
+```{r}
+#| echo: true
+today() - weeks(4)
+```
+
+## Customized Time Series Plot
+
+::: panel-tabset
+### Plot
+
+```{r ref.label = "eggs2", echo = FALSE, warning = FALSE, out.width = "50%", fig.width = 8}
+```
+
+### Code
+
+```{r eggs2}
+#| echo: true
+#| fig-show: "hide"
+#| code-line-numbers: "9"
+ggplot(eggs, aes(x = DATE, y = EggPrice)) +
+    geom_line() +
+    labs(
+      x = NULL, y = NULL,
+      title = "Monthly Egg Price",
+      caption = "FRED"
+    ) +
+    scale_y_continuous(labels = label_dollar()) +
+    scale_x_date(limits = c(today() - years(3), today())) +
+    theme_minimal()
+```
+:::
+
+## lubridate basics {.smaller}
+
+Specifying a date
+
+```{r}
+#| echo: true
+ymd("2023-11-23")
+ymd("20231123")
+ymd("2023/11/23")
+```
+
+Other conventions
+
+```{r}
+#| echo: true
+mdy("11/23/2023")
+
+dmy("23 Nov 2023")
+```
+
+## Customized Time Series Plot
+
+::: panel-tabset
+### Plot
+
+```{r ref.label = "eggs3", echo = FALSE, warning = FALSE, out.width = "50%", fig.width = 8}
+```
+
+### Code
+
+```{r eggs3}
+#| echo: true
+#| fig-show: "hide"
+#| code-line-numbers: "10-13"
+ggplot(eggs, aes(x = DATE, y = EggPrice)) +
+    geom_line() +
+    labs(
+      x = NULL, y = NULL,
+      title = "Monthly Egg Price",
+      caption = "FRED"
+    ) +
+    scale_y_continuous(labels = label_dollar()) +
+    scale_x_date(limits = c(today() - years(3), today())) +
+    geom_vline(xintercept = mdy("Apr 9, 2023"), linetype="dotted") +
+    annotate(
+      geom = "label", x = mdy("Apr 9, 2023"), y = 1,
+      label = "Easter 2023") + 
+    theme_minimal()
+```
+:::
+
+## Base R
+
+```{r}
+#| echo: true
+ts.plot(eggs$EggPrice)
+```
+
+# Data types
+
+## Data types in R
+
+-   **logical**
+-   **double**
+-   **integer**
+-   **character**
+-   **data frames**, **tibbles**, and **lists** (oh my!)
+
+------------------------------------------------------------------------
+
+## Logical & character {.smaller}
+
+::: columns
+::: {.column width="50%"}
+**logical** - boolean values `TRUE` and `FALSE`
+
+```{r}
+#| echo: true
+typeof(TRUE)
+```
+:::
+
+::: {.column width="50%"}
+**character** - character strings
+
+```{r}
+#| echo: true
+typeof("hello")
+```
+:::
+:::
+
+## Double & integer {.smaller}
+
+::: columns
+::: {.column width="50%"}
+**double** - floating point numerical values (default numerical type)
+
+```{r}
+#| echo: true
+typeof(1.335)
+typeof(7)
+```
+:::
+
+::: {.column width="50%"}
+**integer** - integer numerical values (indicated with an `L`)
+
+```{r}
+#| echo: true
+typeof(7L)
+typeof(1 : 3)
+```
+:::
+:::
+
+## Concatenation
+
+Vectors can be constructed using the `c()` function.
+
+```{r}
+#| echo: true
+c(1, 2, 3)
+c("Hello", "World!")
+c(c("hi", "hello"), c("bye", "jello"))
+```
+
+## Converting between types {.smaller}
+
+with intention...
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+x <- 1 : 3
+x
+typeof(x)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+y <- as.character(x)
+y
+typeof(y)
+```
+:::
+:::
+
+## Converting between types {.smaller}
+
+with intention...
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+x <- c(TRUE, FALSE)
+x
+typeof(x)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+y <- as.numeric(x)
+y
+typeof(y)
+```
+:::
+:::
+
+## Converting between types {.smaller}
+
+without intention...
+
+R will happily convert between various types without complaint when different types of data are concatenated in a vector, and that's not always a great thing!
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+c(1, "Hello")
+c(FALSE, 3L)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+c(1.2, 3L)
+c(2L, "two")
+```
+:::
+:::
+
+## Explicit vs. implicit coercion
+
+Let's give formal names to what we've seen so far:
+
+-   **Explicit coercion** is when you call a function like `as.logical()`, `as.numeric()`, `as.integer()`, `as.double()`, or `as.character()`
+
+-   **Implicit coercion** happens when you use a vector in a specific context that expects a certain type of vector
+
+## Data Frames and Tibbles {.smaller}
+
+Because of the coercion to make everything the same data type, Base R has another structure that can combine objects of different data types
+
+```{r}
+#| echo: true
+eggs
+
+typeof(eggs)
+```
+
+Data Frame / Tibble is a special case (class) where every column has the same number of rows, and each column is a single data type
+
+```{r}
+#| echo: true
+class(eggs)
+```
+
+*Note:* While it looks like a matrix (rows and columns), a matrix must be all numerical
+
+## Lecture Review {.smaller}
+
+Visualizing data over time
+
+Dates
+
+Data Types
+
+\
+
+-   Appendix:
+
+    -   Other Material in R4DS (2e) Chapters 2, 10, 12
+
+    -   Special Data Types
+
+## R4DS (2e) Chapters 2, 10, 12
+
+-   What do you think is interesting? How would you use it?
+-   Sec 10.7 Coordinate Systems
+
+## Maps
+
+```{r}
+#| echo: true
+#| code-line-numbers: "1,3"
+library(maps)
+
+USstates <- map_data("state")
+
+ggplot(USstates, aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "black", fill = "lightblue")
+```
+
+## Maps
+
+```{r}
+#| echo: true
+#| code-line-numbers: "5"
+USstates <- map_data("state")
+
+ggplot(USstates, aes(x = long, y = lat, group = group)) +
+  geom_polygon(color = "black", fill = "lightblue") + 
+  coord_quickmap() +
+  theme_void()
+```
+
+# Special values
+
+## Special values
+
+-   `NA`: Not available
+-   `NaN`: Not a number
+-   `Inf`: Positive infinity
+-   `-Inf`: Negative infinity
+
+ 
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+pi / 0
+0 / 0
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+1/0 - 1/0
+1/0 + 1/0
+```
+:::
+:::
+
+## `NA`s are wild!
+
+```{r}
+#| echo: true
+x <- c(1, 2, 3, 4, NA)
+```
+
+```{r}
+#| echo: true
+mean(x)
+mean(x, na.rm = TRUE)
+summary(x)
+```
+
+## `NA`s are logical
+
+R uses `NA` to represent missing values in its data structures.
+
+```{r}
+#| echo: true
+typeof(NA)
+```
+
+## Mental model for `NA`s
+
+-   Unlike `NaN`, `NA`s are genuinely unknown values
+-   But that doesn't mean they can't function in a logical way
+-   Let's think about why `NA`s are logical...
+
+::: appex
+Why do the following give different answers?
+:::
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+# TRUE or NA
+TRUE | NA
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+# FALSE or NA
+FALSE | NA
+```
+:::
+:::
+
+## 
+
+`NA` is unknown, so it could be `TRUE` or `FALSE`
+
+::: columns
+::: {.column width="50%"}
+-   `TRUE | NA`
+
+```{r}
+#| echo: true
+TRUE | TRUE  # if NA was TRUE
+TRUE | FALSE # if NA was FALSE
+```
+:::
+
+::: {.column width="50%"}
+-   `FALSE | NA`
+
+```{r}
+#| echo: true
+FALSE | TRUE  # if NA was TRUE
+FALSE | FALSE # if NA was FALSE
+```
+:::
+:::
+
+-   Doesn't make sense for mathematical operations
+-   Makes sense in the context of missing data

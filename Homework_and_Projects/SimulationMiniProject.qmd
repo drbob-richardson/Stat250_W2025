@@ -1,0 +1,197 @@
+---
+title: "Mini-Project: Simulation Study"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+library(tidyverse)
+```
+
+## Announcements
+
+
+## Outline
+
+Compute the confidence interval coverage for 10,000 simulated samples when $n$ is 10, 30, 50, 100 from an AR(1) with $\phi$ of 0, 0.2, 0.6, 0.8.
+
+Report results in a table
+
+Paragraph explaining the effect of correlated samples on confidence interval coverage for the one-sample mean using the table
+
+Turn in the `.R` (Problems 1, 2, 3) and Word document (Problems 4, 5) to LS
+
+
+## {.smaller}
+
+In a `.R` file
+
+\ 
+
+### Suggested Work Flow (Problem 1) 
+
+-   Write a function `sim_AR1` with arguments `n`, `phi`
+
+    (use the value `1` for $\sigma_\epsilon$)   
+
+```{r}
+#| echo: true
+#| eval: false
+# Test your code
+ts.plot(sim_AR1(n = 100, phi = 0.6))
+```   
+
+\ 
+
+References:
+
+About R functions <https://grimshawville.byu.edu/BYUStat250/Programming1.html#/r-functions>
+
+Generating data from an AR(1) <https://grimshawville.byu.edu/BYUStat250/Simulation2.html#/ar1-model>
+    
+
+
+## Suggested Work Flow (Problem 2) {.smaller}
+
+-   Write code to generate one dataset from an AR(1), compute the 95% CI for $\mu$ using `t.test`, and extract the lower & upper CI bounds from the `t.test` result
+
+Pseudo Code
+```{r}
+#| echo: true
+#| eval: false
+generate n observations from AR(1) with specified phi
+  
+compute 95% CI for mu using t.test
+
+extract the lower bound of the CI from the t.test result
+extract the upper bound of the CI from the t.test result
+```
+
+\ 
+
+References:
+
+Extracting results from an R function <https://grimshawville.byu.edu/BYUStat250/Simulation3.html#/appendix>
+
+Details on `t.test` <https://grimshawville.byu.edu/BYUStat250/SimulationMiniProject.html#/using-t.test-to-compute-95-confidence-interval-for-mu>
+
+
+## Using `t.test` to compute 95% confidence interval for $\mu$
+
+```{r}
+#| echo: true
+#| eval: true
+# example data
+y <- c(3, 7, 11, 0, 7, 0, 4, 5, 6, 2)
+# compute 95% CI on mu
+out <- t.test(y)
+out
+```
+
+## Using `t.test` to compute 95% confidence interval for $\mu$
+
+```{r}
+#| echo: true
+#| eval: true
+# extracting (L,U) from t.test object
+names(out)
+
+out$conf.int
+
+# L (lower bound)
+out$conf.int[1]
+# U (upper bound)
+out$conf.int[2]
+```
+
+
+
+## Suggested Work Flow (Problem 3) {.smaller}
+
+-   Write a function `sim_MP` to perform simulation 
+
+    arguments are `n`, `phi`
+    
+    returns value of proportion of CIs that contain zero
+
+\ 
+
+References:
+
+Psuedo Code <https://grimshawville.byu.edu/BYUStat250/SimulationMiniProject.html#/suggested-work-flow-problem-3-1>
+
+Approximating P(A) using simulation <https://grimshawville.byu.edu/BYUStat250/Simulation1.html#/motivating-example-6>
+
+The code for approximating P(Type 1 Error) in S-W normality test may be helpful <https://grimshawville.byu.edu/BYUStat250/Simulation3.html#/power-of-shapiro-wilk-test-2>
+
+
+## Suggested Work Flow (Problem 3) {.smaller}
+
+Pseudo Code
+```{r}
+#| echo: true
+#| eval: false
+function needs arguments for n, phi
+
+Create CI_L and CI_U, empty vectors of length Nsim
+
+for(i in 1 : Nsim){
+  
+  generate n observations from AR(1) with specified phi
+  
+  compute 95% CI for mu using t.test
+
+  save lower bound in CI_L[i]
+  save upper bound in CI_U[i]
+  
+}
+
+Compute the proportion of CIs that contain zero
+(as the last line, this will be the value returned by the function)
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: false
+# Test your code
+sim_MP(n = 100, phi = 0)
+```   
+
+
+##
+
+Fill in `SimStudyCorrelation.docx` (a Word document)
+
+\ 
+
+### Suggested Work Flow (Problem 4)
+-   Fill in the table of $n$ (rows) and $\phi$ (columns) in the Simulation Study Section
+
+    Think about how many digits to report in table entries
+
+### Suggested Work Flow (Problem 5)
+-   Respond to the prompts in the Results Section
+

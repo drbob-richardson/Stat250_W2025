@@ -1,0 +1,592 @@
+---
+title: "R Basics 2"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 100)
+library(tidyverse)
+```
+
+## Announcements
+
+
+## Recap of last lecture
+
+Atomic Vectors
+
+Lists
+
+
+## Outline
+
+Data Frames
+
+Modifying Values
+
+Loops and Vectorized Code / Functional Programming
+
+Logical Subsetting
+
+Missing Information
+
+
+
+## Data Frames {.smaller}
+
+One Factor Experiment
+
+::: columns
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| eval: true 
+burn <- read_csv("
+Order, Color, Time
+Run1, Yellow, 270
+Run2, Black, 177
+Run3, Red, 121
+Run4, Red, 200
+Run5, Yellow, 259
+Run6, Red, 125
+Run7, Black, 118
+Run8, Yellow, 233
+Run9, Black, 154
+")
+```
+Looks like a matrix, but it's a list!
+```{r}
+#| echo: true
+#| eval: true 
+dim(burn)
+typeof(burn)
+```
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| eval: true 
+attributes(burn)
+```
+:::
+:::
+
+## {.smaller}
+
+### Selecting Values from Data Frames
+
+::: columns
+::: {.column width="25%"}
+```{r}
+#| echo: true
+#| eval: true 
+burn
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: true
+#| eval: true 
+burn[4, 1]
+burn[4, c(2, 3)]
+burn[4, ]
+```
+
+Notice indexing begins at `1` 
+
+:::
+::: {.column width="35%"}
+```{r}
+#| echo: true
+#| eval: true 
+#| error: true
+burn[, 3]
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+burn$Color
+typeof(burn$Color)
+```
+:::
+:::
+
+
+## {.smaller}
+
+### Selecting Values from Data Frames
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: true 
+burn |>
+  filter(Color == "Yellow")
+```
+
+:::
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: true 
+#| error: true
+burn[burn$Color == "Yellow", ]
+burn[burn$Color == "Yellow"]
+```
+:::
+:::
+
+## Modifying Values {.smaller}
+
+::: columns
+::: {.column width="50%"}
+Changing Values in Place
+
+```{r}
+#| echo: true
+#| eval: true 
+y <- c(0, 0, 0, 0, 0, 0)
+y
+```
+
+Select the first value of `y`
+
+```{r}
+#| echo: true
+#| eval: true 
+y[1]
+```
+
+Modify it
+
+```{r}
+#| echo: true
+#| eval: true 
+y[1] <- 1000
+y
+```
+:::
+
+::: {.column width="50%"}
+Replace multiple values
+```{r}
+#| echo: true
+#| eval: true 
+y[c(1, 3, 5)] <- c(1, 11, 111)
+y
+
+y[c(2, 4)] <- -4
+y
+```
+
+Values that do not exist yet
+```{r}
+#| echo: true
+#| eval: true 
+y[7 : 9] <- c(7, 8, 9)
+y
+
+z <- NULL
+z
+z <- c(z, 5 : 2)
+z
+```
+
+:::
+:::
+
+
+## Loops and Vectorized Code {.smaller}
+
+Working with a dataset: Many ways to do the same thing
+
+Compute Stock Return
+
+::: columns
+::: {.column width="25%"}
+Disney Stock Price
+
+```{r}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+DIS <- read_csv("https://query1.finance.yahoo.com/v7/finance/download/DIS?period1=-252374400&period2=9999999999&interval=1d&events=history&includeAdjustedClose=true") |>
+  select(Date, Close)
+
+tail(DIS, 12)
+```
+
+:::
+
+::: {.column width="75%"}
+
+tidyverse
+```{r}
+#| echo: true
+#| eval: true 
+DIS1 <- DIS |>
+  mutate(logreturn = log(Close / lag(Close)) )
+tail(DIS1)
+```
+:::
+
+:::
+
+
+## Loops and Vectorized Code {.smaller}
+
+Compute Stock Return
+
+::: columns
+::: {.column width="25%"}
+Disney Stock Price
+
+```{r}
+#| echo: true
+#| eval: true 
+head(DIS, 12)
+```
+
+:::
+
+::: {.column width="75%"}
+for loop
+```{r}
+#| echo: true
+#| eval: true 
+DIS2 <- DIS
+for(i in 1 : dim(DIS)[1]){
+  if(i == 1){
+    DIS2$logreturn[1] <- NA
+  } else{
+    DIS2$logreturn[i] <- log(DIS$Close[i] / DIS$Close[i - 1])
+  }
+}
+head(DIS2)
+```
+
+:::
+:::
+
+## Loops and Vectorized Code {.smaller}
+
+Compute Stock Return
+
+Which is faster?
+
+::: columns
+::: {.column width="50%"}
+
+tidyverse
+```{r}
+#| echo: true
+#| eval: true 
+# Start the clock
+ptm <- proc.time()
+
+DIS1 <- DIS |>
+  mutate(logreturn = log(Close / lag(Close)) )
+
+# Stop the clock
+proc.time() - ptm
+```
+:::
+
+::: {.column width="50%"}
+for loop
+```{r}
+#| echo: true
+#| eval: true 
+# Start the clock
+ptm <- proc.time()
+
+DIS2 <- DIS
+for(i in 1 : dim(DIS)[1]){
+  if(i == 1){
+    DIS2$logreturn[1] <- NA
+  } else{
+    DIS2$logreturn[i] <- log(DIS$Close[i] / DIS$Close[i - 1])
+  }
+}
+
+# Stop the clock
+proc.time() - ptm
+```
+
+:::
+
+:::
+
+
+## Loops and Functional Programming {.smaller}
+
+Working with a dataset: Many ways to do the same thing
+
+Compute Annual Maximum
+
+::: columns
+::: {.column width="50%"}
+Coal Creek 
+
+```{r}
+#| echo: true
+#| eval: true 
+#| code-fold: true
+bigdata <- read_table("https://nwis.waterservices.usgs.gov/nwis/iv/?sites=10242000&parameterCd=00065&startDT=2000-01-01T00:00:00.000-06:00&endDT=2026-12-31T23:59:59.999-06:00&siteStatus=all&format=rdb",
+                      col_names = c("label1", "label2", "Date", "Time", "tz", "Height", "label3"),
+                      skip = 32) |>
+  mutate(Date = ymd_hms(paste(Date, Time), tz = "America/Denver")) |>
+  select(Date, Height)
+
+tail(bigdata)
+```
+
+:::
+
+::: {.column width="50%"}
+
+Conceptualize Computation
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+      2007    2008           2020    2021
+                     . . .                     . . .
+     Height  Height         Height  Height
+      4.77    5.51           4.28    4.46
+      4.79    4.83           4.38    4.77
+      4.74   13.03           4.51    4.47 
+      4.76    5.08           4.28    5.43
+      4.87    4.91           4.93    4.94
+       .       .              .       .
+       .       .              .       .
+       .       .              .       .
+
+Max: 14.2    13.9    . . .   6.94    9.68      . . .
+```
+:::
+
+:::
+
+## Loops and Functional Programming {.smaller}
+
+Compute Annual Maximum
+
+Which is faster?
+
+::: columns
+::: {.column width="50%"}
+
+tidyverse
+```{r}
+#| echo: true
+#| eval: true 
+# Start the clock
+ptm <- proc.time()
+
+peak1 <- bigdata |>
+  mutate(Year = year(Date)) |>
+  group_by(Year) |>
+  summarize(
+    Max_Height = max(Height)
+  )
+
+# Stop the clock
+proc.time() - ptm
+```
+:::
+
+::: {.column width="50%"}
+for loop
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+FOR each value of YEAR
+
+  FILTER dataset to observations of YEAR
+  
+  COMPUTE max(Height) for filtered dataset
+  
+END
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+# Start the clock
+ptm <- proc.time()
+
+my_years <- unique(year(bigdata$Date))
+peak2 <- rep(0, length(my_years))
+for(i in 1 : length(my_years)){
+  this_year <- filter(bigdata, year(Date) == my_years[i])
+  peak2[i] <- max(this_year$Height)
+}
+
+# Stop the clock
+proc.time() - ptm
+```
+
+:::
+
+:::
+
+## Logical Subsetting {.smaller}
+
+::: columns
+::: {.column width="65%"}
+
+![](images/LogicalTests.png)
+
+:::
+::: {.column width="35%"}
+
+```{r}
+#| echo: true
+#| eval: true 
+1 > 2
+1 > (0 : 2)
+(1 : 3) == (3 : 1)
+```
+
+`%in%`
+
+```{r}
+#| echo: true
+#| eval: true 
+1 %in% c(3, 4, 5)
+c(1, 2) %in% c(3, 4, 5)
+c(1, 2, 3, 4) %in% c(3, 4, 5)
+```
+
+:::
+:::
+
+
+## Logical Subsetting {.smaller}
+
+::: columns
+::: {.column width="65%"}
+
+![](images/BooleanOperators.png)
+
+:::
+::: {.column width="35%"}
+
+```{r}
+#| echo: true
+#| eval: true 
+#| error: true
+x <- 3
+x > 2 & < 9
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+x <- 3
+2 < x & x < 9
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+a <- c(1, 2, 3)
+b <- c(1, 2, 3)
+c <- c(1, 2, 4)
+a == b
+b == c
+a == b & b == c
+```
+
+:::
+:::
+
+
+
+## Missing Information {.smaller}
+
+```{r}
+#| echo: true
+#| eval: true 
+y <- c(NA, 1 : 20)
+y
+```
+
+`na.rm`
+
+```{r}
+#| echo: true
+#| eval: true 
+mean(y)
+mean(y, na.rm = TRUE)
+```
+
+`is.na`
+
+```{r}
+#| echo: true
+#| eval: true 
+c(1, 2, 3, NA) == NA
+```
+
+```{r}
+#| echo: true
+#| eval: true 
+z <- c(1, 2, 3, NA)
+is.na(z)
+```
+
+
+```{r}
+#| echo: true
+#| eval: true 
+z <- c(NA, z)
+z
+```
+
+
+
+## Lecture Review 
+
+Data Frames
+
+Modifying Values
+
+Loops and Vectorized Code / Functional Programming
+
+Logical Subsetting
+
+Missing Information
+
+    
