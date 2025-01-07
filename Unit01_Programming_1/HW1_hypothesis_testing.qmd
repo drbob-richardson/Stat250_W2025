@@ -1,0 +1,107 @@
+---
+title: "Assignment: Hypothesis Testing in R"
+author: "YOUR_NAME_HERE"
+output: html_document
+---
+
+## Problem 1: Student Sleep Analysis
+
+The average time a student sleeps per night is summarized by the following data points:
+
+6.5, 7.5, 9.0, 5.0, 6.5, 5.0, 6.0, 8.0, 4.5, 8.5, 6.5, 6.0
+
+We will test the hypothesis:
+
+- Null hypothesis $H_0$: Students get an average of 8 hours of sleep per night ($\mu = 8$).
+- Alternative hypothesis $H_a$: Students get less than 8 hours of sleep per night ($\mu < 8$).
+
+Significance level: $\alpha = 0.05$
+
+### Step-by-Step Solution, Done together in class
+
+```{r}
+#| echo: true
+# Step 1: Store the data in a vector
+# Replace this comment with the code to create the vector
+
+
+# Step 2: Calculate the sample mean and sample standard deviation
+# Add code here to calculate mean and standard deviation
+
+
+# Step 3: Define the hypothesized mean and sample size
+# Replace this comment with code to define the null hypothesis mean and sample size
+
+
+# Step 4: Calculate the test statistic
+# Add code to calculate the t-statistic
+
+
+
+# Step 5: Compute the p-value for a one-tailed test
+
+
+
+# Step 6: Make a conclusion based on p-value and significance level
+
+
+
+
+```
+
+## Problem 2
+
+The average daily caffeine consumption (in mg) of a group of college students is recorded as follows:
+
+400, 250, 0, 300, 0, 600, 250, 200, 0, 275
+
+Perform a hypothesis test to determine if the students consume more than 260 mg of caffeine on average.
+
+- State the null and alternative hypotheses.
+- Use $\alpha = 0.05$ as the significance level.
+- Compute the test statistic, p-value, and make a conclusion.
+
+Use the provided data and fill in the steps based on what you've learned from the first scenario.
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 3
+
+A two sample t-test is used for a hypothesis test that the mean of two groups are equal. If the two groups are equal size, the test statistic can be found using the formula:
+   $$
+   t = \frac{\bar{x}_A - \bar{x}_B}{s_p \sqrt{\frac{2}{n}}}
+   $$
+   where $s_p$ is the pooled standard deviation:
+   $$
+   s_p = \sqrt{\frac{(n - 1)s_A^2 + (n - 1)s_B^2}{2n - 2}}
+   $$
+$\bar{x}_A$ and $\bar{x}_B$ are the sample means for groups A and B respectively and $s_A$ and $s_B$ are sample standard deviations of the respective groups. 
+
+The table below provides the test scores of students in two groups:
+
+| Group A | Group B |
+|---------|---------|
+| 85      | 88      |
+| 87      | 84      |
+| 83      | 89      |
+| 86      | 87      |
+| 84      | 85      |
+
+For a two sample t-test, the null and alternative hypotheses are
+
+- Null hypothesis $H_0$: The mean scores of the two groups are equal ($\mu_A = \mu_B$).
+- Alternative hypothesis $H_a$: The mean scores of the two groups are not equal ($\mu_A \neq \mu_B$).
+
+We will use significance level: $\alpha = 0.05$
+
+Perform a two-sample balanced t-test to compare the means of the two groups. 
+4. Compute the p-value for a two-tailed test.
+5. Compare the p-value with $\alpha$ and make a conclusion.
+
+```{r}
+#| echo: true
+
+```

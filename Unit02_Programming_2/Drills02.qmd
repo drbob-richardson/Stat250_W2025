@@ -1,0 +1,92 @@
+---
+title: "Random Sampling and Data Structures: Practice Problems"
+author: "YOUR_NAME_HERE"
+output: html_document
+---
+
+## Problem 1
+
+Use the sample() function to complete the following tasks:
+
+-   Randomly reorder the names in the vector names below.
+-   Select 4 names without replacement.
+-   Select 5 names with replacement.
+
+```{r}
+#| echo: true
+names <- c("Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona", "George", "Helen")
+# Write your code here
+
+```
+
+## Problem 2
+
+Perform the following tasks:
+
+-   Create a 3x4 matrix where the elements are the numbers 1 through 12, filled row-wise.
+-   Extract the element in the 2nd row, 3rd column.
+-   Extract the 2nd column.
+
+```{r}
+#| echo: true
+# Write your code here
+
+```
+
+## Problem 3
+
+Given the matrix below, use logical masks to extract:
+
+-   All rows where the value in the first column is greater than 2.
+-   The elements in the second column that are even numbers.
+
+```{r}
+#| echo: true
+matrix_example <- matrix(1:12, nrow = 4, byrow = TRUE)
+matrix_example
+# Write your code here
+```
+
+## Problem 4
+
+Given the list below, complete the following tasks:
+
+-   Extract the second element as a list.
+-   Extract the contents of the second element.
+-   Extract the third element and subset its first two rows.
+
+```{r}
+#| echo: true
+example_list <- list(
+  vector = c(10, 20, 30),
+  matrix = matrix(1:9, nrow = 3),
+  data_frame = data.frame(ID = 1:3, Value = c("A", "B", "C"))
+)
+# Write your code here
+```
+
+## Problem 5:
+
+Given the vector below:
+
+Create a logical mask to identify elements greater than 15. Use the mask to subset the vector. Count how many elements are greater than 15.
+
+```{r}
+#| echo: true
+vec <- c(10, 25, 5, 18, 30, 12, 20)
+# Write your code here
+```
+
+## Problem 6
+
+Create a logical mask to check which rows have the Name column equal to "Alice" or "Charlie". Use the mask to subset the data frame and show only those rows.
+
+```{r}
+#| echo: true
+df_example <- data.frame(
+  ID = 1:5,
+  Name = c("Alice", "Bob", "Charlie", "Diana", "Ethan"),
+  Age = c(25, 30, 35, 40, 28)
+)
+# Write your code here
+```

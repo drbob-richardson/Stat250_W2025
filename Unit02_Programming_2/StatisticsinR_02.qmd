@@ -1,0 +1,553 @@
+---
+title: "Random Sampling and Data Structures in R"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+```
+
+## Motivation: Random Assignment
+
+In many studies, we need to assign individuals to different treatment groups randomly. For example, consider the following table of individuals and their assigned groups:
+
+| ID  | Name    | Group       |
+|-----|---------|-------------|
+| 1   | Alice   | Treatment A |
+| 2   | Bob     | Treatment B |
+| 3   | Charlie | Treatment A |
+| 4   | Diana   | Treatment B |
+| 5   | Ethan   | Treatment A |
+
+## Motivation: Random Assignment
+
+After the assignments are made, we may want to only keep the ones from a particular treatment group:
+
+| ID  | Name  | Group       |
+|-----|-------|-------------|
+| 2   | Bob   | Treatment B |
+| 4   | Diana | Treatment B |
+
+Or maybe the top 3
+
+| ID  | Name    | Group       |
+|-----|---------|-------------|
+| 1   | Alice   | Treatment A |
+| 2   | Bob     | Treatment B |
+| 3   | Charlie | Treatment A |
+
+## Motivation: Random Assignment for Studies
+
+Our goal is to use R to randomly assign these groups and subset the results. To achieve this, we will explore several foundational topics:
+
+::: smaller
+-   Understanding data types: characters, numeric, and logicals.
+-   Using the `sample()` function for random sampling.
+-   Exploring data structures: matrices, lists, and data frames.
+-   Creating the final data frame with random assignments.
+-   Using positions and logicals to subset vectors, matrices, and data frames
+:::
+
+## Data types in R
+
+::: panel-tabset
+### Numeric
+
+Numeric data represents numbers.
+
+```{r}
+# Example of numeric data
+ages <- c(25, 30, 35)
+ages
+```
+
+### Characters
+
+Character data represents text values. We create them using quotes
+
+```{r}
+#| echo: true
+# A character object
+name <- "Alice"
+
+# A character vector
+names <- c("Alice","Bob","Hector")
+```
+
+### Logical
+
+Logical data represents `TRUE` or `FALSE` values. The words TRUE and FALSE are specific reserved variables in R
+
+```{r}
+#| echo: true
+
+# Example of logical data
+response <- TRUE
+response
+
+# A logical vector
+responses <- c(TRUE, FALSE, FALSE)
+responses
+```
+:::
+
+## Data types in R
+
+We can check the type of variables to see if they are character or numeric using class.
+
+```{r}
+#| echo: true
+var1 <- 46
+var2 <- "46"
+var3 <- TRUE
+
+class(var1)
+class(var2)
+class(var3)
+```
+
+## Creating logicals
+
+We can create logical vectors
+
+```{r}
+#| echo: true
+vec1 <- seq(1,20,1)
+
+# Are the elements of vec1 greater than 5
+vec1 > 5
+
+# Are the elements of vec1 even?
+vec1 %% 2 == 0
+```
+
+## Creating Logicals
+
+We can use `any`, `all`, and `%in%` to ask certain questions about vectors. Explore the examples in the tabs below.
+
+::: panel-tabset
+### `any`
+
+The `any` function tests if **any elements** of the vector meet a certain condition.
+
+```{r}
+#| echo: true
+vec1 <- seq(1, 20, 1)
+
+# Check if any elements are equal to 4
+any(vec1 == 4)
+
+# Check if any elements are equal to pi
+any(vec1 == pi)
+```
+
+### `all`
+
+The `all` function tests if all elements of the vector meet a certain condition.
+
+```{r}
+#| echo: true
+vec1 <- seq(1, 20, 1)
+
+# Check if all elements are less than 25
+all(vec1 < 25)
+
+# Check if all elements are greater than 10
+all(vec1 > 10)
+```
+
+### `%in%`
+
+The `%in%` operator tests if a certain element is in the vector.
+
+```{r}
+#| echo: true
+vec1 <- seq(1, 20, 1)
+
+# Check if 4 is in the vector
+4 %in% vec1
+
+# Check if pi is in the vector
+pi %in% vec1
+```
+:::
+
+## Random Sampling with `sample()`
+
+The `sample()` function allows us to randomly select elements from a vector. It takes 4 arguments. Run this to see what they are
+
+```{r}
+#| echo: true
+
+?sample
+```
+
+## Sampling Without Replacement
+
+Sampling without replacement is like mixing names up in a hat and then drawing one, crumbling it up and throwing it away. It cannot be picked again.
+
+```{r}
+#| echo: true
+
+names <- c("Alice","Bob","Hector","Steve","Tony","Steph","Mary")
+
+# Randomly select 3 names without replacement
+sample(names, size = 3, replace = FALSE)
+```
+
+Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders he vector
+
+```{r}
+#| echo: true
+
+# Randomly reorder the names
+sample(names)
+```
+
+## Sampling With Replacement
+
+Sampling with replacement is like putting each picked value back in the het to be picked again.
+
+```{r}
+#| echo: true
+
+# Randomly select 5 names with replacement
+sample(names, size = 5, replace = TRUE)
+```
+
+This means you may see some duplicates. You can also sample values larger than the size of the vector
+
+```{r}
+#| echo: true
+
+# Randomly select 5 names with replacement
+sample(names, size = 10, replace = TRUE)
+```
+
+## Data Structures in R
+
+R has multiple data types we have seen, it also has multiple data structures. We can see the following data structures
+
+-   Scalar - 1 dimensional objects
+-   Vector - a collection of scalars of similar data types
+-   Matrix - a rectangular object the collects scalars of similar data types in a 2-dimensional array
+-   Data Frame - Also a two dimensional array, but each column can be a different data type, typically each column and row also has some meaning
+-   List - a flexible storage object that can collect objects of different sizes data types and functions
+
+We've already seen scalars and vectors, so let's look more closely at the last 3.
+
+## Matrices {.smaller}
+
+We have a few ways of creating matrices
+
+::: panel-tabset
+### `matrix()`
+
+We can create matrices using the `matrix()` function. This fills in a matrix using a vector.
+
+```{r}
+#| echo: true
+# Create a 3x3 matrix with elements filled row-wise
+matrix_example <- matrix(1:9, nrow = 3)
+matrix_example
+```
+
+The default fills each column first, but we can fill each colum first instead
+
+```{r}
+#| echo: true
+# Create a 3x3 matrix with elements filled column-wise
+matrix_colwise <- matrix(1:9, nrow = 3, byrow = TRUE)
+matrix_colwise
+```
+
+### `diag()`
+
+The `diag()` function is used to create diagonal matrices.
+
+```{r}
+#| echo: true
+# Create a diagonal matrix from a vector
+diagonal_matrix <- diag(c(1, 2, 3))
+diagonal_matrix
+```
+
+It can also extract the diagonal of an already built matrix
+
+```{r}
+#| echo: true
+matrix_example
+
+# Extract the diagonal of a matrix
+extracted_diag <- diag(matrix_example)
+extracted_diag
+```
+
+### `cbind/rbind`
+
+The functions `cbind()` and `rbind()` combine vectors into matrix columns or matrix rows respectively
+
+```{r}
+#| echo: true
+
+vec1 <- c(1,2,3)
+vec2 <- c(4,5,6)
+
+# Combine vectors by column
+cbind(vec1,vec2)
+
+# Combine vectors by row
+rbind(vec1,vec2)
+
+```
+:::
+
+## Lists
+
+Lists can hold data of different types.
+
+```{r}
+#| echo: true
+# Create a list with different data types
+list_example <- list(name = "Alice", age = 25, enrolled = TRUE)
+list_example
+```
+
+Lists can also have components that are vectors, matrices, functions, or even other lists.
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Create a list with different data types
+bigger_list <- list(my_list = list_example, my_matrix = matrix_example)
+bigger_list
+```
+
+## Data Frames
+
+Data frames are two-dimensional tables where columns can hold different types of data. We can create one using data.frame
+
+```{r}
+# Create a data frame
+df_example <- data.frame(
+  ID = 1:3,
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Smoking = c("FALSE","FALSE","TRUE")
+)
+df_example
+```
+
+Each column needs to be the same length as other columns, each row needs to be the same length as other rows, and each column needs to be consistent within itself with respect to data type.
+
+## Assigning Treatment Groups
+
+Finally, let us assign treatment groups A or B randomly to individuals.
+
+```{r}
+#| echo: true
+# Individuals in the study
+Name = c("Alice","Bob","Hector","Steve","Tony","Steph","Mary", "Charlie", "Diana", "Ethan")
+
+
+```
+
+## Accessing subsets of data structures
+
+We can access certain parts of vectors, matrices, dataframes, and lists in different ways.
+
+## Subsetting Vectors
+
+We can use square brackets to grab specific elements of a vector `[ ]`. Inside can a number or a vector of numbers to subset.
+
+```{r}
+#| echo: true
+vec1 <- sample(c(1,2,3),20,replace = TRUE)
+
+# Get the third element
+vec1[3]
+
+# Get the third through fifth element
+vec1[3:5]
+
+# Get the third, eleventh, and twentieth element
+vec1[c(3,11,20)]
+```
+
+## Subsetting Vectors
+
+We can also put a sequence of logicals in the square brackets. The logical must be the same size as the vector. Sometimes these are called logical masks.
+
+```{r}
+#| echo: true
+vec1 <- sample(c(1,2,3),20,replace = TRUE)
+
+# Create a logical mask
+mask <- vec1 == 3
+mask
+
+# Get all elements that are equal to 3
+vec1[mask]
+
+# Switch off between TRUE and FALSE
+mask2 <- (1:20) %% 2 == 0
+
+# Get every other element
+vec1[mask2]
+```
+
+## Subsetting Matrices
+
+Matrices are two-dimensional arrays that hold data of the same type. We can subset matrices using square brackets `[row, column]`.
+
+```{r}
+#| echo: true
+# Create a 3x3 matrix
+mat <- matrix(1:9, nrow = 3, byrow = TRUE)
+mat
+
+# Get the element in the second row, third column
+mat[2, 3]
+
+# Get the entire second row
+mat[2, ]
+
+# Get the entire third column
+mat[, 3]
+```
+
+## Subsetting Matrices
+
+We can also use logical masks or ranges for more advanced subsetting.
+
+```{r}
+#| echo: true
+# Create a logical mask for rows where the first column is greater than 2
+mask <- mat[, 1] > 2
+mask
+
+# Get all rows where the mask is TRUE
+mat[mask, ]
+
+# Use ranges to subset multiple rows or columns
+# Get rows 2 and 3, columns 1 and 2
+mat[2:3, 1:2]
+```
+
+## Subsetting Data Frames {.smaller}
+
+Subsetting data frames works similarly to matrices. Use `[row, column]` to select specific elements.
+
+```{r}
+#| echo: true
+# Create a data frame
+df <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Score = c(90, 85, 95)
+)
+df
+
+# Get the second row, third column
+df[2, 3]
+
+# Get the entire "Age" column
+df[, "Age"]
+
+# Get the first two rows
+df[1:2, ]
+```
+
+## Subsetting Data Frames {.smaller}
+
+We can also use the `$` operator or logical masks for more advanced subsetting. `df$var` will retrieve the variable named `var` from the data set. 
+
+```{r}
+#| echo: true
+# Get the "Score" column using $
+df$Score
+
+# Create a logical mask for rows where Age > 25
+mask <- df$Age > 25
+mask
+
+# Get all rows where the mask is TRUE
+df[mask, ]
+
+# Get specific rows and columns
+df[1:2, c("Name", "Score")]
+```
+
+## Subsetting Lists 
+
+Lists can be subset using single square brackets [ ] for elements or double square brackets [[ ]] for their contents.
+
+```{r}
+#| echo: true
+# Create a list
+lst <- list(A = 1:5, B = matrix(1:4, nrow = 2), C = "Hello")
+lst
+
+# Get the first element (as a list)
+lst[1]
+
+# Get the first element's content
+lst[[1]]
+
+# Get the element named "B"
+lst[["B"]]
+```
+
+## Subsetting Lists (Slide 2)
+
+We can also subset within elements of a list using the appropriate subsetting methods for each type.
+
+```{r}
+#| echo: true
+# Subset the vector in element A
+lst[[1]][2:4]
+
+# Subset the matrix in element B
+lst[[2]][1, ]
+
+# Combine multiple subsetting methods
+lst[["A"]][1:3]
+```
+
+## Subsetting the assignment matrix
+
+Suppose we have the treatment assignment data frame created above. Let's create a new one with 
+
+- Only individuals from Treatment B. 
+- The first 5 individual in the study.
+
+## Review
+
+We have covered the following topics:
+
+-   Understanding data types: characters, numeric, and logicals.
+-   Using the `sample()` function for random sampling.
+-   Exploring data structures: matrices, lists, and data frames.
+-   Creating the final data frame with random assignments.
+-   Using positions and logicals to subset vectors, matrices, and data frames

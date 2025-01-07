@@ -1,0 +1,363 @@
+---
+title: "Statistics in R"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+```
+
+## Announcements
+
+## Hypothesis Testing Overview
+
+::: panel-tabset
+### Review
+
+Remember intro stats (maybe Stat 121) where we perform a hypothesis to see if the population mean $\mu$ is equal to a hypothesized value $\mu_0$. The steps include:
+
+### Steps 1-3
+
+1.  **State the hypotheses**:
+    -   Null hypothesis $H_0: \mu = \mu_0$
+    -   Alternative hypothesis $H_a: \mu \neq \mu_0$
+2.  **Choose a significance level** $\alpha$.
+3.  **Calculate the test statistic**: $$
+    t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}
+    $$
+    
+### Steps 4-5
+
+4.  **Find the p-value** or critical value.
+5.  **Draw a conclusion**: Reject $H_0$ if $p < \alpha$ or fail to reject otherwise.
+
+:::
+
+## Example
+
+::: panel-tabset
+
+### Set-up
+Suppose we want to test whether the average height of students in a class is equal to 170 cm. We have the following sample data: 
+
+* Sample mean $\bar{x} = 172$
+* Sample standard deviation $s = 6$ 
+* Sample size $n = 25$
+
+### Steps 1-3
+
+1.  **State the hypotheses**:
+    -   Null hypothesis $H_0: \mu = 170$
+    -   Alternative hypothesis $H_a: \mu \neq 170$
+2.  **Choose a significance level** $\alpha = 0.05$.
+3.  **Calculate the test statistic**: $$
+    t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} = \frac{172 - 170}{6/\sqrt{25}} = 1.67 
+    $$
+    
+### Steps 4-5
+
+4.  **Find the p-value** or critical value.
+Recall that if we use sample standard deviation in the test statistic we calculate the p-value using a $t$ distribution with $n-1$ degrees of freedom. 
+
+5.  **Draw a conclusion**: Because $p > \alpha$, we fail to reject the null hypothesis that $\mu = 170$. 
+
+:::
+
+## Solving in R
+
+We now want to give you some tools that will let you solve this in R. We will learn a few basic principles here that you should be able to apply to other scenarios
+
+* Basic Math in R
+* Variables
+* Vectors
+* Mathematical Operations on Vectors
+
+## R as a Calculator 
+
+R can handle basic math. Below is a table with common operations:
+
+::: {style="font-size: 80%;"}
+::: {.columns}
+::: {.column width="50%"}
+
+| Function | Example          |
+|----------|------------------|
+| Addition | `3 + 4`          |
+| Subtraction | `10 - 3`       |
+| Multiplication | `5 * 6`     |
+| Division | `10 / 2`         |
+| Exponentiation | `2^3`       |
+| Square root | `sqrt(16)`     |
+| Round to nearest | `round(3.14)` |
+:::
+
+::: {.column width="50%"}
+
+| Function | Example          |
+|----------|------------------|
+| Modulo (remainder) | `10 %% 3` |
+| Integer division | `10 %/% 3` |
+| Absolute value | `abs(-5)`     |
+| Logarithm (base e) | `log(10)` |
+| Logarithm (base 10) | `log10(10)` |
+
+
+:::
+:::
+:::
+
+## Variable Assignment in R
+
+
+We can assign variables in R using '<-' or '='. When a variable is assigned it's value is remembered later.
+
+```{r}
+#| echo: true
+x = 1
+y = 3
+x + y
+```
+
+## Variable Assignment in R
+
+::: panel-tabset
+
+### Rules
+
+* Variable names **must** start with a letter and can contain letters, numbers, periods (`.`), and underscores (`_`).
+* Variable names **cannot**:
+  + Start with a number.
+  + Contain spaces or special characters (e.g., `@`, `#`, `!`).
+  + Use reserved keywords (e.g., `if`, `else`, `TRUE`, `FALSE`).
+
+### Valid Examples
+
+```{r}
+#| echo: true
+#| eval: false
+valid_name <- 42
+another_valid_name <- 100
+this.is.valid <- 3.14
+also_valid_123 <- 0
+```
+
+### Invalid Examples
+
+```{r}
+#| echo: true
+#| eval: false
+# Invalid names (will cause errors)
+2bad <- 10     # Starts with a number
+my name <- 20  # Contains a space
+if <- 30       # Reserved keyword
+x@value <- 40  # Contains special character
+```
+
+:::
+
+## Best Practices for Variable Assignment
+
+- Use meaningful names that describe the variable's purpose (e.g., `student_age` instead of `x`).
+- Avoid overly long names while maintaining clarity.
+- Use a consistent naming convention (e.g., `snake_case`, `camelCase`, or `period.delimited`).
+- Assign values using `<-` instead of `=` for clarity and consistency.
+
+```{r}
+#| echo: true
+#| eval: false
+# Examples of best practices
+student_age <- 25
+final_score <- 98.5
+average_height <- 172
+```
+
+
+
+## Working with Vectors
+
+### Creating Vectors {.smaller}
+
+There are several ways to create vectors in R:
+
+::: panel-tabset
+
+#### `c()` {.smaller}
+
+Combine elements into a vector using the `c()` function:
+
+```{r}
+#| echo: true
+# Combine values into a vector
+heights <- c(168, 172, 171, 169, 170)
+heights
+```
+
+#### `seq()` {.smaller}
+
+Generate a sequence of numbers with `seq()`:
+
+```{r}
+#| echo: true
+# Generate a sequence from 1 to 10 in steps of 2
+numbers <- seq(1, 10, 2)
+numbers
+```
+
+#### `rep()` {.smaller}
+
+Repeat values using `rep()`:
+
+```{r}
+#| echo: true
+# Repeat the number 5 three times
+repeats <- rep(5, 3)
+repeats
+```
+
+:::
+
+## Mathematical Operations on Vectors 
+
+::: panel-tabset
+#### Two Vectors 
+
+Basic operations between vectors evaluate element-wise
+
+```{r}
+#| echo: true
+# Element-wise addition
+vec1 <- c(1, 2, 3)
+vec2 <- c(4, 5, 6)
+result_add <- vec1 + vec2
+result_subtract <- vec2-vec1
+result_subtract
+```
+
+#### Vector and a Scalar 
+
+Basic operations between a vector and scalar apply the scalar to each element
+
+```{r}
+#| echo: true
+# Add 2 to each element of the vector
+vec <- c(10, 20, 30)
+result <- vec + 2
+result
+```
+:::
+
+## Summarizing Vectors
+
+Use built-in functions to summarize vector data:
+
+#### Using `mean()`
+
+Compute the average of a vector:
+
+```{r}
+#| echo: true
+#| eval: false
+# Calculate the mean
+mean(heights)
+```
+
+#### Using `sd()`
+
+Compute the standard deviation of a vector:
+
+```{r}
+#| echo: true
+#| eval: false
+# Calculate the standard deviation
+sd(heights)
+```
+
+## Finding the p-value {.smaller}
+
+We have seen `mean()` and `sd()`, and there are countless other built-in functions in R. One important function for hypothesis testing is `pt()` for t-distributions. 
+
+#### Understanding the p-value 
+
+Recall that a p-value is the probability of observing a value as extreme as, or more extreme than, the test statistic, assuming the null hypothesis is true. It represents the area under the curve beyond the observed value:
+
+- **Left-tailed test**: Area to the left of the test statistic.
+- **Right-tailed test**: Area to the right of the test statistic.
+- **Two-tailed test**: Combined area in both tails beyond the absolute value of the test statistic.
+
+## Visualizing the p-value 
+
+![p-value visualization](p-value.png)
+
+## Using `pt()`
+
+The `pt()` function in R calculates the cumulative probability for a t-distribution. Use it to find the p-value for various alternative hypotheses:
+
+
+| Alternative Hypothesis | Formula for p-value                  |
+|------------------------|--------------------------------------|
+| $H_a: \mu < \mu_0$    | `pt(test_statistic, df)`             |
+| $H_a: \mu > \mu_0$    | `1 - pt(test_statistic, df)`         |
+| $H_a: \mu \neq \mu_0$ | `2 * (1 - pt(abs(test_statistic), df))` |
+
+
+
+## `pt()` Example 
+
+Suppose we have a test statistic of $t = 1.67$ for a two-tailed test with 24 degrees of freedom. Calculate the p-value:
+
+```{r}
+#| echo: true
+# Test statistic
+test_statistic <- 1.67
+
+# Degrees of freedom
+df <- 24
+
+# Two-tailed p-value using t-distribution
+p_value <- 2 * (1 - pt(abs(test_statistic), df))
+p_value
+```
+
+This results in a p-value of approximately `0.1085`.
+
+## Hypothesis Testing Example
+
+Use R to perform a hypothesis test for the following scenario:
+
+- The average time a student sleeps per night is summarized by the following data points:
+
+6.5, 7.5, 9.0, 5.0, 6.5, 5.0, 6.0, 8.0, 4.5, 8.5, 6.5, 6.0
+
+- Test the hypothesis that students get 8 hours of sleep, against the alternative hypothesis that students get less than 8 hours of sleep.
+- Use $\alpha = 0.05$ for the significance level.
+- Compute the p-value and make a conclusion.
+
+## Summary
+
+We covered the following topics:
+
+- Using R for hypothesis testing
+- Basic Math in R
+- Variable rules and best practices
+- Vector creation
+- Mathematical Operations on Vectors

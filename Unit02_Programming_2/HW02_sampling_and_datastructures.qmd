@@ -1,0 +1,63 @@
+---
+title: "Assignment: Random Sampling and Data Structures"
+author: "YOUR_NAME_HERE"
+output: html_document
+---
+
+## Problem 1
+
+Let us assign treatment groups A or B randomly to individuals.
+
+```{r}
+#| echo: true
+# Individuals in the study
+Name = c("Alice","Bob","Hector","Steve","Tony","Steph","Mary", "Charlie", "Diana", "Ethan")
+
+
+```
+
+## Problem 2
+
+Using the data frame you created, let's subset it in various way.
+
+Write code to get only individuals from treatment group B.
+
+```{r}
+#| echo: true
+
+
+```
+
+Write code to get the first 5 individuals of the group.
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 3
+
+Create a list that includes the following elements:
+
+-   The full data frame of individuals and treatment groups
+-   The list of names of individuals in treatment group A
+-   The list of names of individuals in treatment group B
+
+Create these lists using subsetting and logicals as opposed to hard coding the names.
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 4
+
+We have a new clinical trial approaching. We have 300 individuals. Instead of names, we will only use ID numbers, which will range from 501 to 800. We know that the first 100 of these are male and the rest are female. We must randomly assign a treatment out 4 possible values: {A, B, C, D}. Create a data frame that includes an individuals ID number, whether they are male or female, and the treatment randomly assigned.
+
+```{r}
+#| echo: true
+
+
+```
