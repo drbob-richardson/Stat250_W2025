@@ -1,0 +1,138 @@
+---
+title: "Stat 250 - Introduction to Statistical Programming"
+author: "Professor Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+---
+
+# Course Information
+
+- **Course**: Stat 250 - Introduction to Statistical Programming  
+- **Schedule**: MWF 2:00 - 2:50  
+- **Location**: 1161 WVB  
+
+
+# Instructor Information
+
+- **Professor**: Robert Richardson  
+  - **Email**: [richardson@stat.byu.edu](mailto:richardson@stat.byu.edu)  
+  - **Office**: 2186 WVB  
+  - **Zoom Room**: 8014223736  
+  - **Office Hours**: Monday and Thursday, 10:15 to 11:00  
+
+
+# TA Information
+
+- **TA**: Riley Rawhouser 
+  - **Email**: [everestm@student.byu.edu](mailto:rawhouse@student.byu.edu)  
+  - **Office**: 1151 WVB  
+  - **Office Hours**: TBD  
+
+# Course Description
+
+Introduce programming concepts essential for success as a statistician. These include
+
+- Basic to Advanced Programming Knowledge
+- Data Wrangling and Visualization
+- Simulation, sampling, and testing
+
+
+
+# Course Materials
+
+**Texts**:  
+- *R For Data Science*, 2nd Edition [https://r4ds.hadley.nz](https://r4ds.hadley.nz)
+- *Hands on Programming in R*, 4th Edition [https://rstudio-education.github.io/hopr/](https://rstudio-education.github.io/hopr/) 
+
+**Course Management**: Learning Suite  
+**Materials**: [GitHub Repository](https://github.com/drbob-richardson/Stat250_W2025.git)  
+
+
+
+# Grade Distribution
+
+- Homework: 40%  
+- Projects: 25%  
+- Midterm Exam: 15% 
+- Final Exam: 20%
+
+# Exams
+
+- **Midterm**: Details to come  
+- **Final Exam**: Details to come 
+
+# Homework {.smaller}
+
+* The course is split into several units, each unit has 
+  + Slides for the material
+  + A homework set
+      - This will be completed, turned in, and graded
+      - Part of this will always be done in class together
+  + A second set of problems
+    - I call these drills because they are extra non-comprehensive practice often focusing on a single concept
+    - These are not turned in, but are expected to be understood
+    - Solutions to these will be posted as well, but try to answer them and undestand them without the solutions first
+  
+  
+* Homework will be in the form of quarto files you will need to fill in  
+
+
+
+# Import technologies and tools
+
+- **RStudio**: An IDE, or Integrated Development Environment that helps to organize a coding environment
+- **R**: Is a programming software that is especially tuned to data analysis problems
+
+Download both from  [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+
+
+# Tentative Schedule {.smaller}
+
+| **Week**   | **Topics**                                |  
+|------------|------------------------------------------|  
+| Unit 1     | Hypothesis Testing Using R        |  
+| Unit 2     | Random Sampling and Data Structures     |  
+| Unit 3     | Simulation Basics                 |  
+| Unit 4     | Simulation Studies and Coding Efficiency            |  
+| Midterm    |                  |  
+| Unit 5  |  Data Import and Visualization                   |  
+| Unit 6  | More Visualization                   |  
+| Unit 7 | Tidy Data and Wrangling                              |  
+| Unit 8    | More Wrangling                  |  
+| Unit 9    | Text Processing                                  |  
+
+
+# Policies
+
+## Honor Code
+
+Students are expected to maintain academic honesty and adhere to BYU's Dress and Grooming Standards.  
+Violations may result in disciplinary action.
+
+## AI
+
+I am in the camp of professors who think AI is amazing and we should be using it. This class is a great place for you to understand the limits of an AI tool, like ChatGPT in helping you code. For example, debugging with ChatGPT is much easier than before. To get the most out of this class, I would ask that you try to code first before turning to ChatGPT. 
+
+
+
+## Accessibility Services
+
+If you require accommodations, contact the University Accessibility Center (UAC) at 801-422-2767.  
+
+
+## Mental Health Support
+
+Confidential counseling is available through CAPS:  
+- Phone: 801-422-3035  
+- Website: [caps.byu.edu](https://caps.byu.edu)  
+
+
+# Questions?
+
+Feel free to email me or stop by during office hours!  

@@ -27,7 +27,11 @@ knitr::opts_chunk$set(
 options(scipen = 100, width = 70)
 ```
 
-## Announcements
+## Prelims
+
+- Download R
+- Download RStudio
+- Create a Project for Stat 250 you can put your material in
 
 ## Hypothesis Testing Overview
 
@@ -129,7 +133,7 @@ R can handle basic math. Below is a table with common operations:
 ## Variable Assignment in R
 
 
-We can assign variables in R using '<-' or '='. When a variable is assigned it's value is remembered later.
+We can assign variables in R using `<-` or `=`. When a variable is assigned it's value is remembered later.
 
 ```{r}
 #| echo: true
@@ -175,7 +179,7 @@ x@value <- 40  # Contains special character
 
 :::
 
-## Best Practices for Variable Assignment
+## Best Practices for Variable Assignment {.smaller}
 
 - Use meaningful names that describe the variable's purpose (e.g., `student_age` instead of `x`).
 - Avoid overly long names while maintaining clarity.
@@ -222,6 +226,7 @@ Generate a sequence of numbers with `seq()`:
 numbers <- seq(1, 10, 2)
 numbers
 ```
+One shortcut to make sequences in step sizes of 1 is `a:b`, which is equivalent to `seq(a,b,1)`
 
 #### `rep()` {.smaller}
 

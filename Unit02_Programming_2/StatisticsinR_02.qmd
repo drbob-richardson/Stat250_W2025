@@ -39,7 +39,7 @@ In many studies, we need to assign individuals to different treatment groups ran
 | 4   | Diana   | Treatment B |
 | 5   | Ethan   | Treatment A |
 
-## Motivation: Random Assignment
+## Motivation: Random Assignment {.smaller}
 
 After the assignments are made, we may want to only keep the ones from a particular treatment group:
 
@@ -56,7 +56,7 @@ Or maybe the top 3
 | 2   | Bob     | Treatment B |
 | 3   | Charlie | Treatment A |
 
-## Motivation: Random Assignment for Studies
+## Motivation: Random Assignment for Studies {.smaller}
 
 Our goal is to use R to randomly assign these groups and subset the results. To achieve this, we will explore several foundational topics:
 
@@ -76,6 +76,7 @@ Our goal is to use R to randomly assign these groups and subset the results. To 
 Numeric data represents numbers.
 
 ```{r}
+#| echo: true
 # Example of numeric data
 ages <- c(25, 30, 35)
 ages
@@ -244,7 +245,7 @@ This means you may see some duplicates. You can also sample values larger than t
 sample(names, size = 10, replace = TRUE)
 ```
 
-## Data Structures in R
+## Data Structures in R {.smaller}
 
 R has multiple data types we have seen, it also has multiple data structures. We can see the following data structures
 
@@ -395,7 +396,7 @@ vec1[3:5]
 vec1[c(3,11,20)]
 ```
 
-## Subsetting Vectors
+## Subsetting Vectors {.smaller}
 
 We can also put a sequence of logicals in the square brackets. The logical must be the same size as the vector. Sometimes these are called logical masks.
 
@@ -417,7 +418,7 @@ mask2 <- (1:20) %% 2 == 0
 vec1[mask2]
 ```
 
-## Subsetting Matrices
+## Subsetting Matrices {.smaller}
 
 Matrices are two-dimensional arrays that hold data of the same type. We can subset matrices using square brackets `[row, column]`.
 
@@ -499,7 +500,7 @@ df[mask, ]
 df[1:2, c("Name", "Score")]
 ```
 
-## Subsetting Lists 
+## Subsetting Lists {.smaller}
 
 Lists can be subset using single square brackets [ ] for elements or double square brackets [[ ]] for their contents.
 
@@ -519,7 +520,7 @@ lst[[1]]
 lst[["B"]]
 ```
 
-## Subsetting Lists (Slide 2)
+## Subsetting Lists
 
 We can also subset within elements of a list using the appropriate subsetting methods for each type.
 

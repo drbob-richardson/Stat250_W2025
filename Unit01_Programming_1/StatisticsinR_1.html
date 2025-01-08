@@ -405,8 +405,13 @@ Dr.&nbsp;Robert Richardson
 </div>
 
 </section>
-<section id="announcements" class="slide level2">
-<h2>Announcements</h2>
+<section id="prelims" class="slide level2">
+<h2>Prelims</h2>
+<ul>
+<li>Download R</li>
+<li>Download RStudio</li>
+<li>Create a Project for Stat 250 you can put your material in</li>
+</ul>
 </section>
 <section id="hypothesis-testing-overview" class="slide level2">
 <h2>Hypothesis Testing Overview</h2>
@@ -563,7 +568,7 @@ t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} = \frac{172 - 170}{6/\sqrt{25}} =
 </section>
 <section id="variable-assignment-in-r" class="slide level2">
 <h2>Variable Assignment in R</h2>
-<p>We can assign variables in R using ‘&lt;-’ or ‘=’. When a variable is assigned it’s value is remembered later.</p>
+<p>We can assign variables in R using <code>&lt;-</code> or <code>=</code>. When a variable is assigned it’s value is remembered later.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>x <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb1-2"><a href=""></a>y <span class="ot">=</span> <span class="dv">3</span></span>
@@ -609,7 +614,7 @@ t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} = \frac{172 - 170}{6/\sqrt{25}} =
 </div>
 </div>
 </section>
-<section id="best-practices-for-variable-assignment" class="slide level2">
+<section id="best-practices-for-variable-assignment" class="slide level2 smaller">
 <h2>Best Practices for Variable Assignment</h2>
 <ul>
 <li>Use meaningful names that describe the variable’s purpose (e.g., <code>student_age</code> instead of <code>x</code>).</li>
@@ -652,6 +657,7 @@ t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}} = \frac{172 - 170}{6/\sqrt{25}} =
 <pre><code>[1] 1 3 5 7 9</code></pre>
 </div>
 </div>
+<p>One shortcut to make sequences in step sizes of 1 is <code>a:b</code>, which is equivalent to <code>seq(a,b,1)</code></p>
 </div>
 <div id="tabset-4-3">
 <p>Repeat values using <code>rep()</code>:</p>
