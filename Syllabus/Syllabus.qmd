@@ -1,14 +1,7 @@
 ---
 title: "Stat 250 - Introduction to Statistical Programming"
 author: "Professor Robert Richardson"
-format: 
-  revealjs:
-    theme: slides.scss
-    multiplex: true
-    transition: fade
-    slide-number: true
-    chalkboard: true
-    center: false
+format: beamer
 ---
 
 # Course Information
@@ -106,7 +99,16 @@ Download both from  [https://posit.co/download/rstudio-desktop/](https://posit.c
 | Unit 7 | Tidy Data and Wrangling                              |  
 | Unit 8    | More Wrangling                  |  
 | Unit 9    | Text Processing                                  |  
+# Praying in Class
 
+I have an opt-in prayer schedule. Sign up for days here:
+[https://docs.google.com/spreadsheets/d/1w7S-xuLLaKEXfCRjYYCHJgcB2KtbtwevKuAwSWWIoYM/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1w7S-xuLLaKEXfCRjYYCHJgcB2KtbtwevKuAwSWWIoYM/edit?usp=sharing)
+
+# Discord
+
+Discord is a handy tool for asking quick simple questions. Both the TA and myself or other students can help out when you are stuck. This link should be good through Jan 15, after which you can message me to join the class discord.
+
+[https://discord.gg/x6GYFmaE](https://discord.gg/x6GYFmaE)
 
 # Policies
 
@@ -120,7 +122,7 @@ Violations may result in disciplinary action.
 I am in the camp of professors who think AI is amazing and we should be using it. This class is a great place for you to understand the limits of an AI tool, like ChatGPT in helping you code. For example, debugging with ChatGPT is much easier than before. To get the most out of this class, I would ask that you try to code first before turning to ChatGPT. 
 
 
-
+#
 ## Accessibility Services
 
 If you require accommodations, contact the University Accessibility Center (UAC) at 801-422-2767.  
