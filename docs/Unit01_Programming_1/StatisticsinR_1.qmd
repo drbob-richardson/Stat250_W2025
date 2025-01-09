@@ -12,6 +12,8 @@ format:
     center: false
 execute:
   freeze: auto
+project:
+  type: website
 ---
 
 ```{r}
