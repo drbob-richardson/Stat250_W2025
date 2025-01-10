@@ -4,7 +4,7 @@ subtitle: "BYU STAT 250"
 author: "Dr. Robert Richardson"
 format: 
   revealjs:
-    theme: slides.scss
+    theme: StatisticsinR_1_files/slides.scss
     multiplex: true
     transition: fade
     slide-number: true
@@ -313,7 +313,7 @@ Recall that a p-value is the probability of observing a value as extreme as, or 
 
 ## Visualizing the p-value 
 
-![p-value visualization](p-value.png)
+![p-value visualization](StatisticsinR_1_files/p-value.png)
 
 ## Using `pt()`
 
