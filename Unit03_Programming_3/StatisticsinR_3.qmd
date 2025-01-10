@@ -1,0 +1,341 @@
+---
+title: "Data Frame Operations in R"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+project:
+  type: website
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+```
+
+## Introduction {.smaller}
+
+Data frames are one of the most powerful and commonly used structures in R for organizing and analyzing data. In this unit, we will focus on fixing and modifying elements of a data frame with the following motivating questions:
+
+- How do we handle missing values (`NA`) in a data frame?
+- How can we assign values conditionally, such as assigning dosages based on treatment groups?
+- How do different methods for these operations compare in terms of efficiency?
+
+By the end of this unit, you will learn:
+
+- How to use loops and conditional statements for data manipulation.
+- How to use logical masks for efficient operations.
+- The importance of vectorization and how to time operations in R.
+
+## {.smaller}
+Suppose we have a data frame summarizing clinical trial results:
+
+```{r}
+# Sample data frame
+clinical_data <- data.frame(
+  ID = 1:10,
+  Treatment_Group = c("A", "B", "A", "B", "A", "B", "A", "B", "A", "B"),
+  CigarettesPerDay = c(NA, 10, NA, 5, NA, 25, NA, NA, 15, NA),
+  Dosage = c(0,0,0,0,0,0,0,0,0,0)
+)
+clinical_data
+```
+
+### Goals
+1. Replace all `NA` values in the `CigarettesPerDay`  column with `0`.
+2. Assign dosages based on the `Treatment_Group`:
+   - Group A: 10 mg
+   - Group B: 20 mg
+
+We will solve these problems using loops, conditional statements, and logical masks. We'll also compare the efficiency of these methods.
+
+## `for` Loops {.smaller}
+
+A `for` loop allows you to iterate over elements of a data frame and perform actions on each element.
+
+```{r}
+#| echo: true
+# Basic structure of a for loop
+for (i in 1:10) {
+  print(i)
+}
+```
+
+- Everything within the brackets `{` and `}` are part of the loop
+- i is the argument, it can be any valid variable name
+- 1:10 is the range we evaluate, it can be any valid vector
+
+## Fibonacci Sequence Example
+The Fibonacci sequence is a sequence of numbers where each number is the sum of the previous 2. This is easy for the first several values: 1, 1, 2, 3, 5, 8, 13, .... But what is the 57th value of the Fibonacci sequence?
+```{r}
+#| echo: true
+# Generate the first 10 Fibonacci numbers using a for loop
+fibonacci <- numeric(10) # Create an empty vector of size 57
+fibonacci[1] <- 1
+fibonacci[2] <- 1
+for (i in 3:57) {
+  fibonacci[i] <- fibonacci[i-1] + fibonacci[i-2]
+}
+fibonacci[57]
+```
+
+## `if` statements
+
+Recall that we can create a Boolean with a conditional statement. We can take actions based on a conditional statement. 
+
+```{r}
+#| echo: true
+x <- 7
+if(4 == 5){
+  x <- 4
+}
+x
+```
+
+If the statement inside the `if` statement is true then everything in the brackets `{` and `}` will be executed, otherwise it skips it. 
+
+## `if`-`else` statements
+
+We can provide an alternative set of code to execute if necessary using an `else` statement. 
+
+```{r}
+#| echo: true
+x <- 5 
+if (x > 0) {
+  print("x is positive")
+} else {
+  print("x is not positive")
+}
+```
+
+## Example
+
+## Conditionals with `|` and `&`
+
+## NA's and `is.na`
+
+## Replacing NAs
+
+::: panel-tabset
+### Before code
+```{r}
+
+clinical_data
+```
+
+
+### Code
+```{r}
+#| echo: true
+# Replace NAs with 0 using a for loop
+for (i in 1:nrow(clinical_data)) {
+  if (is.na(clinical_data$CigarettesPerDay[i])) {
+    clinical_data$CigarettesPerDay[i] <- 0
+  }
+}
+```
+
+### After code
+```{r}
+
+clinical_data
+```
+:::
+
+## Assigning Dosage
+
+::: panel-tabset
+
+### Before code
+```{r}
+
+clinical_data
+```
+
+### Code
+```{r}
+#| echo: true
+for (i in 1:nrow(clinical_data)) {
+  if (clinical_data$Treatment_Group[i] == "A") {
+    clinical_data$Dosage[i] <- 10
+  } else if (clinical_data$Treatment_Group[i] == "B") {
+    clinical_data$Dosage[i] <- 20
+  }
+}
+
+```
+
+### After code
+```{r}
+
+clinical_data
+```
+
+:::
+
+
+
+#### Logical Operators: AND and OR
+```{r}
+# Test logical conditions
+x <- 5
+y <- 10
+if (x > 0 & y > 0) {
+  print("Both x and y are positive")
+}
+if (x > 0 | y < 0) {
+  print("At least one condition is true")
+}
+```
+
+#### Practice Question
+What will the following code print?
+```{r}
+x <- -1
+y <- 10
+if (x > 0 & y > 0) {
+  print("Both x and y are positive")
+} else if (x > 0 | y > 0) {
+  print("At least one condition is true")
+} else {
+  print("Neither condition is true")
+}
+```
+
+#### Nested If Statements in Loops
+```{r}
+# Nested if statements inside a loop
+for (i in 1:nrow(clinical_data)) {
+  if (clinical_data$Treatment_Group[i] == "A") {
+    if (is.na(clinical_data$Dosage[i])) {
+      clinical_data$Dosage[i] <- 10
+    }
+  }
+}
+clinical_data
+```
+
+### While Loops
+A `while` loop continues to execute as long as a condition is true.
+
+#### Basics of While Loops
+```{r}
+# Example of a while loop
+x <- 1
+while (x <= 5) {
+  print(x)
+  x <- x + 1
+}
+```
+
+#### Example: Replace NAs Using a While Loop
+```{r}
+i <- 1
+while (i <= nrow(clinical_data)) {
+  if (is.na(clinical_data$Dosage[i])) {
+    clinical_data$Dosage[i] <- 0
+  }
+  i <- i + 1
+}
+clinical_data
+```
+
+### Nested Loops
+You can place one loop inside another for more complex operations.
+
+#### Example: Multiplication Table
+```{r}
+# Nested loop example: multiplication table
+for (i in 1:5) {
+  for (j in 1:5) {
+    print(paste(i, "x", j, "=", i * j))
+  }
+}
+```
+
+## Logical Subsetting
+Logical subsetting is a more efficient way to manipulate data frames.
+
+#### Replace NAs with `0` Using Logical Masks
+```{r}
+# Replace NAs with 0 using logical subsetting
+clinical_data$Dosage[is.na(clinical_data$Dosage)] <- 0
+clinical_data
+```
+
+#### Assign Dosage Based on Treatment Group Using Logical Masks
+```{r}
+# Assign dosage using logical subsetting
+clinical_data$Dosage[clinical_data$Treatment_Group == "A"] <- 10
+clinical_data$Dosage[clinical_data$Treatment_Group == "B"] <- 20
+clinical_data
+```
+
+## Efficiency: Loops vs. Vectorization
+
+### Timing Operations
+Use the `system.time()` function to compare the performance of loops and vectorized operations.
+
+```{r}
+# Timing a for loop
+system.time({
+  for (i in 1:nrow(clinical_data)) {
+    if (is.na(clinical_data$Dosage[i])) {
+      clinical_data$Dosage[i] <- 0
+    }
+  }
+})
+
+# Timing vectorized operations
+system.time({
+  clinical_data$Dosage[is.na(clinical_data$Dosage)] <- 0
+})
+```
+
+### Results
+Vectorized operations are significantly faster because they leverage R's optimized internal functions.
+
+## Handling Missing Values
+
+### Methods
+There are several methods for handling missing values in R:
+
+- **`na.omit()`**: Removes rows with missing values.
+- **`na.rm = TRUE`**: Ignores missing values in functions like `mean()` or `sum()`.
+- **Imputation**: Replace missing values with the mean, median, or a predicted value.
+- **Package Solutions**: Use packages like `mice` or `missForest` for advanced imputation methods.
+
+### Example of `na.omit()`
+```{r}
+# Remove rows with missing values
+cleaned_data <- na.omit(clinical_data)
+cleaned_data
+```
+
+## Summary
+
+In this unit, we covered:
+
+- Replacing missing values and assigning conditional values using loops and logical masks.
+- Writing and nesting loops for more complex tasks.
+- Comparing the efficiency of loops vs. vectorized operations.
+- Timing operations using `system.time()`.
+- Handling missing values with built-in functions and advanced methods.
+
+Armed with these tools, you can confidently handle and manipulate data frames in R for a variety of use cases.

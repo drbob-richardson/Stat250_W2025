@@ -1,0 +1,100 @@
+---
+title: "Unit 1 Drills"
+author: "YOUR_NAME_HERE"
+output: visual
+format: pdf
+---
+
+## Problem 1
+
+Write R code to calculate the following expression:
+
+$$ \frac{10^3}{5} + \sqrt{49} - 8 \times 2 $$
+
+```{r}
+#| echo: true
+
+# Write your code below to compute the result
+
+```
+
+## Problem 2
+
+Below is a table of potential variable names. Fill in the table to indicate whether each name is valid or invalid in R, and provide the reason for your answer.
+
+| Variable Name      | Valid/Invalid | Reason |
+|--------------------|---------------|--------|
+| `variable1`        |               |        |
+| `2variable`        |               |        |
+| `my.variable`      |               |        |
+| `my_variable`      |               |        |
+| `if`               |               |        |
+| `user-name`        |               |        |
+| `.hidden_variable` |               |        |
+
+Write your answers in the table above.
+
+## Problem 3
+
+Create a vector in R that contains the following sequence of numbers: 5, 10, 15, 20, 25. Use the `seq()` function.
+
+```{r}
+#| echo: true
+
+# Create the vector using seq()
+
+```
+
+Now create another vector that repeats the number 3 exactly 7 times using the `rep()` function.
+
+```{r}
+#| echo: true
+
+# Create the vector using rep()
+
+```
+
+## Problem 4
+
+Given two vectors:
+
+```{r}
+#| echo: true
+
+# Provided vectors
+vec1 <- c(2, 4, 6, 8)
+vec2 <- c(1, 3, 5, 7)
+```
+
+Perform the following operations in R:
+
+-   Add the two vectors.
+-   Subtract vec2 from vec1.
+-   Multiply the elements of the two vectors together.
+
+```{r}
+#| echo: true
+# Write your code below to compute the results
+
+```
+
+## Problem 5
+
+Given the vector:
+
+```{r}
+#| echo: true
+
+heights <- c(168, 172, 171, 169, 170)
+```
+
+Using built-in R functions
+
+-   Compute the mean height.
+-   Compute the standard deviation of the heights.
+
+```{r}
+#| echo: true
+
+
+```

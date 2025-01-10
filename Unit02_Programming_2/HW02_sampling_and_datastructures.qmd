@@ -1,7 +1,8 @@
 ---
 title: "Assignment: Random Sampling and Data Structures"
 author: "YOUR_NAME_HERE"
-output: html_document
+output: visual
+format: pdf
 ---
 
 ## Problem 1
@@ -20,7 +21,7 @@ Name = c("Alice","Bob","Hector","Steve","Tony","Steph","Mary", "Charlie", "Diana
 
 Using the data frame you created, let's subset it in various way.
 
-Write code to get only individuals from treatment group B.
+Write code to get only individuals from treatment group B. (Done together in class)
 
 ```{r}
 #| echo: true
@@ -44,7 +45,7 @@ Create a list that includes the following elements:
 -   The list of names of individuals in treatment group A
 -   The list of names of individuals in treatment group B
 
-Create these lists using subsetting and logicals as opposed to hard coding the names.
+Create these lists using subsetting and logicals as opposed to hard coding the names. (Done together in class)
 
 ```{r}
 #| echo: true

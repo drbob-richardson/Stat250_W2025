@@ -1,7 +1,15 @@
 ---
 title: "Stat 250 - Introduction to Statistical Programming"
 author: "Professor Robert Richardson"
-format: beamer
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+editor: visual
 ---
 
 # Course Information
@@ -17,15 +25,15 @@ format: beamer
   - **Email**: [richardson@stat.byu.edu](mailto:richardson@stat.byu.edu)  
   - **Office**: 2186 WVB  
   - **Zoom Room**: 8014223736  
-  - **Office Hours**: Monday and Thursday, 10:15 to 11:00  
+  - **Office Hours**: Wednesday and Thursday, 10:15 to 11:00  
 
 
 # TA Information
 
 - **TA**: Riley Rawhouser 
-  - **Email**: [everestm@student.byu.edu](mailto:rawhouse@student.byu.edu)  
+  - **Email**: [rawhouse@student.byu.edu](mailto:rawhouse@student.byu.edu)  
   - **Office**: 1151 WVB  
-  - **Office Hours**: TBD  
+  - **Office Hours**: Tue, Thu 12:00pm - 1:00pm 
 
 # Course Description
 
