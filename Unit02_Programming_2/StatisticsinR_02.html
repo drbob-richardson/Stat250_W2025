@@ -674,7 +674,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb31-3"><a href=""></a><span class="co"># Randomly select 3 names without replacement</span></span>
 <span id="cb31-4"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Mary"  "Tony"  "Alice"</code></pre>
+<pre><code>[1] "Steve"  "Hector" "Bob"   </code></pre>
 </div>
 </div>
 <p>Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders the vector</p>
@@ -682,7 +682,7 @@ Dr.&nbsp;Robert Richardson
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># Randomly reorder the names</span></span>
 <span id="cb33-2"><a href=""></a><span class="fu">sample</span>(names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Alice"  "Hector" "Mary"   "Tony"   "Bob"    "Steve"  "Steph" </code></pre>
+<pre><code>[1] "Hector" "Tony"   "Mary"   "Steve"  "Bob"    "Steph"  "Alice" </code></pre>
 </div>
 </div>
 </section>
@@ -693,7 +693,7 @@ Dr.&nbsp;Robert Richardson
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co"># Randomly select 5 names with replacement</span></span>
 <span id="cb35-2"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Tony"  "Tony"  "Steph" "Alice" "Steph"</code></pre>
+<pre><code>[1] "Hector" "Steve"  "Steve"  "Alice"  "Steph" </code></pre>
 </div>
 </div>
 <p>This means you may see some duplicates. You can also sample values larger than the size of the vector</p>
@@ -701,8 +701,8 @@ Dr.&nbsp;Robert Richardson
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co"># Randomly select 5 names with replacement</span></span>
 <span id="cb37-2"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "Mary"   "Tony"   "Hector" "Bob"    "Bob"    "Steve"  "Tony"  
- [8] "Tony"   "Alice"  "Hector"</code></pre>
+<pre><code> [1] "Bob"    "Alice"  "Tony"   "Bob"    "Tony"   "Alice"  "Tony"  
+ [8] "Bob"    "Hector" "Alice" </code></pre>
 </div>
 </div>
 </section>
@@ -835,6 +835,14 @@ $enrolled
 <h2>Data Frames</h2>
 <p>Data frames are two-dimensional tables where columns can hold different types of data. We can create one using data.frame</p>
 <div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="co"># Create a data frame</span></span>
+<span id="cb56-2"><a href=""></a>df_example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb56-3"><a href=""></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb56-4"><a href=""></a>  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>),</span>
+<span id="cb56-5"><a href=""></a>  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>),</span>
+<span id="cb56-6"><a href=""></a>  <span class="at">Smoking =</span> <span class="fu">c</span>(<span class="st">"FALSE"</span>,<span class="st">"FALSE"</span>,<span class="st">"TRUE"</span>)</span>
+<span id="cb56-7"><a href=""></a>)</span>
+<span id="cb56-8"><a href=""></a>df_example</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID    Name Age Smoking
 1  1   Alice  25   FALSE
@@ -848,8 +856,8 @@ $enrolled
 <h2>Assigning Treatment Groups</h2>
 <p>Finally, let us assign treatment groups A or B randomly to individuals.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="co"># Individuals in the study</span></span>
-<span id="cb57-2"><a href=""></a>Name <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Bob"</span>,<span class="st">"Hector"</span>,<span class="st">"Steve"</span>,<span class="st">"Tony"</span>,<span class="st">"Steph"</span>,<span class="st">"Mary"</span>, <span class="st">"Charlie"</span>, <span class="st">"Diana"</span>, <span class="st">"Ethan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="co"># Individuals in the study</span></span>
+<span id="cb58-2"><a href=""></a>Name <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Bob"</span>,<span class="st">"Hector"</span>,<span class="st">"Steve"</span>,<span class="st">"Tony"</span>,<span class="st">"Steph"</span>,<span class="st">"Mary"</span>, <span class="st">"Charlie"</span>, <span class="st">"Diana"</span>, <span class="st">"Ethan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="accessing-subsets-of-data-structures" class="slide level2">
@@ -860,22 +868,22 @@ $enrolled
 <h2>Subsetting Vectors</h2>
 <p>We can use square brackets to grab specific elements of a vector <code>[ ]</code>. Inside can a number or a vector of numbers to subset.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>vec1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">20</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb58-2"><a href=""></a></span>
-<span id="cb58-3"><a href=""></a><span class="co"># Get the third element</span></span>
-<span id="cb58-4"><a href=""></a>vec1[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>vec1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">20</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-2"><a href=""></a></span>
+<span id="cb59-3"><a href=""></a><span class="co"># Get the third element</span></span>
+<span id="cb59-4"><a href=""></a>vec1[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>[1] 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="co"># Get the third through fifth element</span></span>
-<span id="cb60-2"><a href=""></a>vec1[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="co"># Get the third through fifth element</span></span>
+<span id="cb61-2"><a href=""></a>vec1[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 1 2</code></pre>
+<pre><code>[1] 3 3 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="co"># Get the third, eleventh, and twentieth element</span></span>
-<span id="cb62-2"><a href=""></a>vec1[<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">20</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="co"># Get the third, eleventh, and twentieth element</span></span>
+<span id="cb63-2"><a href=""></a>vec1[<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">20</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 2 2</code></pre>
+<pre><code>[1] 3 3 3</code></pre>
 </div>
 </div>
 </section>
@@ -883,27 +891,27 @@ $enrolled
 <h2>Subsetting Vectors</h2>
 <p>We can also put a sequence of logicals in the square brackets. The logical must be the same size as the vector. Sometimes these are called logical masks.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>vec1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">20</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-2"><a href=""></a></span>
-<span id="cb64-3"><a href=""></a><span class="co"># Create a logical mask</span></span>
-<span id="cb64-4"><a href=""></a>mask <span class="ot">&lt;-</span> vec1 <span class="sc">==</span> <span class="dv">3</span></span>
-<span id="cb64-5"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>vec1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">20</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb65-2"><a href=""></a></span>
+<span id="cb65-3"><a href=""></a><span class="co"># Create a logical mask</span></span>
+<span id="cb65-4"><a href=""></a>mask <span class="ot">&lt;-</span> vec1 <span class="sc">==</span> <span class="dv">3</span></span>
+<span id="cb65-5"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE
-[12] FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<pre><code> [1] FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+[12] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="co"># Get all elements that are equal to 3</span></span>
-<span id="cb66-2"><a href=""></a>vec1[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="co"># Get all elements that are equal to 3</span></span>
+<span id="cb67-2"><a href=""></a>vec1[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 3 3 3 3 3 3</code></pre>
+<pre><code>[1] 3 3 3 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="co"># Switch off between TRUE and FALSE</span></span>
-<span id="cb68-2"><a href=""></a>mask2 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span></span>
-<span id="cb68-3"><a href=""></a></span>
-<span id="cb68-4"><a href=""></a><span class="co"># Get every other element</span></span>
-<span id="cb68-5"><a href=""></a>vec1[mask2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="co"># Switch off between TRUE and FALSE</span></span>
+<span id="cb69-2"><a href=""></a>mask2 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb69-3"><a href=""></a></span>
+<span id="cb69-4"><a href=""></a><span class="co"># Get every other element</span></span>
+<span id="cb69-5"><a href=""></a>vec1[mask2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 3 1 2 2 1 3 1 3 2</code></pre>
+<pre><code> [1] 3 1 3 1 2 2 2 3 3 2</code></pre>
 </div>
 </div>
 </section>
@@ -911,27 +919,27 @@ $enrolled
 <h2>Subsetting Matrices</h2>
 <p>Matrices are two-dimensional arrays that hold data of the same type. We can subset matrices using square brackets <code>[row, column]</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a><span class="co"># Create a 3x3 matrix</span></span>
-<span id="cb70-2"><a href=""></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb70-3"><a href=""></a>mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="co"># Create a 3x3 matrix</span></span>
+<span id="cb71-2"><a href=""></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb71-3"><a href=""></a>mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    2    3
 [2,]    4    5    6
 [3,]    7    8    9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="co"># Get the element in the second row, third column</span></span>
-<span id="cb72-2"><a href=""></a>mat[<span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="co"># Get the element in the second row, third column</span></span>
+<span id="cb73-2"><a href=""></a>mat[<span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a><span class="co"># Get the entire second row</span></span>
-<span id="cb74-2"><a href=""></a>mat[<span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="co"># Get the entire second row</span></span>
+<span id="cb75-2"><a href=""></a>mat[<span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4 5 6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="co"># Get the entire third column</span></span>
-<span id="cb76-2"><a href=""></a>mat[, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="co"># Get the entire third column</span></span>
+<span id="cb77-2"><a href=""></a>mat[, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 6 9</code></pre>
 </div>
@@ -941,22 +949,22 @@ $enrolled
 <h2>Subsetting Matrices</h2>
 <p>We can also use logical masks or ranges for more advanced subsetting.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="co"># Create a logical mask for rows where the first column is greater than 2</span></span>
-<span id="cb78-2"><a href=""></a>mask <span class="ot">&lt;-</span> mat[, <span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">2</span></span>
-<span id="cb78-3"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="co"># Create a logical mask for rows where the first column is greater than 2</span></span>
+<span id="cb79-2"><a href=""></a>mask <span class="ot">&lt;-</span> mat[, <span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">2</span></span>
+<span id="cb79-3"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE  TRUE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a><span class="co"># Get all rows where the mask is TRUE</span></span>
-<span id="cb80-2"><a href=""></a>mat[mask, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="co"># Get all rows where the mask is TRUE</span></span>
+<span id="cb81-2"><a href=""></a>mat[mask, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    4    5    6
 [2,]    7    8    9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a><span class="co"># Use ranges to subset multiple rows or columns</span></span>
-<span id="cb82-2"><a href=""></a><span class="co"># Get rows 2 and 3, columns 1 and 2</span></span>
-<span id="cb82-3"><a href=""></a>mat[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="co"># Use ranges to subset multiple rows or columns</span></span>
+<span id="cb83-2"><a href=""></a><span class="co"># Get rows 2 and 3, columns 1 and 2</span></span>
+<span id="cb83-3"><a href=""></a>mat[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    4    5
@@ -968,31 +976,31 @@ $enrolled
 <h2>Subsetting Data Frames</h2>
 <p>Subsetting data frames works similarly to matrices. Use <code>[row, column]</code> to select specific elements.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a><span class="co"># Create a data frame</span></span>
-<span id="cb84-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb84-3"><a href=""></a>  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>),</span>
-<span id="cb84-4"><a href=""></a>  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>),</span>
-<span id="cb84-5"><a href=""></a>  <span class="at">Score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">85</span>, <span class="dv">95</span>)</span>
-<span id="cb84-6"><a href=""></a>)</span>
-<span id="cb84-7"><a href=""></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="co"># Create a data frame</span></span>
+<span id="cb85-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb85-3"><a href=""></a>  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>),</span>
+<span id="cb85-4"><a href=""></a>  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>),</span>
+<span id="cb85-5"><a href=""></a>  <span class="at">Score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">85</span>, <span class="dv">95</span>)</span>
+<span id="cb85-6"><a href=""></a>)</span>
+<span id="cb85-7"><a href=""></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Name Age Score
 1   Alice  25    90
 2     Bob  30    85
 3 Charlie  35    95</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a><span class="co"># Get the second row, third column</span></span>
-<span id="cb86-2"><a href=""></a>df[<span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a><span class="co"># Get the second row, third column</span></span>
+<span id="cb87-2"><a href=""></a>df[<span class="dv">2</span>, <span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 85</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a><span class="co"># Get the entire "Age" column</span></span>
-<span id="cb88-2"><a href=""></a>df[, <span class="st">"Age"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a><span class="co"># Get the entire "Age" column</span></span>
+<span id="cb89-2"><a href=""></a>df[, <span class="st">"Age"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25 30 35</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a><span class="co"># Get the first two rows</span></span>
-<span id="cb90-2"><a href=""></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a><span class="co"># Get the first two rows</span></span>
+<span id="cb91-2"><a href=""></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Name Age Score
 1 Alice  25    90
@@ -1004,26 +1012,26 @@ $enrolled
 <h2>Subsetting Data Frames</h2>
 <p>We can also use the <code>$</code> operator or logical masks for more advanced subsetting. <code>df$var</code> will retrieve the variable named <code>var</code> from the data set.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a><span class="co"># Get the "Score" column using $</span></span>
-<span id="cb92-2"><a href=""></a>df<span class="sc">$</span>Score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a><span class="co"># Get the "Score" column using $</span></span>
+<span id="cb93-2"><a href=""></a>df<span class="sc">$</span>Score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 90 85 95</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a><span class="co"># Create a logical mask for rows where Age &gt; 25</span></span>
-<span id="cb94-2"><a href=""></a>mask <span class="ot">&lt;-</span> df<span class="sc">$</span>Age <span class="sc">&gt;</span> <span class="dv">25</span></span>
-<span id="cb94-3"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a><span class="co"># Create a logical mask for rows where Age &gt; 25</span></span>
+<span id="cb95-2"><a href=""></a>mask <span class="ot">&lt;-</span> df<span class="sc">$</span>Age <span class="sc">&gt;</span> <span class="dv">25</span></span>
+<span id="cb95-3"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE  TRUE  TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a><span class="co"># Get all rows where the mask is TRUE</span></span>
-<span id="cb96-2"><a href=""></a>df[mask, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href=""></a><span class="co"># Get all rows where the mask is TRUE</span></span>
+<span id="cb97-2"><a href=""></a>df[mask, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Name Age Score
 2     Bob  30    85
 3 Charlie  35    95</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a><span class="co"># Get specific rows and columns</span></span>
-<span id="cb98-2"><a href=""></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">c</span>(<span class="st">"Name"</span>, <span class="st">"Score"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href=""></a><span class="co"># Get specific rows and columns</span></span>
+<span id="cb99-2"><a href=""></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="fu">c</span>(<span class="st">"Name"</span>, <span class="st">"Score"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Name Score
 1 Alice    90
@@ -1035,9 +1043,9 @@ $enrolled
 <h2>Subsetting Lists</h2>
 <p>Lists can be subset using single square brackets [ ] for elements or double square brackets [[ ]] for their contents.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a><span class="co"># Create a list</span></span>
-<span id="cb100-2"><a href=""></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">B =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">2</span>), <span class="at">C =</span> <span class="st">"Hello"</span>)</span>
-<span id="cb100-3"><a href=""></a>lst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a><span class="co"># Create a list</span></span>
+<span id="cb101-2"><a href=""></a>lst <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">B =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">2</span>), <span class="at">C =</span> <span class="st">"Hello"</span>)</span>
+<span id="cb101-3"><a href=""></a>lst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$A
 [1] 1 2 3 4 5
@@ -1050,19 +1058,19 @@ $B
 $C
 [1] "Hello"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href=""></a><span class="co"># Get the first element (as a list)</span></span>
-<span id="cb102-2"><a href=""></a>lst[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a><span class="co"># Get the first element (as a list)</span></span>
+<span id="cb103-2"><a href=""></a>lst[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$A
 [1] 1 2 3 4 5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href=""></a><span class="co"># Get the first element's content</span></span>
-<span id="cb104-2"><a href=""></a>lst[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a><span class="co"># Get the first element's content</span></span>
+<span id="cb105-2"><a href=""></a>lst[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href=""></a><span class="co"># Get the element named "B"</span></span>
-<span id="cb106-2"><a href=""></a>lst[[<span class="st">"B"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href=""></a><span class="co"># Get the element named "B"</span></span>
+<span id="cb107-2"><a href=""></a>lst[[<span class="st">"B"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    3
@@ -1074,18 +1082,18 @@ $C
 <h2>Subsetting Lists</h2>
 <p>We can also subset within elements of a list using the appropriate subsetting methods for each type.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href=""></a><span class="co"># Subset the vector in element A</span></span>
-<span id="cb108-2"><a href=""></a>lst[[<span class="dv">1</span>]][<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href=""></a><span class="co"># Subset the vector in element A</span></span>
+<span id="cb109-2"><a href=""></a>lst[[<span class="dv">1</span>]][<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 3 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href=""></a><span class="co"># Subset the matrix in element B</span></span>
-<span id="cb110-2"><a href=""></a>lst[[<span class="dv">2</span>]][<span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a><span class="co"># Subset the matrix in element B</span></span>
+<span id="cb111-2"><a href=""></a>lst[[<span class="dv">2</span>]][<span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href=""></a><span class="co"># Combine multiple subsetting methods</span></span>
-<span id="cb112-2"><a href=""></a>lst[[<span class="st">"A"</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a><span class="co"># Combine multiple subsetting methods</span></span>
+<span id="cb113-2"><a href=""></a>lst[[<span class="st">"A"</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3</code></pre>
 </div>

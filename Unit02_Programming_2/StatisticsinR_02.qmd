@@ -350,6 +350,7 @@ bigger_list
 Data frames are two-dimensional tables where columns can hold different types of data. We can create one using data.frame
 
 ```{r}
+#| echo: true
 # Create a data frame
 df_example <- data.frame(
   ID = 1:3,
