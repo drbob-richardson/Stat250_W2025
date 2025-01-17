@@ -164,7 +164,6 @@ clinical_data
 
 ### Before code
 ```{r}
-
 clinical_data
 ```
 
@@ -191,8 +190,9 @@ clinical_data
 
 
 
-#### Logical Operators: AND and OR
+## Logical Operators: AND and OR
 ```{r}
+#| echo: true
 # Test logical conditions
 x <- 5
 y <- 10
@@ -204,9 +204,10 @@ if (x > 0 | y < 0) {
 }
 ```
 
-#### Practice Question
+## Practice Question
 What will the following code print?
 ```{r}
+#| echo: true
 x <- -1
 y <- 10
 if (x > 0 & y > 0) {
@@ -218,8 +219,9 @@ if (x > 0 & y > 0) {
 }
 ```
 
-#### Nested If Statements in Loops
+## Nested If Statements in Loops
 ```{r}
+#| echo: true
 # Nested if statements inside a loop
 for (i in 1:nrow(clinical_data)) {
   if (clinical_data$Treatment_Group[i] == "A") {
@@ -231,11 +233,11 @@ for (i in 1:nrow(clinical_data)) {
 clinical_data
 ```
 
-### While Loops
+## While Loops
 A `while` loop continues to execute as long as a condition is true.
 
-#### Basics of While Loops
 ```{r}
+#| echo: true
 # Example of a while loop
 x <- 1
 while (x <= 5) {
@@ -244,8 +246,9 @@ while (x <= 5) {
 }
 ```
 
-#### Example: Replace NAs Using a While Loop
+## Example: Replace NAs Using a While Loop
 ```{r}
+#| echo: true
 i <- 1
 while (i <= nrow(clinical_data)) {
   if (is.na(clinical_data$Dosage[i])) {
@@ -256,11 +259,11 @@ while (i <= nrow(clinical_data)) {
 clinical_data
 ```
 
-### Nested Loops
+## Nested Loops
 You can place one loop inside another for more complex operations.
 
-#### Example: Multiplication Table
 ```{r}
+#| echo: true
 # Nested loop example: multiplication table
 for (i in 1:5) {
   for (j in 1:5) {
@@ -272,8 +275,10 @@ for (i in 1:5) {
 ## Logical Subsetting
 Logical subsetting is a more efficient way to manipulate data frames.
 
+::: panel-tabset
 #### Replace NAs with `0` Using Logical Masks
 ```{r}
+#| echo: true
 # Replace NAs with 0 using logical subsetting
 clinical_data$Dosage[is.na(clinical_data$Dosage)] <- 0
 clinical_data
@@ -281,18 +286,20 @@ clinical_data
 
 #### Assign Dosage Based on Treatment Group Using Logical Masks
 ```{r}
+#| echo: true
 # Assign dosage using logical subsetting
 clinical_data$Dosage[clinical_data$Treatment_Group == "A"] <- 10
 clinical_data$Dosage[clinical_data$Treatment_Group == "B"] <- 20
 clinical_data
 ```
+:::
 
 ## Efficiency: Loops vs. Vectorization
 
-### Timing Operations
 Use the `system.time()` function to compare the performance of loops and vectorized operations.
 
 ```{r}
+#| echo: true
 # Timing a for loop
 system.time({
   for (i in 1:nrow(clinical_data)) {
@@ -308,12 +315,10 @@ system.time({
 })
 ```
 
-### Results
 Vectorized operations are significantly faster because they leverage R's optimized internal functions.
 
 ## Handling Missing Values
 
-### Methods
 There are several methods for handling missing values in R:
 
 - **`na.omit()`**: Removes rows with missing values.
@@ -321,8 +326,9 @@ There are several methods for handling missing values in R:
 - **Imputation**: Replace missing values with the mean, median, or a predicted value.
 - **Package Solutions**: Use packages like `mice` or `missForest` for advanced imputation methods.
 
-### Example of `na.omit()`
+## Example of `na.omit()`
 ```{r}
+#| echo: true
 # Remove rows with missing values
 cleaned_data <- na.omit(clinical_data)
 cleaned_data
@@ -336,6 +342,5 @@ In this unit, we covered:
 - Writing and nesting loops for more complex tasks.
 - Comparing the efficiency of loops vs. vectorized operations.
 - Timing operations using `system.time()`.
-- Handling missing values with built-in functions and advanced methods.
 
-Armed with these tools, you can confidently handle and manipulate data frames in R for a variety of use cases.
+

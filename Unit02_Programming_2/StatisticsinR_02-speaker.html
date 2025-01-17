@@ -674,26 +674,26 @@ Dr.&nbsp;Robert Richardson
 <span id="cb31-3"><a href=""></a><span class="co"># Randomly select 3 names without replacement</span></span>
 <span id="cb31-4"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Steve" "Mary"  "Tony" </code></pre>
+<pre><code>[1] "Mary"  "Tony"  "Alice"</code></pre>
 </div>
 </div>
-<p>Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders he vector</p>
+<p>Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders the vector</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># Randomly reorder the names</span></span>
 <span id="cb33-2"><a href=""></a><span class="fu">sample</span>(names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Mary"   "Tony"   "Alice"  "Bob"    "Hector" "Steph"  "Steve" </code></pre>
+<pre><code>[1] "Alice"  "Hector" "Mary"   "Tony"   "Bob"    "Steve"  "Steph" </code></pre>
 </div>
 </div>
 </section>
 <section id="sampling-with-replacement" class="slide level2">
 <h2>Sampling With Replacement</h2>
-<p>Sampling with replacement is like putting each picked value back in the het to be picked again.</p>
+<p>Sampling with replacement is like putting each picked value back in the hat to be picked again.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co"># Randomly select 5 names with replacement</span></span>
 <span id="cb35-2"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Steph" "Steph" "Bob"   "Steve" "Steph"</code></pre>
+<pre><code>[1] "Tony"  "Tony"  "Steph" "Alice" "Steph"</code></pre>
 </div>
 </div>
 <p>This means you may see some duplicates. You can also sample values larger than the size of the vector</p>
@@ -701,8 +701,8 @@ Dr.&nbsp;Robert Richardson
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co"># Randomly select 5 names with replacement</span></span>
 <span id="cb37-2"><a href=""></a><span class="fu">sample</span>(names, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "Steve"  "Hector" "Tony"   "Bob"    "Alice"  "Alice"  "Tony"  
- [8] "Tony"   "Alice"  "Bob"   </code></pre>
+<pre><code> [1] "Mary"   "Tony"   "Hector" "Bob"    "Bob"    "Steve"  "Tony"  
+ [8] "Tony"   "Alice"  "Hector"</code></pre>
 </div>
 </div>
 </section>
@@ -865,17 +865,17 @@ $enrolled
 <span id="cb58-3"><a href=""></a><span class="co"># Get the third element</span></span>
 <span id="cb58-4"><a href=""></a>vec1[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>[1] 2</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="co"># Get the third through fifth element</span></span>
 <span id="cb60-2"><a href=""></a>vec1[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 3 1</code></pre>
+<pre><code>[1] 2 1 2</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="co"># Get the third, eleventh, and twentieth element</span></span>
 <span id="cb62-2"><a href=""></a>vec1[<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">20</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 3 2</code></pre>
+<pre><code>[1] 2 2 2</code></pre>
 </div>
 </div>
 </section>
@@ -889,13 +889,13 @@ $enrolled
 <span id="cb64-4"><a href=""></a>mask <span class="ot">&lt;-</span> vec1 <span class="sc">==</span> <span class="dv">3</span></span>
 <span id="cb64-5"><a href=""></a>mask</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
-[12] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
+<pre><code> [1] FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE
+[12] FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="co"># Get all elements that are equal to 3</span></span>
 <span id="cb66-2"><a href=""></a>vec1[mask]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 3 3 3 3 3 3 3 3</code></pre>
+<pre><code>[1] 3 3 3 3 3 3 3</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="co"># Switch off between TRUE and FALSE</span></span>
 <span id="cb68-2"><a href=""></a>mask2 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span></span>
@@ -903,7 +903,7 @@ $enrolled
 <span id="cb68-4"><a href=""></a><span class="co"># Get every other element</span></span>
 <span id="cb68-5"><a href=""></a>vec1[mask2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 1 2 3 3 1 3 3 2 2</code></pre>
+<pre><code> [1] 3 3 1 2 2 1 3 1 3 2</code></pre>
 </div>
 </div>
 </section>

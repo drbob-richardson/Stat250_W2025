@@ -55,7 +55,7 @@ Create these lists using subsetting and logicals as opposed to hard coding the n
 
 ## Problem 4
 
-We have a new clinical trial approaching. We have 300 individuals. Instead of names, we will only use ID numbers, which will range from 501 to 800. We know that the first 100 of these are male and the rest are female. We must randomly assign a treatment out 4 possible values: {A, B, C, D}. Create a data frame that includes an individuals ID number, whether they are male or female, and the treatment randomly assigned.
+We have a new clinical trial approaching. We have 300 individuals. Instead of names, we will only use ID numbers, which will range from 501 to 800. We know that the first 100 of these are male and the rest are female. We must randomly assign a treatment out 4 possible values: {A, B, C, D}. Create a data frame that includes an individuals ID number, whether they are male or female, and the treatment randomly assigned. **Print the first 10 rows of the resulting data frame.**
 
 ```{r}
 #| echo: true
@@ -65,7 +65,7 @@ We have a new clinical trial approaching. We have 300 individuals. Instead of na
 
 ## Problem 5
 
-You receive some new instruction to have exactly 75 in each group. So instead of randomly assigning the group to each individual, randomly shuffle the ID numbers, and ensure there are 75 in each of the 4 treatment groups.
+You receive some new instruction to have exactly 75 in each group. So instead of randomly assigning the group to each individual, randomly shuffle the ID numbers, and ensure there are 75 in each of the 4 treatment groups. **Print the first 10 rows of the resulting data frame.**
 
 ```{r}
 #| echo: true

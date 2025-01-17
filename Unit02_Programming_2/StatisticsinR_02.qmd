@@ -216,7 +216,7 @@ names <- c("Alice","Bob","Hector","Steve","Tony","Steph","Mary")
 sample(names, size = 3, replace = FALSE)
 ```
 
-Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders he vector
+Note that the default values will draw with size equal to the size of the vector and without replacement. This essentially randomly reorders the vector
 
 ```{r}
 #| echo: true
@@ -227,7 +227,7 @@ sample(names)
 
 ## Sampling With Replacement
 
-Sampling with replacement is like putting each picked value back in the het to be picked again.
+Sampling with replacement is like putting each picked value back in the hat to be picked again.
 
 ```{r}
 #| echo: true
