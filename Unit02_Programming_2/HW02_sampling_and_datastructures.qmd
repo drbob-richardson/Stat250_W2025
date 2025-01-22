@@ -14,7 +14,16 @@ Let us assign treatment groups A or B randomly to individuals. (Done together in
 # Individuals in the study
 Name = c("Alice","Bob","Hector","Steve","Tony","Steph","Mary", "Charlie", "Diana", "Ethan")
 
+# two things in data frame
+# 1. Names
+# 2. Assignments
 
+n_names <- length(Name)
+study <- data.frame(
+  Names = Name,
+  Assignments = sample(c("Treatment A","Treatment B"),n_names,replace=TRUE)
+)
+print(study)
 ```
 
 ## Problem 2
@@ -26,7 +35,9 @@ Write code to get only individuals from treatment group B. (Done together in cla
 ```{r}
 #| echo: true
 
-
+mask <- study$Assignments == "Treatment B"
+study_Bgroup <- study[mask,]
+study_Bgroup
 ```
 
 Write code to get the first 5 individuals of the group.
@@ -34,7 +45,8 @@ Write code to get the first 5 individuals of the group.
 ```{r}
 #| echo: true
 
-
+study_first5 <- study[1:5,]
+study_first5
 ```
 
 ## Problem 3
@@ -50,7 +62,14 @@ Create these lists using subsetting and logicals as opposed to hard coding the n
 ```{r}
 #| echo: true
 
-
+mask <- study$Assignments == "Treatment A"
+study_Agroup <- study[mask,]
+study_list <- list(
+  full_study <- study,
+  group_A <- study_Agroup,
+  group_B <- study_Bgroup
+)
+study_list
 ```
 
 ## Problem 4
@@ -60,7 +79,25 @@ We have a new clinical trial approaching. We have 300 individuals. Instead of na
 ```{r}
 #| echo: true
 
+set.seed(1234)
 
+# make ID numbers
+ID <- seq(501,800,1) # 501:800
+
+# M/F
+Gender <- c(rep("M",100),rep("F",200))
+
+# Random Assignments
+Assignments <- sample(c("A","B","C","D"),length(ID),replace=TRUE)
+
+# Create Data Frame
+another_study <- data.frame(
+  ID,
+  Gender,
+  Assignments
+)
+
+another_study[1:10,]
 ```
 
 ## Problem 5

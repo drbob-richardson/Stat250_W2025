@@ -1,0 +1,95 @@
+---
+title: "Assignment: Functions, Loops, and Ifs"
+author: "YOUR_NAME_HERE"
+output: visual
+format: pdf
+---
+
+## Problem 1
+
+Create a genetic sequence of size `n`. These are comprised of pairs of values. In each pair the first is called th base and can be "A","T", "C", or "G". The second is called the complement and is paired up such that each pair contains either "A" and "T" or "C" and "G". Meaning if the base is "T", the complement must be "A". If the base is "C", the complement must be "G". Print the first 20 elements of the sequence.
+
+Use `loop`s and `if` statements to create the sequence. (Done together in class)
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 2
+
+Write a function that takes an even integer `n` and creates a genetic sequence of length `n`, following all the proper rules. Perform input value checking and throw an error if the input is not correct. (Done together in class)
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 3
+
+Create a way to vectorize the above operations so it can be done without loops. (Done together in class)
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 4
+
+A **random walk** is a sequence of numbers where each step is determined randomly. At each step, the sequence either increases or decreases by a fixed amount called the **step size**.
+
+-   The **starting value** is the first number in the sequence.
+-   At each subsequent step, the value either increases or decreases by the step size.
+-   The direction of the step (up or down) is determined randomly with equal probability.
+
+**Example:**
+
+-   Suppose you start at **0** (the starting value) with a step size of **1**
+-   At time 1, you could be at either **-1** or **1**.
+-   At time 2:
+    -   You could move up twice to reach **2**.
+    -   Move down twice to reach **-2**.
+    -   Or move up and down once (in any order) to stay at **0**.
+
+Create a function that simulates a random walk based on the following inputs:
+
+1.  **Number of steps**: How many steps the random walk will take.
+2.  **Step size**: The fixed amount by which the sequence increases or decreases at each step.
+3.  **Starting value**: The initial value of the sequence.
+
+The function will return the entire random walk sequence. Test this out using 20 steps, a step size of 1, and a starting value of 10. Print the full sequence.
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 5
+
+You are part of a team measuring dosage leakage. Each observation of leakage has an equal chance of being any number between 1 and 20. However, the machine you are using is only accurate when the leakage value is **at least 10**. If an observation is below 10, it must be resampled randomly between 1 and 20 until a value of 10 or more is obtained.
+
+We have a dataset of initial leakage samples. Write a script that uses a `for` loop to process the dataset:
+
+1.  For each observation, check whether the leakage is at least 10.
+
+2.  If the leakage is below 10, replace it with a randomly sampled value between 1 and 20.
+
+3.  Continue resampling until the value is 10 or higher.
+
+4.  Print the first 20 observations of the dataset where all observations are at least 10.
+
+```{r}
+#| echo: true
+set.seed(1234)
+samples <- data.frame(
+  number = 1:100,
+  leakage = sample(1:20,100,replace = TRUE)
+)
+
+## Write code to resample values here
+
+```

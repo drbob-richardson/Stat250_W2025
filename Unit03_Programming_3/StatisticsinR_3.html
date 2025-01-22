@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Dr.&nbsp;Robert Richardson">
-  <title>Data Frame Operations in R</title>
+  <title>DNA Sequencing in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -393,7 +393,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Data Frame Operations in R</h1>
+  <h1 class="title">DNA Sequencing in R</h1>
   <p class="subtitle">BYU STAT 250</p>
 
 <div class="quarto-title-authors">
@@ -407,47 +407,68 @@ Dr.&nbsp;Robert Richardson
 </section>
 <section id="introduction" class="slide level2 smaller">
 <h2>Introduction</h2>
-<p>Data frames are one of the most powerful and commonly used structures in R for organizing and analyzing data. In this unit, we will focus on fixing and modifying elements of a data frame with the following motivating questions:</p>
+<p>DNA sequences are at the heart of understanding genetics and biological systems. Simulating DNA sequences is not only a fascinating exercise but also a practical tool in computational biology.</p>
+<p>In this unit, we will explore the following questions:</p>
 <ul>
-<li>How do we handle missing values (<code>NA</code>) in a data frame?</li>
-<li>How can we assign values conditionally, such as assigning dosages based on treatment groups?</li>
-<li>How do different methods for these operations compare in terms of efficiency?</li>
+<li>What are the basic rules governing DNA sequences?</li>
+<li>How can we simulate random DNA sequences in R?</li>
+<li>What are the limitations and constraints of DNA sequences?</li>
 </ul>
 <p>By the end of this unit, you will learn:</p>
 <ul>
-<li>How to use loops and conditional statements for data manipulation.</li>
-<li>How to use logical masks for efficient operations.</li>
-<li>The importance of vectorization and how to time operations in R.</li>
+<li>How to use loops, conditional statements, and functions to simulate data.</li>
+<li>How to represent and manipulate DNA sequences in R.</li>
+<li>How to write efficient and reusable code.</li>
 </ul>
 </section>
-<section id="section" class="slide level2 smaller">
-<h2></h2>
-<p>Suppose we have a data frame summarizing clinical trial results:</p>
+<section id="the-rules-of-dna-sequences" class="slide level2">
+<h2>The Rules of DNA Sequences</h2>
+<ol type="1">
+<li><strong>Nucleotide Bases</strong>: DNA is made up of four nucleotide bases: <code>A</code>, <code>T</code>, <code>C</code>, and <code>G</code>.</li>
+<li><strong>Complementary Pairing</strong>:
+<ul>
+<li><code>A</code> pairs with <code>T</code>.</li>
+<li><code>C</code> pairs with <code>G</code>.</li>
+</ul></li>
+<li><strong>Sequence Length</strong>: DNA sequences can vary in length, and their simulation should allow flexibility.</li>
+</ol>
+<p>Note that randomly generated sequences lack biological context, such as gene structure or regulatory regions, but we can try it anyway!</p>
+</section>
+<section id="goal-of-this-unit" class="slide level2">
+<h2>Goal of this Unit</h2>
+<p>We aim to write a <strong>function</strong> that can generate a random DNA sequence of a given size. This function will:</p>
+<ol type="1">
+<li>Randomly sample bases for odd indices.</li>
+<li>Assign complementary bases for even indices.</li>
+<li>Allow the user to specify the sequence length.</li>
+</ol>
+</section>
+<section id="example" class="slide level2 smaller">
+<h2>Example</h2>
+<p>Suppose we want to generate a DNA sequence of length 10. The function we write will:</p>
+<ol type="1">
+<li>Start with an empty sequence.</li>
+<li>Randomly sample a base for position 1.</li>
+<li>Assign the complementary base to position 2 based on position 1.</li>
+<li>Continue this process for the entire sequence.</li>
+</ol>
+<p>The result will look something like this:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
-<pre><code>   ID Treatment_Group CigarettesPerDay Dosage
-1   1               A               NA      0
-2   2               B               10      0
-3   3               A               NA      0
-4   4               B                5      0
-5   5               A               NA      0
-6   6               B               25      0
-7   7               A               NA      0
-8   8               B               NA      0
-9   9               A               15      0
-10 10               B               NA      0</code></pre>
+<pre><code>Generated DNA Sequence: ATCGTACGAT </code></pre>
 </div>
 </div>
-<h3 id="goals">Goals</h3>
+</section>
+<section id="preparing-to-code" class="slide level2 smaller">
+<h2>Preparing to Code</h2>
+<p>We will tackle this problem step by step:</p>
 <ol type="1">
-<li>Replace all <code>NA</code> values in the <code>CigarettesPerDay</code> column with <code>0</code>.</li>
-<li>Assign dosages based on the <code>Treatment_Group</code>:
-<ul>
-<li>Group A: 10 mg</li>
-<li>Group B: 20 mg</li>
-</ul></li>
+<li><strong>Write a loop</strong> that iterates through positions in the sequence.</li>
+<li><strong>Use conditional statements</strong> to determine whether the position is odd or even.</li>
+<li><strong>Reference a data frame</strong> to handle base and complementary base mappings.</li>
+<li><strong>Wrap everything in a function</strong> for flexibility and reusability.</li>
 </ol>
-<p>We will solve these problems using loops, conditional statements, and logical masks. We’ll also compare the efficiency of these methods.</p>
+<p>In the next slides, we will build and refine our code to achieve this goal. Let’s get started!</p>
 </section>
 <section id="for-loops" class="slide level2 smaller">
 <h2><code>for</code> Loops</h2>
@@ -523,17 +544,36 @@ Dr.&nbsp;Robert Richardson
 </div>
 </div>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
-</section>
-<section id="conditionals-with-and" class="slide level2">
-<h2>Conditionals with <code>|</code> and <code>&amp;</code></h2>
-</section>
-<section id="nas-and-is.na" class="slide level2">
-<h2>NA’s and <code>is.na</code></h2>
+<section id="section" class="slide level2 smaller">
+<h2></h2>
+<p>Suppose we have a data frame summarizing clinical trial results:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Sample data frame</span></span>
+<span id="cb10-2"><a href=""></a>clinical_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-3"><a href=""></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb10-4"><a href=""></a>  <span class="at">Treatment_Group =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>),</span>
+<span id="cb10-5"><a href=""></a>  <span class="at">CigarettesPerDay =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">10</span>, <span class="cn">NA</span>, <span class="dv">5</span>, <span class="cn">NA</span>, <span class="dv">25</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="dv">15</span>, <span class="cn">NA</span>),</span>
+<span id="cb10-6"><a href=""></a>  <span class="at">Dosage =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb10-7"><a href=""></a>)</span>
+<span id="cb10-8"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   ID Treatment_Group CigarettesPerDay Dosage
+1   1               A               NA      0
+2   2               B               10      0
+3   3               A               NA      0
+4   4               B                5      0
+5   5               A               NA      0
+6   6               B               25      0
+7   7               A               NA      0
+8   8               B               NA      0
+9   9               A               15      0
+10 10               B               NA      0</code></pre>
+</div>
+</div>
 </section>
 <section id="replacing-nas" class="slide level2">
 <h2>Replacing NAs</h2>
+<p>The <code>NA</code> is a special character in R that often represents missing values.</p>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Before code</a></li><li><a href="#tabset-1-2">Code</a></li><li><a href="#tabset-1-3">After code</a></li></ul>
 <div class="tab-content">
@@ -556,12 +596,12 @@ Dr.&nbsp;Robert Richardson
 </div>
 <div id="tabset-1-2">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># Replace NAs with 0 using a for loop</span></span>
-<span id="cb11-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb11-3"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>CigarettesPerDay[i])) {</span>
-<span id="cb11-4"><a href=""></a>    clinical_data<span class="sc">$</span>CigarettesPerDay[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb11-5"><a href=""></a>  }</span>
-<span id="cb11-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Replace NAs with 0 using a for loop</span></span>
+<span id="cb13-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
+<span id="cb13-3"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>CigarettesPerDay[i])) {</span>
+<span id="cb13-4"><a href=""></a>    clinical_data<span class="sc">$</span>CigarettesPerDay[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-5"><a href=""></a>  }</span>
+<span id="cb13-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-3">
@@ -586,6 +626,7 @@ Dr.&nbsp;Robert Richardson
 </section>
 <section id="assigning-dosage" class="slide level2">
 <h2>Assigning Dosage</h2>
+<p>Now we want to change the dosage to be 10 for group A and 20 for group B.</p>
 <div class="panel-tabset">
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Before code</a></li><li><a href="#tabset-2-2">Code</a></li><li><a href="#tabset-2-3">After code</a></li></ul>
 <div class="tab-content">
@@ -608,13 +649,13 @@ Dr.&nbsp;Robert Richardson
 </div>
 <div id="tabset-2-2">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb14-2"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
-<span id="cb14-3"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb14-4"><a href=""></a>  } <span class="cf">else</span> <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"B"</span>) {</span>
-<span id="cb14-5"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb14-6"><a href=""></a>  }</span>
-<span id="cb14-7"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
+<span id="cb16-2"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
+<span id="cb16-3"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb16-4"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb16-5"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb16-6"><a href=""></a>  }</span>
+<span id="cb16-7"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-3">
@@ -640,18 +681,18 @@ Dr.&nbsp;Robert Richardson
 <section id="logical-operators-and-and-or" class="slide level2">
 <h2>Logical Operators: AND and OR</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co"># Test logical conditions</span></span>
-<span id="cb16-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb16-3"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb16-4"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb16-5"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Both x and y are positive"</span>)</span>
-<span id="cb16-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="co"># Test logical conditions</span></span>
+<span id="cb18-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb18-3"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb18-4"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-5"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Both x and y are positive"</span>)</span>
+<span id="cb18-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Both x and y are positive"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> y <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
-<span id="cb18-2"><a href=""></a>  <span class="fu">print</span>(<span class="st">"At least one condition is true"</span>)</span>
-<span id="cb18-3"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> y <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb20-2"><a href=""></a>  <span class="fu">print</span>(<span class="st">"At least one condition is true"</span>)</span>
+<span id="cb20-3"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "At least one condition is true"</code></pre>
 </div>
@@ -661,44 +702,17 @@ Dr.&nbsp;Robert Richardson
 <h2>Practice Question</h2>
 <p>What will the following code print?</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb20-2"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb20-3"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb20-4"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Both x and y are positive"</span>)</span>
-<span id="cb20-5"><a href=""></a>} <span class="cf">else</span> <span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb20-6"><a href=""></a>  <span class="fu">print</span>(<span class="st">"At least one condition is true"</span>)</span>
-<span id="cb20-7"><a href=""></a>} <span class="cf">else</span> {</span>
-<span id="cb20-8"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Neither condition is true"</span>)</span>
-<span id="cb20-9"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb22-2"><a href=""></a>y <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb22-3"><a href=""></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb22-4"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Both x and y are positive"</span>)</span>
+<span id="cb22-5"><a href=""></a>} <span class="cf">else</span> <span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span> y <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb22-6"><a href=""></a>  <span class="fu">print</span>(<span class="st">"At least one condition is true"</span>)</span>
+<span id="cb22-7"><a href=""></a>} <span class="cf">else</span> {</span>
+<span id="cb22-8"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Neither condition is true"</span>)</span>
+<span id="cb22-9"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "At least one condition is true"</code></pre>
-</div>
-</div>
-</section>
-<section id="nested-if-statements-in-loops" class="slide level2">
-<h2>Nested If Statements in Loops</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="co"># Nested if statements inside a loop</span></span>
-<span id="cb22-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb22-3"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
-<span id="cb22-4"><a href=""></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage[i])) {</span>
-<span id="cb22-5"><a href=""></a>      clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb22-6"><a href=""></a>    }</span>
-<span id="cb22-7"><a href=""></a>  }</span>
-<span id="cb22-8"><a href=""></a>}</span>
-<span id="cb22-9"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID Treatment_Group CigarettesPerDay Dosage
-1   1               A                0     10
-2   2               B               10     20
-3   3               A                0     10
-4   4               B                5     20
-5   5               A                0     10
-6   6               B               25     20
-7   7               A                0     10
-8   8               B                0     20
-9   9               A               15     10
-10 10               B                0     20</code></pre>
 </div>
 </div>
 </section>
@@ -721,42 +735,16 @@ Dr.&nbsp;Robert Richardson
 </div>
 </div>
 </section>
-<section id="example-replace-nas-using-a-while-loop" class="slide level2">
-<h2>Example: Replace NAs Using a While Loop</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb26-2"><a href=""></a><span class="cf">while</span> (i <span class="sc">&lt;=</span> <span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb26-3"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage[i])) {</span>
-<span id="cb26-4"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb26-5"><a href=""></a>  }</span>
-<span id="cb26-6"><a href=""></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb26-7"><a href=""></a>}</span>
-<span id="cb26-8"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID Treatment_Group CigarettesPerDay Dosage
-1   1               A                0     10
-2   2               B               10     20
-3   3               A                0     10
-4   4               B                5     20
-5   5               A                0     10
-6   6               B               25     20
-7   7               A                0     10
-8   8               B                0     20
-9   9               A               15     10
-10 10               B                0     20</code></pre>
-</div>
-</div>
-</section>
 <section id="nested-loops" class="slide level2">
 <h2>Nested Loops</h2>
 <p>You can place one loop inside another for more complex operations.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="co"># Nested loop example: multiplication table</span></span>
-<span id="cb28-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb28-3"><a href=""></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb28-4"><a href=""></a>    <span class="fu">print</span>(<span class="fu">paste</span>(i, <span class="st">"x"</span>, j, <span class="st">"="</span>, i <span class="sc">*</span> j))</span>
-<span id="cb28-5"><a href=""></a>  }</span>
-<span id="cb28-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co"># Nested loop example: multiplication table</span></span>
+<span id="cb26-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb26-3"><a href=""></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb26-4"><a href=""></a>    <span class="fu">print</span>(<span class="fu">paste</span>(i, <span class="st">"x"</span>, j, <span class="st">"="</span>, i <span class="sc">*</span> j))</span>
+<span id="cb26-5"><a href=""></a>  }</span>
+<span id="cb26-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1 x 1 = 1"
 [1] "1 x 2 = 2"
@@ -794,9 +782,9 @@ Dr.&nbsp;Robert Richardson
 <div class="tab-content">
 <div id="tabset-3-1">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># Replace NAs with 0 using logical subsetting</span></span>
-<span id="cb30-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb30-3"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="co"># Replace NAs with 0 using logical subsetting</span></span>
+<span id="cb28-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb28-3"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ID Treatment_Group CigarettesPerDay Dosage
 1   1               A                0     10
@@ -814,10 +802,10 @@ Dr.&nbsp;Robert Richardson
 </div>
 <div id="tabset-3-2">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="co"># Assign dosage using logical subsetting</span></span>
-<span id="cb32-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb32-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb32-4"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># Assign dosage using logical subsetting</span></span>
+<span id="cb30-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb30-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb30-4"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ID Treatment_Group CigarettesPerDay Dosage
 1   1               A                0     10
@@ -839,60 +827,158 @@ Dr.&nbsp;Robert Richardson
 <section id="efficiency-loops-vs.-vectorization" class="slide level2">
 <h2>Efficiency: Loops vs.&nbsp;Vectorization</h2>
 <p>Use the <code>system.time()</code> function to compare the performance of loops and vectorized operations.</p>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Loop</a></li><li><a href="#tabset-4-2">Vectorized</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co"># Timing a for loop</span></span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="co"># Timing a for loop</span></span>
+<span id="cb32-2"><a href=""></a><span class="fu">system.time</span>({</span>
+<span id="cb32-3"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
+<span id="cb32-4"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
+<span id="cb32-5"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb32-6"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb32-7"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb32-8"><a href=""></a>  }</span>
+<span id="cb32-9"><a href=""></a>}</span>
+<span id="cb32-10"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+  1.714   1.609   3.377 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co"># Timing vectorized operations</span></span>
 <span id="cb34-2"><a href=""></a><span class="fu">system.time</span>({</span>
-<span id="cb34-3"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb34-4"><a href=""></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage[i])) {</span>
-<span id="cb34-5"><a href=""></a>      clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb34-6"><a href=""></a>    }</span>
-<span id="cb34-7"><a href=""></a>  }</span>
-<span id="cb34-8"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb34-4"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb34-5"><a href=""></a>clinical_data</span>
+<span id="cb34-6"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
   0.001   0.000   0.002 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="co"># Timing vectorized operations</span></span>
-<span id="cb36-2"><a href=""></a><span class="fu">system.time</span>({</span>
-<span id="cb36-3"><a href=""></a>  clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb36-4"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
-      0       0       0 </code></pre>
 </div>
 </div>
-<p>Vectorized operations are significantly faster because they leverage R’s optimized internal functions.</p>
+</div>
+</div>
 </section>
-<section id="handling-missing-values" class="slide level2">
-<h2>Handling Missing Values</h2>
-<p>There are several methods for handling missing values in R:</p>
+<section id="creating-a-genetic-sequence" class="slide level2">
+<h2>Creating a Genetic Sequence</h2>
+<p>Write code that will create a sequence of length 200, where each base is a random “A”, “T”, “C”, or “G” and each complement has an appropriate pair. Use a <code>for</code> loop and <code>if</code> statements.</p>
+</section>
+<section id="introduction-to-functions" class="slide level2 smaller">
+<h2>Introduction to Functions</h2>
+<p>Functions are one of the most powerful tools in R, allowing you to write reusable and modular code.</p>
+<p>A function in R:</p>
 <ul>
-<li><strong><code>na.omit()</code></strong>: Removes rows with missing values.</li>
-<li><strong><code>na.rm = TRUE</code></strong>: Ignores missing values in functions like <code>mean()</code> or <code>sum()</code>.</li>
-<li><strong>Imputation</strong>: Replace missing values with the mean, median, or a predicted value.</li>
-<li><strong>Package Solutions</strong>: Use packages like <code>mice</code> or <code>missForest</code> for advanced imputation methods.</li>
+<li>Takes <strong>inputs</strong> (also called arguments).</li>
+<li>Executes a block of code.</li>
+<li>Produces <strong>outputs</strong>.</li>
+</ul>
+<p>Why use functions?</p>
+<ul>
+<li><strong>Efficiency</strong>: Write once, use multiple times.</li>
+<li><strong>Readability</strong>: Break down complex tasks into manageable parts.</li>
+<li><strong>Error reduction</strong>: Reduce repetitive code and potential mistakes.</li>
 </ul>
 </section>
-<section id="example-of-na.omit" class="slide level2">
-<h2>Example of <code>na.omit()</code></h2>
+<section id="components-of-an-r-function" class="slide level2 smaller">
+<h2>Components of an R Function</h2>
+<p>An R function has the following components:</p>
+<ol type="1">
+<li><strong>Function name</strong>: A descriptive name for the function.</li>
+<li><strong>Arguments</strong>: Inputs to the function, enclosed in parentheses <code>()</code>.</li>
+<li><strong>Code block</strong>: A set of instructions enclosed in <code>{}</code>.</li>
+<li><strong>Return value</strong>: The result returned by the function, specified with <code>return()</code> or the last evaluated expression.</li>
+</ol>
+</section>
+<section id="creating-a-fibonacci-function" class="slide level2 smaller">
+<h2>Creating a Fibonacci Function</h2>
+<p>We will create a function to calculate the n-th Fibonacci number.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="co"># Remove rows with missing values</span></span>
-<span id="cb38-2"><a href=""></a>cleaned_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(clinical_data)</span>
-<span id="cb38-3"><a href=""></a>cleaned_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="co"># Fibonacci function</span></span>
+<span id="cb36-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb36-3"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb36-4"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb36-5"><a href=""></a>  }</span>
+<span id="cb36-6"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb36-7"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb36-8"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb36-9"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
+<span id="cb36-10"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
+<span id="cb36-11"><a href=""></a>  }</span>
+<span id="cb36-12"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
+<span id="cb36-13"><a href=""></a>}</span>
+<span id="cb36-14"><a href=""></a></span>
+<span id="cb36-15"><a href=""></a></span>
+<span id="cb36-16"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should return the 10th Fibonacci number</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   ID Treatment_Group CigarettesPerDay Dosage
-1   1               A                0     10
-2   2               B               10     20
-3   3               A                0     10
-4   4               B                5     20
-5   5               A                0     10
-6   6               B               25     20
-7   7               A                0     10
-8   8               B                0     20
-9   9               A               15     10
-10 10               B                0     20</code></pre>
+<pre><code>[1] 55</code></pre>
 </div>
 </div>
+</section>
+<section id="input-checking-for-functions" class="slide level2 smaller">
+<h2>Input Checking for Functions</h2>
+<p>To make functions more robust, we can include input validation. This ensures the function behaves as expected.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="co"># Fibonacci function with input validation</span></span>
+<span id="cb38-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb38-3"><a href=""></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(n) <span class="sc">||</span> n <span class="sc">!=</span> <span class="fu">as.integer</span>(n) <span class="sc">||</span> n <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb38-4"><a href=""></a>    <span class="fu">stop</span>(<span class="st">"Error: Input must be a positive integer."</span>)</span>
+<span id="cb38-5"><a href=""></a>  }</span>
+<span id="cb38-6"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb38-7"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb38-8"><a href=""></a>  }</span>
+<span id="cb38-9"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb38-10"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb38-11"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb38-12"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
+<span id="cb38-13"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
+<span id="cb38-14"><a href=""></a>  }</span>
+<span id="cb38-15"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
+<span id="cb38-16"><a href=""></a>}</span>
+<span id="cb38-17"><a href=""></a></span>
+<span id="cb38-18"><a href=""></a></span>
+<span id="cb38-19"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should work</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="co">#fibonacci("a") # Should throw an error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="global-vs.-local-variables" class="slide level2 smaller">
+<h2>Global vs.&nbsp;Local Variables</h2>
+<ul>
+<li><strong>Global Variables</strong> Variables created outside of a function. Accessible anywhere in the script or workspace.</li>
+<li><strong>Local Variables</strong> Variables created inside a function. Exist only within the function.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># Global variable</span></span>
+<span id="cb41-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb41-3"><a href=""></a></span>
+<span id="cb41-4"><a href=""></a><span class="co"># Function demonstrating local scope</span></span>
+<span id="cb41-5"><a href=""></a>example_function <span class="ot">&lt;-</span> <span class="cf">function</span>(y) {</span>
+<span id="cb41-6"><a href=""></a>  x <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="dv">5</span>  <span class="co"># Local variable</span></span>
+<span id="cb41-7"><a href=""></a>  <span class="fu">return</span>(x)</span>
+<span id="cb41-8"><a href=""></a>}</span>
+<span id="cb41-9"><a href=""></a></span>
+<span id="cb41-10"><a href=""></a><span class="co"># Usage</span></span>
+<span id="cb41-11"><a href=""></a><span class="fu">example_function</span>(<span class="dv">3</span>) <span class="co"># Returns 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>x  <span class="co"># Still 10, as global 'x' was not modified</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+</div>
+</section>
+<section id="genetic-sequencing" class="slide level2">
+<h2>Genetic sequencing</h2>
+<p>Write a function that takes an even integer <code>n</code> and creates a genetic sequence of length <code>n</code>, following all the proper rules. Perform input value checking and throw an error if the input is not correct.</p>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
