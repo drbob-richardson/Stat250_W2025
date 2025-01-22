@@ -303,7 +303,7 @@ for (i in 1:5) {
 Logical subsetting is a more efficient way to manipulate data frames.
 
 ::: panel-tabset
-#### Replace NAs with `0` Using Logical Masks
+#### Replacing NAs
 
 ```{r}
 #| echo: true
@@ -312,7 +312,7 @@ clinical_data$Dosage[is.na(clinical_data$Dosage)] <- 0
 clinical_data
 ```
 
-#### Assign Dosage Based on Treatment Group Using Logical Masks
+#### Assign Dosage
 
 ```{r}
 #| echo: true
