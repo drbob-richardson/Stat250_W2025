@@ -711,21 +711,18 @@ Dr.&nbsp;Robert Richardson
 <span id="cb22-7"><a href=""></a>} <span class="cf">else</span> {</span>
 <span id="cb22-8"><a href=""></a>  <span class="fu">print</span>(<span class="st">"Neither condition is true"</span>)</span>
 <span id="cb22-9"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "At least one condition is true"</code></pre>
-</div>
 </div>
 </section>
 <section id="while-loops" class="slide level2">
 <h2>While Loops</h2>
 <p>A <code>while</code> loop continues to execute as long as a condition is true.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="co"># Example of a while loop</span></span>
-<span id="cb24-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb24-3"><a href=""></a><span class="cf">while</span> (x <span class="sc">&lt;=</span> <span class="dv">5</span>) {</span>
-<span id="cb24-4"><a href=""></a>  <span class="fu">print</span>(x)</span>
-<span id="cb24-5"><a href=""></a>  x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb24-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="co"># Example of a while loop</span></span>
+<span id="cb23-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-3"><a href=""></a><span class="cf">while</span> (x <span class="sc">&lt;=</span> <span class="dv">5</span>) {</span>
+<span id="cb23-4"><a href=""></a>  <span class="fu">print</span>(x)</span>
+<span id="cb23-5"><a href=""></a>  x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1
 [1] 2
@@ -739,12 +736,12 @@ Dr.&nbsp;Robert Richardson
 <h2>Nested Loops</h2>
 <p>You can place one loop inside another for more complex operations.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co"># Nested loop example: multiplication table</span></span>
-<span id="cb26-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb26-3"><a href=""></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb26-4"><a href=""></a>    <span class="fu">print</span>(<span class="fu">paste</span>(i, <span class="st">"x"</span>, j, <span class="st">"="</span>, i <span class="sc">*</span> j))</span>
-<span id="cb26-5"><a href=""></a>  }</span>
-<span id="cb26-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="co"># Nested loop example: multiplication table</span></span>
+<span id="cb25-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb25-3"><a href=""></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb25-4"><a href=""></a>    <span class="fu">print</span>(<span class="fu">paste</span>(i, <span class="st">"x"</span>, j, <span class="st">"="</span>, i <span class="sc">*</span> j))</span>
+<span id="cb25-5"><a href=""></a>  }</span>
+<span id="cb25-6"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1 x 1 = 1"
 [1] "1 x 2 = 2"
@@ -782,9 +779,9 @@ Dr.&nbsp;Robert Richardson
 <div class="tab-content">
 <div id="tabset-3-1">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="co"># Replace NAs with 0 using logical subsetting</span></span>
-<span id="cb28-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb28-3"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># Replace NAs with 0 using logical subsetting</span></span>
+<span id="cb27-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb27-3"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ID Treatment_Group CigarettesPerDay Dosage
 1   1               A                0     10
@@ -802,10 +799,10 @@ Dr.&nbsp;Robert Richardson
 </div>
 <div id="tabset-3-2">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="co"># Assign dosage using logical subsetting</span></span>
-<span id="cb30-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb30-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb30-4"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="co"># Assign dosage using logical subsetting</span></span>
+<span id="cb29-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb29-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb29-4"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ID Treatment_Group CigarettesPerDay Dosage
 1   1               A                0     10
@@ -832,33 +829,33 @@ Dr.&nbsp;Robert Richardson
 <div class="tab-content">
 <div id="tabset-4-1">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="co"># Timing a for loop</span></span>
-<span id="cb32-2"><a href=""></a><span class="fu">system.time</span>({</span>
-<span id="cb32-3"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
-<span id="cb32-4"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
-<span id="cb32-5"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb32-6"><a href=""></a>  } <span class="cf">else</span> {</span>
-<span id="cb32-7"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb32-8"><a href=""></a>  }</span>
-<span id="cb32-9"><a href=""></a>}</span>
-<span id="cb32-10"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Timing a for loop</span></span>
+<span id="cb31-2"><a href=""></a><span class="fu">system.time</span>({</span>
+<span id="cb31-3"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(clinical_data)) {</span>
+<span id="cb31-4"><a href=""></a>  <span class="cf">if</span> (clinical_data<span class="sc">$</span>Treatment_Group[i] <span class="sc">==</span> <span class="st">"A"</span>) {</span>
+<span id="cb31-5"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb31-6"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb31-7"><a href=""></a>    clinical_data<span class="sc">$</span>Dosage[i] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb31-8"><a href=""></a>  }</span>
+<span id="cb31-9"><a href=""></a>}</span>
+<span id="cb31-10"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.512   1.015   2.539 </code></pre>
+  1.769   1.687   3.520 </code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-4-2">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co"># Timing vectorized operations</span></span>
-<span id="cb34-2"><a href=""></a><span class="fu">system.time</span>({</span>
-<span id="cb34-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb34-4"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb34-5"><a href=""></a>clinical_data</span>
-<span id="cb34-6"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># Timing vectorized operations</span></span>
+<span id="cb33-2"><a href=""></a><span class="fu">system.time</span>({</span>
+<span id="cb33-3"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb33-4"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[clinical_data<span class="sc">$</span>Treatment_Group <span class="sc">==</span> <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb33-5"><a href=""></a>clinical_data</span>
+<span id="cb33-6"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.001   0.000   0.002 </code></pre>
+  0.001   0.000   0.001 </code></pre>
 </div>
 </div>
 </div>
@@ -899,22 +896,22 @@ Dr.&nbsp;Robert Richardson
 <h2>Creating a Fibonacci Function</h2>
 <p>We will create a function to calculate the n-th Fibonacci number.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="co"># Fibonacci function</span></span>
-<span id="cb36-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb36-3"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
-<span id="cb36-4"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
-<span id="cb36-5"><a href=""></a>  }</span>
-<span id="cb36-6"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb36-7"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb36-8"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb36-9"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
-<span id="cb36-10"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
-<span id="cb36-11"><a href=""></a>  }</span>
-<span id="cb36-12"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
-<span id="cb36-13"><a href=""></a>}</span>
-<span id="cb36-14"><a href=""></a></span>
-<span id="cb36-15"><a href=""></a></span>
-<span id="cb36-16"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should return the 10th Fibonacci number</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co"># Fibonacci function</span></span>
+<span id="cb35-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb35-3"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb35-4"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb35-5"><a href=""></a>  }</span>
+<span id="cb35-6"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb35-7"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb35-8"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb35-9"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
+<span id="cb35-10"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
+<span id="cb35-11"><a href=""></a>  }</span>
+<span id="cb35-12"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
+<span id="cb35-13"><a href=""></a>}</span>
+<span id="cb35-14"><a href=""></a></span>
+<span id="cb35-15"><a href=""></a></span>
+<span id="cb35-16"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should return the 10th Fibonacci number</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
 </div>
@@ -924,29 +921,29 @@ Dr.&nbsp;Robert Richardson
 <h2>Input Checking for Functions</h2>
 <p>To make functions more robust, we can include input validation. This ensures the function behaves as expected.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="co"># Fibonacci function with input validation</span></span>
-<span id="cb38-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb38-3"><a href=""></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(n) <span class="sc">||</span> n <span class="sc">!=</span> <span class="fu">as.integer</span>(n) <span class="sc">||</span> n <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb38-4"><a href=""></a>    <span class="fu">stop</span>(<span class="st">"Error: Input must be a positive integer."</span>)</span>
-<span id="cb38-5"><a href=""></a>  }</span>
-<span id="cb38-6"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
-<span id="cb38-7"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
-<span id="cb38-8"><a href=""></a>  }</span>
-<span id="cb38-9"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb38-10"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb38-11"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb38-12"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
-<span id="cb38-13"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
-<span id="cb38-14"><a href=""></a>  }</span>
-<span id="cb38-15"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
-<span id="cb38-16"><a href=""></a>}</span>
-<span id="cb38-17"><a href=""></a></span>
-<span id="cb38-18"><a href=""></a></span>
-<span id="cb38-19"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should work</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co"># Fibonacci function with input validation</span></span>
+<span id="cb37-2"><a href=""></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb37-3"><a href=""></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(n) <span class="sc">||</span> n <span class="sc">!=</span> <span class="fu">as.integer</span>(n) <span class="sc">||</span> n <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb37-4"><a href=""></a>    <span class="fu">stop</span>(<span class="st">"Error: Input must be a positive integer."</span>)</span>
+<span id="cb37-5"><a href=""></a>  }</span>
+<span id="cb37-6"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">2</span>) {</span>
+<span id="cb37-7"><a href=""></a>    <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb37-8"><a href=""></a>  }</span>
+<span id="cb37-9"><a href=""></a>  fib <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb37-10"><a href=""></a>  fib[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb37-11"><a href=""></a>  fib[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb37-12"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) {</span>
+<span id="cb37-13"><a href=""></a>    fib[i] <span class="ot">&lt;-</span> fib[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> fib[i <span class="sc">-</span> <span class="dv">2</span>]</span>
+<span id="cb37-14"><a href=""></a>  }</span>
+<span id="cb37-15"><a href=""></a>  <span class="fu">return</span>(fib[n])</span>
+<span id="cb37-16"><a href=""></a>}</span>
+<span id="cb37-17"><a href=""></a></span>
+<span id="cb37-18"><a href=""></a></span>
+<span id="cb37-19"><a href=""></a><span class="fu">fibonacci</span>(<span class="dv">10</span>) <span class="co"># Should work</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="co">#fibonacci("a") # Should throw an error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co">#fibonacci("a") # Should throw an error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="global-vs.-local-variables" class="slide level2 smaller">
@@ -956,21 +953,21 @@ Dr.&nbsp;Robert Richardson
 <li><strong>Local Variables</strong> Variables created inside a function. Exist only within the function.</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># Global variable</span></span>
-<span id="cb41-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb41-3"><a href=""></a></span>
-<span id="cb41-4"><a href=""></a><span class="co"># Function demonstrating local scope</span></span>
-<span id="cb41-5"><a href=""></a>example_function <span class="ot">&lt;-</span> <span class="cf">function</span>(y) {</span>
-<span id="cb41-6"><a href=""></a>  x <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="dv">5</span>  <span class="co"># Local variable</span></span>
-<span id="cb41-7"><a href=""></a>  <span class="fu">return</span>(x)</span>
-<span id="cb41-8"><a href=""></a>}</span>
-<span id="cb41-9"><a href=""></a></span>
-<span id="cb41-10"><a href=""></a><span class="co"># Usage</span></span>
-<span id="cb41-11"><a href=""></a><span class="fu">example_function</span>(<span class="dv">3</span>) <span class="co"># Returns 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="co"># Global variable</span></span>
+<span id="cb40-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb40-3"><a href=""></a></span>
+<span id="cb40-4"><a href=""></a><span class="co"># Function demonstrating local scope</span></span>
+<span id="cb40-5"><a href=""></a>example_function <span class="ot">&lt;-</span> <span class="cf">function</span>(y) {</span>
+<span id="cb40-6"><a href=""></a>  x <span class="ot">&lt;-</span> y <span class="sc">+</span> <span class="dv">5</span>  <span class="co"># Local variable</span></span>
+<span id="cb40-7"><a href=""></a>  <span class="fu">return</span>(x)</span>
+<span id="cb40-8"><a href=""></a>}</span>
+<span id="cb40-9"><a href=""></a></span>
+<span id="cb40-10"><a href=""></a><span class="co"># Usage</span></span>
+<span id="cb40-11"><a href=""></a><span class="fu">example_function</span>(<span class="dv">3</span>) <span class="co"># Returns 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>x  <span class="co"># Still 10, as global 'x' was not modified</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>x  <span class="co"># Still 10, as global 'x' was not modified</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10</code></pre>
 </div>

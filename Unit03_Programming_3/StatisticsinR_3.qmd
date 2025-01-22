@@ -256,6 +256,7 @@ What will the following code print?
 
 ```{r}
 #| echo: true
+#| eval: false
 x <- -1
 y <- 10
 if (x > 0 & y > 0) {
