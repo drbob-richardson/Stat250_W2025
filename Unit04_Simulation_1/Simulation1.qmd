@@ -1,0 +1,472 @@
+---
+title: "Dungeons and Dragons in R"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+project:
+  type: website
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+library(tidyverse)
+```
+
+## Outline
+
+Simulation (Computing Random Variables)
+
+Approximating ${\rm P}(A)$
+
+Approximating ${\rm E}(Y)$
+
+`sapply` and `replicate`
+
+Probability Distributions in R
+
+## Motivating Example {.smaller}
+
+Dan called me up, he's in the middle of a Dungeon's and Dragons campaign and has a crucial question. He has to save his party using either:
+
+::: panel-tabset
+
+### Greataxe {.smaller}
+
+![](greataxe.webp){width=50%}
+
+
+### Longbow {.smaller}
+![](arrow.webp){width=50%}
+
+:::
+
+## Motivating Example
+
+The choice determines which dice he uses and how many rolls he gets: 
+
+- By fighting with greataxes, he would be rolling 2 dice with 12 sides. 
+- If he uses the longbow he rolls 5 dice with 6 sides. 
+
+Dan wants to know the following two questions: 
+
+- Which should he choose if he wants to have the highest expected roll
+- Which weapon gives him the highest chance of rolling a 20 or more. 
+
+If he doesn't roll a 20, his whole party dies!
+
+## Roll the dice
+
+Let's code up rolling the dice!
+
+## Approximating Probability by Simulation
+
+Thinking statistically, we could approximate this probability by gathering the data from rolling the dice each time. 
+
+Need a big sample size
+
+(actually, the bigger the sample size the more precise the proportion is for the "true probability")
+
+\ 
+
+Instead of asking people to do this, we can "simulate" the data we'd get if we did
+
+## Approximating Probability by Simulation
+
+Theoretically,
+
+$$
+\lim_{N\to\infty} \frac{\mbox{Number of times Event A Occurs}}{N} = {\rm P}(A)
+$$
+
+\ 
+
+Simulation Code needs to
+
+-   perform experiment and determine if Event A occurs
+-   repeat many times (in a `for` loop)
+
+## New Problem: Expected Value of a Die Roll
+
+What is the expected value of a single die roll with \( n \) sides?
+
+Using probability, we know that:
+
+$$ \mathbb{E}[X] = \frac{1 + n}{2} $$
+
+But we can also approximate this using simulation!
+
+---
+
+## Writing a Function for a Die Roll
+
+Let's define a function in R that rolls a die with \( n \) sides once.
+
+```{r}
+#| echo: true
+roll_die <- function(n) {
+  sample(1:n, size = 1, replace = TRUE)
+}
+
+# Example usage
+roll_die(6)  # Rolls a 6-sided die
+```
+
+---
+
+## Repeating the Experiment
+
+We'll roll a die with $ n $ sides multiple times and compute the average result.
+
+```{r}
+#| echo: true
+n <- 6  # Change n to different values to explore
+trials <- c(10, 100, 1000, 10000)
+
+trials <- c(10, 100, 1000, 10000)
+results <- numeric(4)
+for(i in 1:4){
+  rolls <- numeric(trials[i])
+  for(j in 1:trials[i]){
+    rolls[j] <- roll_die(6)
+  }
+  results[i] <- mean(rolls)
+}
+
+data.frame(Trials = trials, Estimated_Expectation = results)
+```
+
+---
+
+## Introduction to `replicate`
+
+The `replicate` function simplifies repetitive simulations by calling a function multiple times and storing the results.
+
+```{r}
+#| echo: true
+
+# Roll a 6-sided die 10 times using replicate
+replicate(10, roll_die(6))
+```
+
+Instead of using nested loops, we can use `replicate` to streamline our code!
+
+---
+
+## Using `replicate` for Simulation
+
+We can now rewrite our previous experiment using `replicate`:
+
+```{r}
+#| echo: true
+
+n <- 6  # Change n to different values to explore
+trials <- c(10, 100, 1000, 10000)
+results <- numeric(4)
+for(i in 1:4){
+  rolls <- replicate(trials[i],roll_die(6))
+  results[i] <- mean(rolls)
+}
+
+data.frame(Trials = trials, Estimated_Expectation = results)
+```
+
+This produces the same results but in a much cleaner and more efficient way!
+
+## Introduction to `sapply`
+
+The `sapply` function is useful for applying a function to each element of a vector or list.
+
+Example:
+
+```{r}
+#| echo: true
+sapply(1:5, function(x) x^2)
+```
+
+This applies the function `x^2` to each number from 1 to 5.
+
+---
+
+## Using `sapply` for Multiple Trials
+
+Now, let’s modify our for-loop version to use `sapply` along with `replicate`.
+
+```{r}
+#| echo: true
+
+n <- 6  # Change n to different values to explore
+trials <- c(10, 100, 1000, 10000)
+
+run_experiment <- function(n_trials){
+  mean(replicate(n_trials, roll_die(n)))
+}
+
+results <- sapply(trials, run_experiment)
+
+data.frame(Trials = trials, Estimated_Expectation = results)
+```
+
+By combining `sapply` and `replicate`, we make our simulation code more readable and efficient!
+
+---
+
+## Back to the DnD Problem
+
+Now that we understand how to estimate expected values, let's return to Dan's choice:
+
+- **Greataxe:** Rolls two 12-sided dice.
+- **Longbow:** Rolls five 6-sided dice.
+
+How do we find the expected value of each weapon? We'll calculate this together!
+
+---
+
+## Finding Probabilities
+
+In general, we can estimate probabilities by simulating many trials and computing:
+
+$$
+\mathbb{P}(A) \approx \frac{\text{Number of times event } A \text{ occurs}}{\text{Total trials}}
+$$
+
+This works just like we estimated the expected value!
+
+---
+
+## New Problem: Catan
+
+Dan is now playing **Catan**! He has 8 cards in his hand and needs to avoid rolling a 7.
+
+If he rolls a 7, he loses half his cards. Otherwise, he wins the game!
+
+---
+
+## Simulating a Roll of Two Dice
+
+In Catan, players roll two six-sided dice. Let's simulate one roll:
+
+```{r}
+#| echo: true
+
+roll_catan <- function() {
+  sum(sample(1:6, size = 2, replace = TRUE))
+}
+
+# Example usage
+roll_catan()
+```
+
+---
+
+## Repeating the Experiment
+
+Let's roll the dice many times and estimate the probability of rolling a 7.
+
+```{r}
+#| echo: true
+
+trials <- c(10, 100, 1000, 10000)
+results <- numeric(4)
+for(i in 1:4){
+  rolls <- numeric(trials[i])
+  for(j in 1:trials[i]){
+    rolls[j] <- roll_catan()
+  }
+}
+
+
+data.frame(Trials = trials, Estimated_Probability_of_7 = results)
+```
+
+---
+
+## Finding Probability of Rolling 20 or More
+
+Back to **DnD!**
+
+Now that we know how to estimate probabilities, how can we find:
+
+$$ P(\text{Roll} \geq 20)$$
+
+for the Greataxe or Longbow?
+
+Let's discuss before we write the code!
+
+---
+
+## When Simulations are Useful
+
+Some probability problems are straightforward, but others are much harder.
+
+For example, what if probability rules are difficult to find or don't exist in a simple closed form?
+
+---
+
+## Example: Actuarial Aggregate Loss Problem {.smaller}
+In insurance, total claims can be modeled as:
+
+- **Number of claims**: Poisson$( \lambda )$
+- **Loss per claim**: Exponential$( \theta )$
+
+The **aggregate loss** is the sum of these random claims.
+
+$$S = \sum_{i=1}^N X_i$$
+
+This is a difficult to compute the mean exactly, but easy to simulate!
+
+---
+
+## Understanding Probability Distributions
+
+Certain shapes of data often lead us to describe them with formulas. You will learn more about this in **Stat 240/340**, but here’s a preview!
+
+---
+
+## Common Probability Distributions {.smaller}
+
+| Distribution | R Function | Description |
+|-------------|-----------|-------------|
+| Uniform     | `runif()`  | Evenly distributed values between min/max |
+| Normal      | `rnorm()`  | Bell-shaped curve, common in real-world data |
+| Poisson     | `rpois()`  | Counts of events occurring in fixed intervals |
+| Exponential | `rexp()`   | Models time between events in a Poisson process |
+
+---
+
+## Understanding `r`, `d`, `p`, `q` Functions in R 
+
+R provides four types of functions for each distribution:
+
+- `r` = Random generation (e.g., `rnorm(10)`) 
+- `d` = Density function (e.g., `dnorm(x)`) 
+- `p` = Cumulative probability (e.g., `pnorm(x)`) 
+- `q` = Quantile function (e.g., `qnorm(p)`) 
+
+---
+
+## Visualizing Distributions
+
+```{r}
+par(mar = c(2, 2, 1, 1)) # Reduce margins
+```
+
+::: panel-tabset
+
+### Uniform 
+```{r}
+#| echo: true
+#| fig-width: 3
+#| fig-height: 2
+
+hist(runif(1000), main = NULL, col = "lightblue")
+```
+
+### Normal 
+```{r}
+#| echo: true
+#| fig-width: 3
+#| fig-height: 2
+hist(rnorm(1000), main = NULL, col = "lightgreen")
+```
+
+### Poisson 
+```{r}
+#| echo: true
+#| fig-width: 3
+#| fig-height: 2
+
+hist(rpois(1000, lambda = 5), main = NULL, col = "lightcoral")
+```
+
+### Exponential 
+```{r}
+#| echo: true
+#| fig-width: 3
+#| fig-height: 2
+
+hist(rexp(1000, rate = 1), main = NULL, col = "lightgoldenrod")
+```
+
+:::
+
+---
+
+## Connection to Hypothesis Testing
+
+In a previous lecture, we used `pt()` to get the **p-value** for test statistics in hypothesis testing.
+
+This is an example of using probability distributions in statistical inference!
+
+---
+
+## Probability Distributions
+
+In many simulation studies, understanding probability distributions is **critical**.
+
+- They help us model random events.
+- They allow us to **generate realistic data**.
+- They enable us to compute probabilities when formulas are hard to derive.
+
+
+## Simulating Aggregate Loss in R
+
+We can estimate the expected total loss by running simulations.
+
+```{r}
+#| echo: true
+
+simulate_aggregate_loss <- function(lambda, theta, num_simulations = 10000) {
+  total_losses <- replicate(num_simulations, {
+    num_claims <- rpois(1, lambda)
+    sum(rexp(num_claims, rate = 1/theta))
+  })
+  mean(total_losses)
+}
+
+# Example usage
+simulate_aggregate_loss(lambda = 5, theta = 10000)
+```
+
+---
+
+## Why Use Simulation?
+
+There are many real-world scenarios where probability calculations are hard:
+
+- **Finance:** Stock price simulations
+- **Medicine:** Drug effectiveness trials
+- **AI:** Monte Carlo tree search in games
+- **Engineering:** Reliability testing
+
+Simulation helps when formulas are too complicated or don't exist!
+
+---
+
+## Summary
+
+- We learned how to estimate expected values and probabilities using simulation.
+- We applied this to **DnD**, **Catan**, and **actuarial models**.
+- `sapply` and `replicate` are useful for simplifying workflows
+- Probability distributions in R allow us to tackle many different problems. 
+- Simulation is useful when analytical solutions are hard or impossible to find.
+
+
+
