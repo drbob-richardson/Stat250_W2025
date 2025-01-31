@@ -1,0 +1,149 @@
+---
+title: "Assignment: Simulations 1"
+author: "YOUR_NAME_HERE"
+output: 
+format: html
+---
+
+## Problem 1
+
+Write two functions:
+
+1.  The function `roll2d12` rolls 2 dice with 12 sides and returns the sum
+2.  The function `roll5d6` rolls 5 dice with 6 sides
+
+(Done in class)
+
+```{r}
+#| echo: true
+
+# Write code below
+
+```
+
+## Problem 2
+
+Perform a simulation study to find the expected value for rolling:
+
+1.  2 die with 12 sides
+2.  5 die with 6 sides
+
+(done together in class)
+
+```{r}
+#| echo: true
+
+# Write code below
+
+```
+
+## Problem 3
+
+Perform a simulation study to find the probability of rolling a 20 or more when rolling:
+
+1.  2 die with 12 sides
+2.  5 die with 6 sides
+
+(done together in class)
+
+```{r}
+#| echo: true
+
+# Write code below
+
+```
+
+## Problem 4
+
+This code was part of the lecture examples:
+
+```{r}
+#| echo: true
+trials <- c(10, 100, 1000, 10000)
+results <- numeric(4)
+for(i in 1:4){
+  rolls <- numeric(trials[i])
+  for(j in 1:trials[i]){
+    rolls[j] <- roll_catan()
+  }
+}
+
+
+data.frame(Trials = trials, Estimated_Probability_of_7 = results)
+```
+
+Rewrite the code here using `replicate` and `sapply`
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 5
+
+Next semester, two sections of Stat 250 will be offered, with 60 seats available in each section.
+
+-   There are 120 students who want to enroll in the course.
+-   Each student independently has a preference - Section 1 and Section 2 with a 50% probability.
+-   If more than 60 students select a section, the extra students will not get their preferred section.
+
+Using simulation, estimate the expected number of students who will not get their preferred section.
+
+(Done in class)
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 6
+
+Continuing from Problem 5, what is the probability that 5 or fewer students do not get their preference?
+
+(Done in class)
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 7
+
+A student takes **two exams**, each with a different scoring distribution:
+
+-   **Exam 1:** The score follows a **normal distribution** with
+    -   Mean = **75**\
+    -   Standard deviation = **10**
+-   **Exam 2:** The score follows a **uniform distribution** between **60 and 100** (every value in this range is equally likely).
+
+Use **simulation** to estimate the **expected value** of the **average score** across both exams.
+
+That is, estimate:
+
+$$E\left[\frac{X_1 + X_2}{2} \right]$$ where
+
+-   $X_1 \sim N(75, 10^2)$  (Normal Distribution)
+-   $X_2 \sim U(60, 100)$ (Uniform Distribution).
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 8
+
+Continuing from **Problem 7**.
+
+Use **simulation** to estimate the probability that the student's **average score** is **85 or higher**, i.e.,
+
+$$P\left(\frac{X_1 + X_2}{2} \geq 85 \right) ]$$
+
+where
+
+-   $X_1 \sim N(75, 10^2)$ 
+-   $X_2 \sim U(60, 100)$ .
+
+```{r}
+#| echo: true
+
+```
