@@ -1,0 +1,249 @@
+---
+title: "Simulation: Statistical Methods"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 70)
+```
+
+## Intro to Statistical Research using Simulation Studies
+
+What statistical principles do you remember from Stat 121?
+
+-   Central Limit Theorem
+-   Law of Large Numbers
+-   Confidence Intervals
+-   Hypothesis Tests
+
+Can we use hypothesis tests to confirm some of these principles?
+
+## Intro to Statistical Research using Simulation Studies
+
+Theoretically, 68% of data from a normal distribution is within 1 standard deviation of the mean. How can we test this using a simulation study?
+
+## Intro to Statistical Research using Simulation Studies
+
+Our strategy could be
+
+1.  Simulate data from a normal distribution
+2.  Compute the proportion of data within 1 standard deviation.
+3.  Collect the proportion inside a vector
+4.  Repeat Steps 1 through 3 many times
+
+## 68% Simulation {.smaller}
+
+::: panel-tabset
+### n = 10
+
+```{r}
+#| echo: true
+# Parameters
+n <- 10   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rnorm(n, mean = 0, sd = 1)  # Generate a normal sample
+  within_1sd <- mean(sample_data > -1 & sample_data < 1)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+
+### n = 100
+
+```{r}
+#| echo: true
+# Parameters
+n <- 100   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rnorm(n, mean = 0, sd = 1)  # Generate a normal sample
+  within_1sd <- mean(sample_data > -1 & sample_data < 1)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+
+### n = 1000
+
+```{r}
+#| echo: true
+# Parameters
+n <- 1000   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rnorm(n, mean = 0, sd = 1)  # Generate a normal sample
+  within_1sd <- mean(sample_data > -1 & sample_data < 1)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+:::
+
+## 68% Simulation {.smaller}
+
+The strategy of creating a dataset in a certain way and creating a **statistic** based on the data and checking against either a theoretical value or an alternative method. For example, do you think the 68% rule will work when using a uniform distribution instead?
+
+## 68% Simulation {.smaller}
+
+::: panel-tabset
+### n = 10
+
+```{r}
+#| echo: true
+# Parameters
+n <- 10   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rexp(n, rate = 1)  # Generate an exponential sample
+  within_1sd <- mean(sample_data > 0 & sample_data < 2)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+
+### n = 100
+
+```{r}
+#| echo: true
+# Parameters
+n <- 100   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rexp(n, rate = 1)  # Generate an exponential sample
+  within_1sd <- mean(sample_data > 0 & sample_data < 2)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+
+### n = 1000
+
+```{r}
+#| echo: true
+# Parameters
+n <- 1000   # Sample size per simulation
+simulations <- 10000  # Number of simulations
+
+# Run the simulation study
+proportions <- replicate(simulations, {
+  sample_data <- rexp(n, rate = 1)  # Generate an exponential sample
+  within_1sd <- mean(sample_data > 0 & sample_data < 2)  # Proportion within 1 SD
+  return(within_1sd)
+})
+
+# Summary statistics
+mean_proportion <- mean(proportions)
+sd_proportion <- sd(proportions)
+
+# Print results
+mean_proportion
+
+```
+:::
+
+## Research Question
+
+Many research questions can be addressed via simulation study. For example
+
+1.  Confirming a theoretical property
+2.  Determining the value of a specific method (i.e. is Method A better than Method B?)
+3.  Determining the effect of violating model assumptions in a specific way
+
+## Research Question
+
+Consider the estimation of the parameter $\mu$ in a normal distribution. Here's a question we can answer with a simulation. Which estimator for $\mu$ is "better"?
+
+-   Mean of a sample
+-   Median of a sample
+-   The average of the largest and smallest value
+
+## "Better"
+
+What does "Better" mean?
+
+## Simulation Set-up Decisions
+
+The quality of your results depend on several factors
+
+- How good is your question?
+- How are you generating your data?
+- What metric are you using?
+
+## Comparing different $\mu$'s
+
+Question: Which method of estimating $\mu$ results in an estimate that is on average closest to the truth
+
+Data Generation: Generate $n = 100$ values from a standard normal $N(0,1)$
+
+Metric: We will use absolute bias, which is the absolute value of the estimate versus the truth. $Bias = | \mu_{Truth} - \hat{\mu} |$
+
+
+
+
