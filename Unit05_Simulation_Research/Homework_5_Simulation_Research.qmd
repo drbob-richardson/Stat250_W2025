@@ -1,0 +1,79 @@
+---
+title: "Homework 5: Simulation for statistical research"
+format: pdf
+editor: visual
+---
+
+## Problem 1
+
+Consider the estimation of the parameter $\mu$ in a normal distribution. Use a simulation study to answer the question, which estimator for $\mu$ is "better"?
+
+-   Mean of a sample
+-   Median of a sample
+-   The average of the largest and smallest value
+
+Generate data sets of size 100, with a mean of 0, and a variance of 1 to answer this question.
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 2
+
+What happens in the simulation from problem 1 when you change
+
+1.  The mean of the data generating distribution
+2.  The variance of the data generating distribution
+3.  The number of data points in each data set.
+
+Write code to explore this and make a statement as to if your answer changes as to which estimator is best.
+
+```{r}
+#| echo: true
+
+
+```
+
+## Problem 3
+
+Conduct a simulation study to assess how often a two-sample t-test correctly detects when two groups have the same or different means. Follow these two scenarios:
+
+1.  **Equal Means:** Generate 30 samples for Group A and Group B from a normal distribution with mean 12 and standard deviation 3.
+2.  **Different Means:** Generate 30 samples for Group A from a normal distribution with mean 12 and standard deviation 3, while Group B has mean 10 and standard deviation 3.
+
+For each scenario, perform a simulation study and determine how often the t-test correctly identifies: - The means are the same in the first scenario. - The means are different in the second scenario.
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 4
+
+Repeat the same simulation study as in Problem 3, but this time modify Group B to have a standard deviation of 1 in both scenarios.
+
+Compare the results with those from Problem 3 and discuss the impact of unequal variances on the accuracy of the t-test.
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 5
+
+Conduct a simulation study to confirm the **Central Limit Theorem (CLT)** by drawing samples from a uniform distribution and analyzing the distribution of the sample means.
+
+### Steps:
+
+1.  Generate multiple samples from a **Uniform(0,1)** distribution.
+2.  Compute the sample mean for each iteration.
+3.  Use the **Shapiro-Wilk test** to assess whether the distribution of sample means is approximately normal.
+
+Run this simulation for different sample sizes (e.g., n = 5, 10, 30, 100) and observe how the distribution of the sample means changes.
+
+```{r}
+#| echo: true
+
+```

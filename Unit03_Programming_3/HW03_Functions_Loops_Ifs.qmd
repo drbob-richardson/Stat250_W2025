@@ -14,6 +14,31 @@ Use `loop`s and `if` statements to create the sequence. (Done together in class)
 ```{r}
 #| echo: true
 
+n <- 20
+# Initialize an empty vector for the sequence
+sequence <- character(n)
+
+# Define the possible bases
+possible_bases <- c("A", "T", "C", "G")
+
+  # Loop through and create the sequence
+for (i in 1:n) {
+  if (i %% 2 != 0) {
+    # If index is odd, assign a random base
+    sequence[i] <- sample(possible_bases, 1)
+  } else {
+     # If index is even, assign the complement of the previous base
+    if (sequence[i - 1] == "A") {
+      sequence[i] <- "T"
+    } else if (sequence[i - 1] == "T") {
+      sequence[i] <- "A"
+    } else if (sequence[i - 1] == "C") {
+      sequence[i] <- "G"
+    } else if (sequence[i - 1] == "G") {
+      sequence[i] <- "C"
+    }
+  }
+}
 
 ```
 

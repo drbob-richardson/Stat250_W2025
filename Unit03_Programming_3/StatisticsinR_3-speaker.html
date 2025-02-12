@@ -780,20 +780,20 @@ Dr.&nbsp;Robert Richardson
 <div id="tabset-3-1">
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># Replace NAs with 0 using logical subsetting</span></span>
-<span id="cb27-2"><a href=""></a>clinical_data<span class="sc">$</span>Dosage[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>Dosage)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb27-2"><a href=""></a>clinical_data<span class="sc">$</span>CigarettesPerDay[<span class="fu">is.na</span>(clinical_data<span class="sc">$</span>CigarettesPerDay)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb27-3"><a href=""></a>clinical_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ID Treatment_Group CigarettesPerDay Dosage
-1   1               A                0     10
-2   2               B               10     20
-3   3               A                0     10
-4   4               B                5     20
-5   5               A                0     10
-6   6               B               25     20
-7   7               A                0     10
-8   8               B                0     20
-9   9               A               15     10
-10 10               B                0     20</code></pre>
+1   1               A                0      0
+2   2               B               10      0
+3   3               A                0      0
+4   4               B                5      0
+5   5               A                0      0
+6   6               B               25      0
+7   7               A                0      0
+8   8               B                0      0
+9   9               A               15      0
+10 10               B                0      0</code></pre>
 </div>
 </div>
 </div>
@@ -841,7 +841,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb31-10"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.769   1.687   3.520 </code></pre>
+  1.590   1.220   2.828 </code></pre>
 </div>
 </div>
 </div>
@@ -855,7 +855,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb33-6"><a href=""></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.001   0.000   0.001 </code></pre>
+  0.001   0.000   0.002 </code></pre>
 </div>
 </div>
 </div>

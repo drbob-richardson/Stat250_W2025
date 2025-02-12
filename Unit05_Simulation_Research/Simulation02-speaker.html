@@ -455,7 +455,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb1-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb1-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.68212</code></pre>
+<pre><code>[1] 0.68177</code></pre>
 </div>
 </div>
 </div>
@@ -479,7 +479,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb3-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb3-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.682195</code></pre>
+<pre><code>[1] 0.683026</code></pre>
 </div>
 </div>
 </div>
@@ -503,7 +503,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb5-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb5-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6828001</code></pre>
+<pre><code>[1] 0.6825026</code></pre>
 </div>
 </div>
 </div>
@@ -512,7 +512,13 @@ Dr.&nbsp;Robert Richardson
 </section>
 <section id="simulation-1" class="slide level2 smaller">
 <h2>68% Simulation</h2>
-<p>The strategy of creating a dataset in a certain way and creating a <strong>statistic</strong> based on the data and checking against either a theoretical value or an alternative method. For example, do you think the 68% rule will work when using a uniform distribution instead?</p>
+<p>This is a common strategy.</p>
+<ol type="1">
+<li>Create a dataset in a certain way</li>
+<li>Computing a <strong>statistic</strong> based on the data</li>
+<li>Compare against either a theoretical value or an alternative method.</li>
+</ol>
+<p>For example, do you think the 68% rule will work when using an exponential distribution instead?</p>
 </section>
 <section id="simulation-2" class="slide level2 smaller">
 <h2>68% Simulation</h2>
@@ -539,7 +545,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb7-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb7-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.86596</code></pre>
+<pre><code>[1] 0.86515</code></pre>
 </div>
 </div>
 </div>
@@ -563,7 +569,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb9-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb9-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.863514</code></pre>
+<pre><code>[1] 0.864764</code></pre>
 </div>
 </div>
 </div>
@@ -587,7 +593,7 @@ Dr.&nbsp;Robert Richardson
 <span id="cb11-16"><a href=""></a><span class="co"># Print results</span></span>
 <span id="cb11-17"><a href=""></a>mean_proportion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8645654</code></pre>
+<pre><code>[1] 0.8646802</code></pre>
 </div>
 </div>
 </div>
@@ -630,6 +636,136 @@ Dr.&nbsp;Robert Richardson
 <p>Question: Which method of estimating <span class="math inline">\(\mu\)</span> results in an estimate that is on average closest to the truth</p>
 <p>Data Generation: Generate <span class="math inline">\(n = 100\)</span> values from a standard normal <span class="math inline">\(N(0,1)\)</span></p>
 <p>Metric: We will use absolute bias, which is the absolute value of the estimate versus the truth. <span class="math inline">\(Bias = | \mu_{Truth} - \hat{\mu} |\)</span></p>
+</section>
+<section id="reviewing-a-two-sample-t-test" class="slide level2">
+<h2>Reviewing a Two-Sample t-Test</h2>
+<p>A <strong>two-sample t-test</strong> is used to compare the means of two independent groups.</p>
+<ul>
+<li>Assumes equal variances</li>
+<li>Tests the null hypothesis: <span class="math inline">\(H_0: \mu_1 = \mu_2\)</span></li>
+<li>Alternative hypothesis: <span class="math inline">\(H_A: \mu_1 \neq \mu_2\)</span></li>
+</ul>
+</section>
+<section id="running-a-two-sample-t-test-in-r" class="slide level2 smaller">
+<h2>Running a Two-Sample t-Test in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Simulated data</span></span>
+<span id="cb13-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">250</span>)</span>
+<span id="cb13-3"><a href=""></a>group1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb13-4"><a href=""></a>group2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">12</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb13-5"><a href=""></a></span>
+<span id="cb13-6"><a href=""></a><span class="co"># Perform t-test</span></span>
+<span id="cb13-7"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">t.test</span>(group1, group2, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-8"><a href=""></a><span class="fu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  group1 and group2
+t = -2.9661, df = 58, p-value = 0.004374
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.5021652 -0.6798769
+sample estimates:
+mean of x mean of y 
+ 9.875105 11.966126 </code></pre>
+</div>
+</div>
+</section>
+<section id="assumptions-of-the-two-sample-t-test" class="slide level2">
+<h2>Assumptions of the Two-Sample t-Test</h2>
+<p>A two-sample t-test assumes:</p>
+<ol type="1">
+<li><strong>Independence</strong>: Observations in each group are independent.</li>
+<li><strong>Normality</strong>: Data in both groups follow a normal distribution.</li>
+<li><strong>Equal Variance</strong>: The two groups have the same variance.</li>
+</ol>
+<h3 id="what-happens-when-assumptions-are-violated">What Happens When Assumptions Are Violated?</h3>
+<ul>
+<li>If normality is violated, small samples may give misleading results.</li>
+<li>If variances are unequal, the standard t-test may be inappropriate.</li>
+<li><strong>We can use simulations to explore these violations!</strong></li>
+</ul>
+</section>
+<section id="writing-code-to-explore-violations" class="slide level2">
+<h2>Writing Code to Explore Violations</h2>
+<p>A simulation study can help us:</p>
+<ol type="1">
+<li>Simulate datasets with violated assumptions.</li>
+<li>Apply a two-sample t-test.</li>
+<li>Compare results with the theoretical expectations.</li>
+</ol>
+<p><strong>We will code this together in the homework.</strong></p>
+</section>
+<section id="introducing-the-shapiro-wilk-test" class="slide level2">
+<h2>Introducing the Shapiro-Wilk Test</h2>
+<p>The <strong>Shapiro-Wilk test</strong> assesses whether a dataset follows a normal distribution.</p>
+<ul>
+<li>Null hypothesis: The data is normally distributed.</li>
+<li>Alternative hypothesis: The data is <strong>not</strong> normally distributed.</li>
+</ul>
+</section>
+<section id="running-the-shapiro-wilk-test-in-r" class="slide level2 smaller">
+<h2>Running the Shapiro-Wilk Test in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="co"># Generate some normal and non-normal data</span></span>
+<span id="cb15-2"><a href=""></a>normal_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb15-3"><a href=""></a>skewed_data <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">50</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
+<span id="cb15-4"><a href=""></a></span>
+<span id="cb15-5"><a href=""></a><span class="co"># Perform the Shapiro-Wilk test</span></span>
+<span id="cb15-6"><a href=""></a><span class="fu">shapiro.test</span>(normal_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  normal_data
+W = 0.9744, p-value = 0.3461</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">shapiro.test</span>(skewed_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  skewed_data
+W = 0.868, p-value = 0.00004934</code></pre>
+</div>
+</div>
+</section>
+<section id="reviewing-the-central-limit-theorem-clt" class="slide level2">
+<h2>Reviewing the Central Limit Theorem (CLT)</h2>
+<p>The <strong>Central Limit Theorem</strong> states:</p>
+<ul>
+<li>The distribution of the sample mean <strong>approaches normality</strong> as sample size increases.</li>
+<li>This happens <strong>regardless</strong> of the original data distribution.</li>
+</ul>
+</section>
+<section id="using-a-simulation-study-to-confirm-the-clt" class="slide level2">
+<h2>Using a Simulation Study to Confirm the CLT</h2>
+<h3 id="strategy">Strategy:</h3>
+<ol type="1">
+<li>Draw repeated samples from a non-normal distribution.</li>
+<li>Compute sample means.</li>
+<li>Apply the Shapiro-Wilk test to check normality.</li>
+</ol>
+</section>
+<section id="implementing-this-in-class" class="slide level2">
+<h2>Implementing This in Class</h2>
+<p>We will write R code together in class to:</p>
+<ul>
+<li>Simulate samples from a non-normal distribution.</li>
+<li>Compute the sample means.</li>
+<li>Test for normality using the Shapiro-Wilk test.</li>
+</ul>
+</section>
+<section id="summary-the-role-of-simulation-studies-in-research" class="slide level2">
+<h2>Summary: The Role of Simulation Studies in Research</h2>
+<p>We have discussed using simulation studies to:</p>
+<ul>
+<li>Confirm theoretical properties (e.g., CLT).</li>
+<li>Evaluate statistical methods (e.g., t-test assumptions).</li>
+<li>Explore the impact of violating assumptions.</li>
+</ul>
+<p><strong>Next Steps:</strong> We will implement these ideas in class and in homework!</p>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 

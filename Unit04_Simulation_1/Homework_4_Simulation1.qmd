@@ -2,7 +2,7 @@
 title: "Assignment: Simulations 1"
 author: "YOUR_NAME_HERE"
 output: 
-format: html
+format: pdf
 ---
 
 ## Problem 1
@@ -18,7 +18,16 @@ Write two functions:
 #| echo: true
 
 # Write code below
+roll2d12 <- function(){
+  sum(sample(1:12,2,replace = TRUE))
+}
 
+roll5d6 <- function(){
+  sum(sample(1:6,5,replace = TRUE))
+}
+
+print(roll2d12())
+print(roll5d6())
 ```
 
 ## Problem 2
@@ -33,7 +42,18 @@ Perform a simulation study to find the expected value for rolling:
 ```{r}
 #| echo: true
 
+set.seed(1234)
 # Write code below
+n_sims <- 10000
+
+# run simulation
+greataxe <- replicate(n_sims,roll2d12())
+longbow <- replicate(n_sims,roll5d6())
+
+
+
+print(paste("The simulated expected roll for the great axe is", mean(greataxe)))
+print(paste("The simulated expected roll for the longbow is",mean(longbow)))
 
 ```
 
@@ -50,6 +70,21 @@ Perform a simulation study to find the probability of rolling a 20 or more when 
 #| echo: true
 
 # Write code below
+n_sims <- 10000
+
+# initialize a vector
+greataxe_prob <- numeric(10000)
+longbow_prob <- numeric(10000)
+
+# simulation loop
+for(i in 1:n_sims){
+  greataxe_prob[i] <- (roll2d12() >= 20)
+  longbow_prob[i] <- (roll5d6() >= 20)
+}
+
+print(paste("The simulated probability for the great axe is", mean(greataxe_prob)))
+print(paste("The simulated probability for the longbow is",mean(longbow_prob)))
+
 
 ```
 
@@ -59,13 +94,20 @@ This code was part of the lecture examples:
 
 ```{r}
 #| echo: true
-trials <- c(10, 100, 1000, 10000)
+
+roll_catan <- function() {
+  sum(sample(1:6, size = 2, replace = TRUE))
+}
+
+trials <- c(10, 100, 1000, 10000) # 4 different sizes of simulation studies
+
 results <- numeric(4)
 for(i in 1:4){
-  rolls <- numeric(trials[i])
+  rolls <- numeric(trials[i]) # initializing a vector
   for(j in 1:trials[i]){
-    rolls[j] <- roll_catan()
+    rolls[j] <- roll_catan() # rolling many times
   }
+  results[i] <- mean(rolls == 7) # computing the proportion of rolls that were equal to 7
 }
 
 
@@ -122,7 +164,7 @@ That is, estimate:
 
 $$E\left[\frac{X_1 + X_2}{2} \right]$$ where
 
--   $X_1 \sim N(75, 10^2)$  (Normal Distribution)
+-   $X_1 \sim N(75, 10^2)$ (Normal Distribution)
 -   $X_2 \sim U(60, 100)$ (Uniform Distribution).
 
 ```{r}
@@ -140,7 +182,7 @@ $$P\left(\frac{X_1 + X_2}{2} \geq 85 \right) ]$$
 
 where
 
--   $X_1 \sim N(75, 10^2)$ 
+-   $X_1 \sim N(75, 10^2)$
 -   $X_2 \sim U(60, 100)$ .
 
 ```{r}

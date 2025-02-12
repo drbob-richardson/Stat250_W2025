@@ -130,7 +130,13 @@ mean_proportion
 
 ## 68% Simulation {.smaller}
 
-The strategy of creating a dataset in a certain way and creating a **statistic** based on the data and checking against either a theoretical value or an alternative method. For example, do you think the 68% rule will work when using a uniform distribution instead?
+This is a common strategy.
+
+1. Create a dataset in a certain way 
+2. Computing  a **statistic** based on the data
+3. Compare against either a theoretical value or an alternative method. 
+
+For example, do you think the 68% rule will work when using an exponential distribution instead?
 
 ## 68% Simulation {.smaller}
 
@@ -244,6 +250,106 @@ Data Generation: Generate $n = 100$ values from a standard normal $N(0,1)$
 
 Metric: We will use absolute bias, which is the absolute value of the estimate versus the truth. $Bias = | \mu_{Truth} - \hat{\mu} |$
 
+
+
+## Reviewing a Two-Sample t-Test
+
+A **two-sample t-test** is used to compare the means of two independent groups.
+
+- Assumes equal variances
+- Tests the null hypothesis: $H_0: \mu_1 = \mu_2$
+- Alternative hypothesis: $H_A: \mu_1 \neq \mu_2$
+
+## Running a Two-Sample t-Test in R {.smaller}
+
+```{r}
+#| echo: true
+# Simulated data
+set.seed(250)
+group1 <- rnorm(30, mean = 10, sd = 3)
+group2 <- rnorm(30, mean = 12, sd = 3)
+
+# Perform t-test
+results <- t.test(group1, group2, var.equal = TRUE)
+print(results)
+```
+
+## Assumptions of the Two-Sample t-Test
+
+A two-sample t-test assumes:
+
+1. **Independence**: Observations in each group are independent.
+2. **Normality**: Data in both groups follow a normal distribution.
+3. **Equal Variance**: The two groups have the same variance.
+
+### What Happens When Assumptions Are Violated?
+
+- If normality is violated, small samples may give misleading results.
+- If variances are unequal, the standard t-test may be inappropriate.
+- **We can use simulations to explore these violations!**
+
+## Writing Code to Explore Violations
+
+A simulation study can help us:
+
+1. Simulate datasets with violated assumptions.
+2. Apply a two-sample t-test.
+3. Compare results with the theoretical expectations.
+
+**We will code this together in the homework.**
+
+## Introducing the Shapiro-Wilk Test
+
+The **Shapiro-Wilk test** assesses whether a dataset follows a normal distribution.
+
+- Null hypothesis: The data is normally distributed.
+- Alternative hypothesis: The data is **not** normally distributed.
+
+## Running the Shapiro-Wilk Test in R {.smaller}
+
+```{r}
+#| echo: true
+# Generate some normal and non-normal data
+normal_data <- rnorm(50, mean = 5, sd = 2)
+skewed_data <- rexp(50, rate = 1)
+
+# Perform the Shapiro-Wilk test
+shapiro.test(normal_data)
+shapiro.test(skewed_data)
+```
+
+## Reviewing the Central Limit Theorem (CLT)
+
+The **Central Limit Theorem** states:
+
+- The distribution of the sample mean **approaches normality** as sample size increases.
+- This happens **regardless** of the original data distribution.
+
+## Using a Simulation Study to Confirm the CLT
+
+### Strategy:
+
+1. Draw repeated samples from a non-normal distribution.
+2. Compute sample means.
+3. Apply the Shapiro-Wilk test to check normality.
+
+## Implementing This in Class
+
+We will write R code together in class to:
+
+- Simulate samples from a non-normal distribution.
+- Compute the sample means.
+- Test for normality using the Shapiro-Wilk test.
+
+## Summary: The Role of Simulation Studies in Research
+
+We have discussed using simulation studies to:
+
+- Confirm theoretical properties (e.g., CLT).
+- Evaluate statistical methods (e.g., t-test assumptions).
+- Explore the impact of violating assumptions.
+
+**Next Steps:** We will implement these ideas in class and in homework!
 
 
 

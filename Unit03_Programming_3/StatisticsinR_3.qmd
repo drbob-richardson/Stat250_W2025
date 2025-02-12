@@ -303,13 +303,23 @@ for (i in 1:5) {
 
 Logical subsetting is a more efficient way to manipulate data frames.
 
+```{r}
+# Sample data frame
+clinical_data <- data.frame(
+  ID = 1:10,
+  Treatment_Group = c("A", "B", "A", "B", "A", "B", "A", "B", "A", "B"),
+  CigarettesPerDay = c(NA, 10, NA, 5, NA, 25, NA, NA, 15, NA),
+  Dosage = c(0,0,0,0,0,0,0,0,0,0)
+)
+```
+
 ::: panel-tabset
 #### Replacing NAs
 
 ```{r}
 #| echo: true
 # Replace NAs with 0 using logical subsetting
-clinical_data$Dosage[is.na(clinical_data$Dosage)] <- 0
+clinical_data$CigarettesPerDay[is.na(clinical_data$CigarettesPerDay)] <- 0
 clinical_data
 ```
 
