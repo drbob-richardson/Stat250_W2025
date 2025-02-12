@@ -1,0 +1,152 @@
+---
+title: "Introduction to R Scripts and Quarto Documents"
+subtitle: "BYU STAT 250"
+author: "Dr. Robert Richardson"
+format: 
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+## Introduction to R Scripts and Quarto
+
+- **R Scripts (.R)**: Used for running R code sequentially.
+- **Quarto Documents (.qmd)**: Used for writing reports, tutorials, and presentations with embedded R code.
+- **Why use Quarto?**
+  - Combines code, text, and output.
+  - Supports reproducibility.
+  - Can output to multiple formats (HTML, PDF, Word, and slides).
+
+## Basics of Code Chunks in Quarto
+
+- A code chunk in Quarto is defined using triple backticks and `{r}`:
+
+```{r}
+#| echo: true
+# Example R chunk
+summary(mtcars)
+```
+
+## Basics of Code Chunks in Quarto
+
+- Options for controlling execution:
+  - `echo = FALSE`: Hides code but shows output.
+  - `eval = FALSE`: Shows code but does not run it.
+  - `include = FALSE`: Runs code but does not display code or output.
+  - `results = 'hide'`: Runs code but does not show textual output.
+  - `fig.show = 'hide'`: Runs code but hides plots.
+
+## Controlling Code Chunk Options {.smaller}
+
+::: panel-tabset
+### Show Code and Output
+```{r}
+#| echo: true
+# Shows both code and output
+mean(mtcars$mpg)
+```
+
+### Hide Code but Show Output
+```{r}
+mean(mtcars$mpg)
+```
+
+### Show Code but Do Not Evaluate
+```{r}
+#| eval: false
+mean(mtcars$mpg)
+```
+:::
+
+## Displaying Plots in Quarto
+
+```{r}
+# Basic plot example
+plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
+```
+
+- You can control figure options:
+  - `fig.width`, `fig.height`: Control plot size.
+  - `out.width`, `out.height`: Control display size.
+  - `fig.align`: Align images (`'left'`, `'center'`, `'right'`).
+
+## Formatting Tables in Quarto
+
+```{r}
+#| echo: true
+library(knitr)
+kable(mtcars[1:4,1:4], caption = "A Simple Table in Quarto")
+```
+
+- Use **kable** for basic tables.
+- Use **gt** or **flextable** for advanced formatting.
+
+## Best Practices for Code and Reports
+
+- **Keep Code Readable**:
+  - Use comments (`#`) to explain complex parts.
+  - Use meaningful variable names.
+- **Organize Your Quarto File**:
+  - Use headers (`#` for section, `##` for subsection).
+  - Use bullet points for clarity.
+  - Format tables and figures properly.
+- **Reproducibility**:
+  - Set random seeds in simulations (`set.seed(123)`).
+  - Document dataset sources and transformations.
+
+## Saving and Loading Workspaces
+
+- Save your workspace for later use:
+```{r eval=FALSE, echo = TRUE}
+save.image("my_workspace.RData")
+```
+- Load a saved workspace:
+```{r eval=FALSE, echo = TRUE}
+load("my_workspace.RData")
+```
+
+## Sourcing External R Files
+
+- Run external R scripts inside your Quarto document:
+```{r eval=FALSE}
+source("my_script.R")
+```
+
+## Loading and Saving Data
+
+### CSV Format
+```{r eval=FALSE}
+data <- read.csv("data.csv")
+write.csv(data, "output.csv")
+```
+
+### R Data Format
+```{r eval=FALSE}
+save(data, file = "data.RData")
+load("data.RData")
+```
+
+### Other Formats (Excel, JSON, etc.)
+```{r eval=FALSE}
+library(readxl)
+data <- read_excel("data.xlsx")
+
+library(jsonlite)
+data <- fromJSON("data.json")
+```
+
+## Summary
+
+- Use **R Scripts** for sequential code execution.
+- Use **Quarto Documents** for reports, slides, and analysis.
+- Control **code chunk options** for better presentation.
+- Save and load **workspaces and datasets** efficiently.
+- Follow **best practices** for readable and reproducible research.
+
+**Next Steps:** Start practicing by creating a new Quarto document and testing different chunk options!
