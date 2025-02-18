@@ -1,0 +1,9 @@
+Source: FarmRecords Inc.
+Data collected on: 2025-01-15
+Notes: Milk production measured in liters per day
+"CowID","Breed","MilkProduction","Weight"
+"C1","Holstein",32.1,665
+"C2","Jersey",23.3,661
+"C3","Guernsey",32.9,545
+"C4","Ayrshire",24.3,771
+"C5","Brown Swiss",35.4,720

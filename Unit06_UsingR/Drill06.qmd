@@ -1,0 +1,62 @@
+---
+title: "Drills_6_Loading_Saving"
+format: pdf
+editor: visual
+---
+
+## Problem 1
+
+Create an R code chunk that creates a variable x equal to 7 that displays the code.
+
+## Problem 2
+
+Create an R code chunk that saves the full R environment, display the code but do not evaluate the code chunk. 
+
+## Problem 3
+
+Save the following data set to a csv file title "hw_data.csv"
+
+```{r}
+#| echo: true
+
+d <- data.frame(
+  "A" = c(1,2,3),
+  "B" = c(TRUE, TRUE, FALSE)
+)
+```
+
+## Problem 4
+
+Load the chickens data set from the URL below. Examine the data first to see if there any issues that need to be addressed upon read-in.
+
+[Chickens Data](https://drbob-richardson.github.io/Stat250_W2025/data/chickens.csv)
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 5
+
+Load the cows data set from the URL below.  Examine the data first to see if there any issues that need to be addressed upon read-in.
+
+[Cows Data](https://drbob-richardson.github.io/Stat250_W2025/data/cows.csv)
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 6
+
+Load the sheep data set from the URL below. Load the chickens data set from the URL below. Examine the data first to see if there any issues that need to be addressed upon read-in.
+
+[Sheep Data](https://drbob-richardson.github.io/Stat250_W2025/data/sheep.csv)
+
+```{r}
+#| echo: true
+
+```
+
+
+

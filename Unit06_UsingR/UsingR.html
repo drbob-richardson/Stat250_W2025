@@ -740,7 +740,7 @@ Dr.&nbsp;Robert Richardson
 </div>
 <div id="tabset-3-3">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">unlink</span>(<span class="st">"my_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">rm</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-4">
@@ -768,10 +768,117 @@ Dr.&nbsp;Robert Richardson
 <li>Header row spacing issues can arise if missing column names.</li>
 </ul>
 </section>
+<section id="data-loading-different-delimiters" class="slide level2">
+<h2>Data Loading: Different Delimiters</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Comma-Separated Values (CSV)</a></li><li><a href="#tabset-4-2">Tab-Separated Values (TSV)</a></li><li><a href="#tabset-4-3">Semicolon-Separated Values</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="co"># Reading the CSV file using the default comma delimiter.</span></span>
+<span id="cb23-2"><a href=""></a>data_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_comma.csv"</span>)</span>
+<span id="cb23-3"><a href=""></a><span class="co"># Display the first few rows of the CSV data.</span></span>
+<span id="cb23-4"><a href=""></a><span class="fu">head</span>(data_csv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A B
+1 1 a
+2 2 b
+3 3 c
+4 4 d
+5 5 e</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="co"># Reading the TSV file; read.delim uses the tab character ('\t') by default.</span></span>
+<span id="cb25-2"><a href=""></a>data_tsv <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_tsv.txt"</span>)</span>
+<span id="cb25-3"><a href=""></a><span class="co"># Display the first few rows of the TSV data.</span></span>
+<span id="cb25-4"><a href=""></a><span class="fu">head</span>(data_tsv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A B
+1 1 a
+2 2 b
+3 3 c
+4 4 d
+5 5 e</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># Reading the file where values are separated by semicolons.</span></span>
+<span id="cb27-2"><a href=""></a><span class="co"># Specify the separator using sep = ";".</span></span>
+<span id="cb27-3"><a href=""></a>data_semicolon <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_semicolon.csv"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb27-4"><a href=""></a><span class="co"># Display the first few rows of the semicolon-separated data.</span></span>
+<span id="cb27-5"><a href=""></a><span class="fu">head</span>(data_semicolon)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A B
+1 1 a
+2 2 b
+3 3 c
+4 4 d
+5 5 e</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="dealing-with-headers-in-data-files" class="slide level2">
+<h2>Dealing with Headers in Data Files</h2>
+<p>Data files can come with various header configurations:</p>
+<ul>
+<li><strong>Standard Header:</strong> Most CSV files include a header row with column names.</li>
+<li><strong>Missing Headers:</strong> If a file does not include a header row, use <code>header = FALSE</code> and optionally supply column names.</li>
+<li><strong>Extra Header Lines:</strong> Some files include additional metadata in extra header lines; you can skip these using the <code>skip</code> parameter.</li>
+</ul>
+</section>
+<section id="example-reading-a-file-without-headers" class="slide level2">
+<h2>Example: Reading a File Without Headers</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="co"># Reading a CSV file that does not have a header row.</span></span>
+<span id="cb29-2"><a href=""></a><span class="co"># We manually specify column names as "Var1" and "Var2".</span></span>
+<span id="cb29-3"><a href=""></a>data_no_header <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_no_header.csv"</span>, </span>
+<span id="cb29-4"><a href=""></a>                           <span class="at">header =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb29-5"><a href=""></a>                           <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Var1"</span>, <span class="st">"Var2"</span>))</span>
+<span id="cb29-6"><a href=""></a><span class="co"># Display the first few rows to verify the data.</span></span>
+<span id="cb29-7"><a href=""></a><span class="fu">head</span>(data_no_header)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Var1 Var2
+1    1    a
+2    2    b
+3    3    c
+4    4    d
+5    5    e</code></pre>
+</div>
+</div>
+</section>
+<section id="skipping-lines-in-data-files" class="slide level2">
+<h2>Skipping Lines in Data Files</h2>
+<p>Sometimes files include extra lines (e.g., metadata or comments) at the top. Use the <code>skip</code> argument to ignore these lines.</p>
+<h3 id="example-skipping-metadata-lines">Example: Skipping Metadata Lines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Skip the first 3 lines of the file, which contain metadata.</span></span>
+<span id="cb31-2"><a href=""></a>data_skipped <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv"</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb31-3"><a href=""></a><span class="co"># Display the first few rows of the data after skipping the extra lines.</span></span>
+<span id="cb31-4"><a href=""></a><span class="fu">head</span>(data_skipped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A B
+1 1 a
+2 2 b
+3 3 c
+4 4 d
+5 5 e</code></pre>
+</div>
+</div>
+</section>
 <section id="example-with-the-titanic-dataset" class="slide level2">
 <h2>Example with the Titanic Dataset</h2>
 <p><a href="https://drbob-richardson.github.io/Stat250_W2025/data/KaggleTitanicTrain.csv">titanic.csv</a></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>titanic_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/KaggleTitanicTrain.csv"</span>)</span>
+<span id="cb33-2"><a href=""></a><span class="fu">head</span>(titanic_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PassengerId Survived Pclass
 1           1        0      3
@@ -803,6 +910,11 @@ Dr.&nbsp;Robert Richardson
 <li>Download <a href="https://drbob-richardson.github.io/Stat250_W2025/data/NBArecordatbreak.xlsx">NBArecordatbreak.xlsx</a></li>
 <li>Load it in R using the <strong>readxl</strong> package.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">library</span>(readxl)</span>
+<span id="cb35-2"><a href=""></a>nba_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"NBArecordatbreak.xlsx"</span>)</span>
+<span id="cb35-3"><a href=""></a><span class="fu">head</span>(nba_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>

@@ -1,0 +1,82 @@
+---
+title: "Homework 6: Data Collaboration and Processing"
+format: pdf
+editor: visual
+---
+
+## Background
+
+You are collaborating with a colleague who sent you a data set named `collaboration_data.csv` (located  [here](https://drbob-richardson.github.io/Stat250_W2025/data/collaboration_data.csv) folder). Your task is to examine the data and filter it so that only rows with a `Score` of at least 50 are kept. In this assignment you will:
+
+1. **Write a function** in a separate R script (`process_data.R`) that takes a data frame as input and returns a revised data frame containing only rows where the `Score` column is greater than or equal to 50.
+2. **Source** that function into this QMD file.
+3. **Load** the data set.
+4. **Process** the data using your function.
+5. **Save** the filtered data to a new file (`collaboration_data_filtered.csv`).
+6. **Save** your entire R environment so that you can send everything to your colleague.
+
+You must turn in:
+- The PDF output of this document.
+- Your extra R script (`process_data.R`).
+- The filtered data file (`collaboration_data_filtered.csv`).
+- The saved R environment image (`collaboration_environment.RData`).
+
+---
+
+## Problem 1: Create the Processing Function
+
+Create a separate R script file named **process_data.R**. In that file, write a function named `process_data()` that takes one argument (a data frame) and returns a revised data frame that includes only rows where the `Score` column is at least 50.
+
+
+---
+
+## Problem 2: Source the Function and Load the Data
+
+In the code chunk below, source your `process_data.R` script. 
+
+```{r}
+#| echo: true
+
+```
+
+## Problem 3: 
+
+In the code chunk below, load the data set `collaboration_data.csv`. It can be found at [https://drbob-richardson.github.io/Stat250_W2025/data/collaboration_data.csv](https://drbob-richardson.github.io/Stat250_W2025/data/collaboration_data.csv)
+
+```{r}
+#| echo: true
+
+```
+
+
+## Problem 4: Process the Data
+
+Now use the function you sourced to process the data by filtering for rows with a `Score` of at least 50. Display the first 10 observations. 
+
+```{r}
+#| echo: true
+
+```
+
+---
+
+## Problem 5: Save the Filtered Data
+
+Save the filtered data set to a new CSV file named `collaboration_data_filtered.csv`.
+
+```{r}
+#| echo: true
+
+
+```
+
+---
+
+## Problem 6: Save the R Environment
+
+Finally, save your entire R environment to a file named `collaboration_environment.RData` so you can send your colleague everything you have.
+
+```{r}
+#| echo: true
+
+```

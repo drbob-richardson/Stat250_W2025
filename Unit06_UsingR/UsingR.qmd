@@ -320,7 +320,7 @@ Data files can come with various header configurations:
 - **Missing Headers:** If a file does not include a header row, use `header = FALSE` and optionally supply column names.
 - **Extra Header Lines:** Some files include additional metadata in extra header lines; you can skip these using the `skip` parameter.
 
-### Example: Reading a File Without Headers
+## Example: Reading a File Without Headers
 ```{r}
 #| echo: true
 # Reading a CSV file that does not have a header row.
