@@ -48,6 +48,25 @@ For each scenario, perform a simulation study and determine how often the t-test
 ```{r}
 #| echo: true
 
+## Scenario 1
+# Simulated data
+
+alpha <- .05
+sim_scenario <- function(nA = 30, nB = 30,muA = 12,muB = 12,sA = 3, sB = 3){
+  groupA <- rnorm(nA, mean = muA, sd = sA)
+  groupB <- rnorm(nB, mean = muB, sd = sB)
+
+# Perform t-test
+  results <- t.test(groupA, groupB, var.equal = TRUE)
+  results$p.value > alpha
+}
+
+B <- 10000
+results1 <- replicate(B,sim_scenario())
+print(paste("The proportion of correct conclusion in scenario 1 is",mean(results1)))
+results2 <- replicate(B,sim_scenario(muB = 10))
+print(paste("The proportion of correct conclusion in scenario 2 is",1-mean(results2)))
+
 ```
 
 ## Problem 4
@@ -58,6 +77,10 @@ Compare the results with those from Problem 3 and discuss the impact of unequal 
 
 ```{r}
 #| echo: true
+results1 <- replicate(B,sim_scenario(sB = 2, sA = 100))
+print(paste("The proportion of correct conclusion in scenario 1 is",mean(results1)))
+results2 <- replicate(B,sim_scenario(muB = 10, sB = 2, sA = 1))
+print(paste("The proportion of correct conclusion in scenario 2 is",1-mean(results2)))
 
 ```
 

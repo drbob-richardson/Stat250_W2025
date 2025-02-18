@@ -60,9 +60,21 @@ mean(mtcars$mpg)
 ### Show Code but Do Not Evaluate
 ```{r}
 #| eval: false
+#| echo: true
 mean(mtcars$mpg)
 ```
 :::
+
+## Headers
+
+Using the hashtag '#' can create headers, and subtitles
+
+### Like this one
+
+#### or this one
+
+
+A double hashtag "##" creates a new page in a slide
 
 ## Displaying Plots in Quarto
 
@@ -76,6 +88,45 @@ plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
   - `out.width`, `out.height`: Control display size.
   - `fig.align`: Align images (`'left'`, `'center'`, `'right'`).
 
+## Customizing Plots
+
+::: panel-tabset
+
+### Original
+```{r}
+# Basic plot example
+plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
+```
+
+### Thinner
+```{r}
+#| fig-width: 5 # the default is 10
+# Basic plot example
+plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
+```
+
+### Shorter
+```{r}
+#| fig-height: 2 # the default is 5
+
+# Basic plot example
+plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
+```
+
+### Centered
+```{r}
+#| fig-width: 5 # the default is 10
+#| fig-height: 3 # the default is 10
+#| fig-align: center # the default is 10
+
+# Basic plot example
+plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
+```
+
+:::
+
+
+
 ## Formatting Tables in Quarto
 
 ```{r}
@@ -85,7 +136,7 @@ kable(mtcars[1:4,1:4], caption = "A Simple Table in Quarto")
 ```
 
 - Use **kable** for basic tables.
-- Use **gt** or **flextable** for advanced formatting.
+- Use **gt**, **kableExtra**, or **flextable** for advanced formatting.
 
 ## Best Practices for Code and Reports
 
@@ -100,10 +151,54 @@ kable(mtcars[1:4,1:4], caption = "A Simple Table in Quarto")
   - Set random seeds in simulations (`set.seed(123)`).
   - Document dataset sources and transformations.
 
-## Saving and Loading Workspaces
+## More resources
+
+There are many ways to customize the document and each individual code chunks. Here is a cheat sheet:
+
+[https://rstudio.github.io/cheatsheets/quarto.pdf](https://rstudio.github.io/cheatsheets/quarto.pdf)
+
+Here's a more thorough resource for everything quarto:
+[https://quarto.org/docs/guide/](https://quarto.org/docs/guide/)
+
+## Practice
+Do the following:
+
+1. Create your own quarto document. Title it "Testing Testing"
+2. Create a simple data set with two numeric variables (do you remember how to do that). Use a code chunk where the code is evaluated but not shown
+3. Create a header for a section that says "Analysis"
+4. In a separate code chunk, format and display a table of the data
+5. In a separate code chunk, create a scatterplot of the data
+
+## Working with Directories
+
+- The **working directory** is where R looks for and saves files.
+- Check the current working directory:
+
+```{r}
+#| echo: true
+getwd()
+```
+
+- Change the working directory (not recommended inside Quarto documents):
+
+```{r eval=FALSE, echo = TRUE}
+setwd("/path/to/directory")
+```
+
+- Use **relative paths** instead of absolute paths to make projects more portable:
+
+```{r}
+#| echo: true
+#| eval: false
+data <- read.csv("data/my_dataset.csv")
+```
+
+
+## Workspaces
 
 - Save your workspace for later use:
 ```{r eval=FALSE, echo = TRUE}
+#| echo: true
 save.image("my_workspace.RData")
 ```
 - Load a saved workspace:
@@ -111,34 +206,165 @@ save.image("my_workspace.RData")
 load("my_workspace.RData")
 ```
 
+
+Clearing your environment removes all variables, but leaves loaded packages
+```{r eval=FALSE, echo = TRUE}
+#| echo: true
+rm(list = ls())
+```
+
 ## Sourcing External R Files
 
 - Run external R scripts inside your Quarto document:
 ```{r eval=FALSE}
+#| echo: true
 source("my_script.R")
 ```
 
 ## Loading and Saving Data
 
 ### CSV Format
-```{r eval=FALSE}
+```{r eval=FALSE, echo = TRUE}
 data <- read.csv("data.csv")
 write.csv(data, "output.csv")
 ```
 
 ### R Data Format
 ```{r eval=FALSE}
+#| echo: true
 save(data, file = "data.RData")
 load("data.RData")
 ```
 
-### Other Formats (Excel, JSON, etc.)
-```{r eval=FALSE}
-library(readxl)
-data <- read_excel("data.xlsx")
 
-library(jsonlite)
-data <- fromJSON("data.json")
+## File Management in R {.smaller}
+
+::: panel-tabset
+### (a) Create a Dataset
+```{r}
+#| echo: true
+data <- data.frame(ID = 1:5, Name = c("Alice", "Bob", "Charlie", "David", "Eve"), Score = c(90, 85, 88, 92, 80))
+```
+
+### (b) Save as CSV
+```{r}
+#| echo: true
+
+write.csv(data, "my_data.csv", row.names = FALSE)
+```
+
+### (c) Remove the File
+```{r eval=FALSE}
+#| echo: true
+
+rm(data)
+```
+
+### (d) Load it Back
+```{r}
+#| echo: true
+
+data_loaded <- read.csv("my_data.csv")
+print(data_loaded)
+```
+:::
+
+## Understanding Delimiters and Headers
+
+- CSV files use **commas** to separate values.
+- Some datasets use **tabs (`\t`) or semicolons (`;`)** instead.
+- Header row spacing issues can arise if missing column names.
+
+
+
+## Data Loading: Different Delimiters
+
+
+::: panel-tabset
+### Comma-Separated Values (CSV)
+```{r}
+#| echo: true
+# Reading the CSV file using the default comma delimiter.
+data_csv <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_comma.csv")
+# Display the first few rows of the CSV data.
+head(data_csv)
+```
+
+### Tab-Separated Values (TSV)
+```{r}
+#| echo: true
+# Reading the TSV file; read.delim uses the tab character ('\t') by default.
+data_tsv <- read.delim("https://drbob-richardson.github.io/Stat250_W2025/data/data_tsv.txt")
+# Display the first few rows of the TSV data.
+head(data_tsv)
+```
+
+### Semicolon-Separated Values
+```{r}
+#| echo: true
+# Reading the file where values are separated by semicolons.
+# Specify the separator using sep = ";".
+data_semicolon <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_semicolon.csv", sep = ";")
+# Display the first few rows of the semicolon-separated data.
+head(data_semicolon)
+```
+:::
+
+---
+
+## Dealing with Headers in Data Files
+
+Data files can come with various header configurations:
+
+- **Standard Header:** Most CSV files include a header row with column names.
+- **Missing Headers:** If a file does not include a header row, use `header = FALSE` and optionally supply column names.
+- **Extra Header Lines:** Some files include additional metadata in extra header lines; you can skip these using the `skip` parameter.
+
+### Example: Reading a File Without Headers
+```{r}
+#| echo: true
+# Reading a CSV file that does not have a header row.
+# We manually specify column names as "Var1" and "Var2".
+data_no_header <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_no_header.csv", 
+                           header = FALSE, 
+                           col.names = c("Var1", "Var2"))
+# Display the first few rows to verify the data.
+head(data_no_header)
+```
+
+---
+
+## Skipping Lines in Data Files
+
+Sometimes files include extra lines (e.g., metadata or comments) at the top. Use the `skip` argument to ignore these lines.
+
+### Example: Skipping Metadata Lines
+```{r}
+#| echo: true
+# Skip the first 3 lines of the file, which contain metadata.
+data_skipped <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv", skip = 3)
+# Display the first few rows of the data after skipping the extra lines.
+head(data_skipped)
+```
+## Example with the Titanic Dataset
+[titanic.csv](https://drbob-richardson.github.io/Stat250_W2025/data/KaggleTitanicTrain.csv)
+
+```{r}
+#| echo: true
+titanic_data <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/KaggleTitanicTrain.csv")
+head(titanic_data)
+```
+
+## Reading Excel Files {.smaller}
+
+1. Download [NBArecordatbreak.xlsx](https://drbob-richardson.github.io/Stat250_W2025/data/NBArecordatbreak.xlsx)
+2. Load it in R using the **readxl** package.
+
+```{r eval=FALSE}
+#| echo: true
+library(readxl)
+nba_data <- read_excel("NBArecordatbreak.xlsx")
+head(nba_data)
 ```
 
 ## Summary

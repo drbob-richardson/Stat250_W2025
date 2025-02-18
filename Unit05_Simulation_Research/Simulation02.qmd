@@ -349,7 +349,7 @@ We have discussed using simulation studies to:
 - Evaluate statistical methods (e.g., t-test assumptions).
 - Explore the impact of violating assumptions.
 
-**Next Steps:** We will implement these ideas in class and in homework!
+
 
 
 
