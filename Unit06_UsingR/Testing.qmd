@@ -1,0 +1,30 @@
+---
+title: "Testing Testing"
+format: pdf
+editor: visual
+---
+
+```{r}
+#| echo: false
+mydata <- data.frame(
+  "A" = c(1,2,3,4),
+  "B" = c(5,6,7,8)
+)
+```
+
+## Analysis
+
+Here is my data
+
+```{r}
+library(knitr)
+kable(mydata, caption = "This is the profound data of legend")
+```
+
+Here is what a plot of my data looks like
+
+```{r}
+#| fig-width: 6
+#| fig-height: 3
+plot(mydata$A,mydata$B)
+```

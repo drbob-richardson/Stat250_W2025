@@ -1,0 +1,231 @@
+---
+title: "Practice Problems for Midterm"
+format: html
+---
+
+## Problem 1
+
+Write an R function called `my_factorial` that takes a single argument `n` (a positive integer) and returns the factorial of `n` computed using a loop (do not use the built-in `factorial` function).
+
+```{r}
+# Your code here
+```
+
+## Problem 2
+
+Write an R function called `extract_even` that takes a numeric vector as input and returns a vector containing only the even numbers from the input.
+
+```{r}
+# Your code here
+```
+
+## Problem 3
+
+Write a while loop called `sum10` that returns the number of rolls it takes to roll 2 six-sided dice and achieve a sum of 10 or more.
+
+```{r}
+# Your code here
+```
+
+## Problem 4
+
+Using the function from Problem 3, perform a simulation study to explore the average number of times it takes to roll 2 six-sided die and achieve a result of 10 or more.
+
+```{r}
+# Your code here
+```
+
+## Problem 5
+
+Create a vector named `vec1` where the first 10 elements are equal to 0, the next 10 are randomly sampled between 1 and 5, and the last 20 is a sequence between 1 and 20.
+
+```{r}
+# Your code here
+```
+
+## Problem 6
+
+Take the vector from problem 5. Use code to count the number of elements greater than 3. 
+
+```{r}
+# Your code here
+```
+
+
+# Problem 7
+
+Write an R function called `above_mean` that takes a numeric vector as input and returns a logical vector indicating which elements are greater than the mean of the vector. 
+
+```{r}
+# Your code here
+```
+
+
+## Problem 8  
+
+Using the built-in `ChickWeight` dataset, extract all rows where the chick's weight is between 78 and 128 (inclusive).
+
+```{r}
+# Your code here
+
+```
+
+## Problem 9  
+Using the `ChickWeight` dataset, compute the mean weight of chicks that were on diet equal to 3.
+
+```{r}
+# Your code here
+```
+
+## Problem 10  
+Using the `ChickWeight` dataset, determine the median weight of chicks for which the diet is equal to 4 and time is equal to 6.
+
+```{r}
+# Your code here
+```
+
+## Problem 11
+
+Write an R function that takes a matrix as input and returns the total number of elements in the matrix (i.e., the product of its number of rows and columns).
+
+```{r}
+# Your code here
+```
+
+## Problem 12  
+Create two matrices filled with 0's: one of size 3x2 and another of size 3x3
+
+```{r}
+# Your code here
+```
+
+
+## Problem 13
+Write R code to evaluate the mathematical expression
+
+$$\left|\frac{(10 - 4)^2}{\ln{(0.5)}}\right|$$
+
+
+```{r}
+# Your code here
+```
+
+
+## Problem 14  
+Write R code to demonstrate the use of `%in%`.
+
+```{r}
+# Your code here
+```
+
+## Problem 15
+Given the list:
+```{r}
+list1 <- list(TRUE, FALSE, list(1:10, 18), 4, "FinalAnswer", "LastWord")
+```
+Write R code to extract the fifth element, "FinalAnswer" in a method that is not a list. 
+
+```{r}
+# Your code here
+```
+
+## Problem 16  
+Write R code to compute the following expression:
+
+$$ \frac{1}{\sqrt{2 \pi}}e^{-0.5(\pi - 3)^2}$$
+
+
+```{r}
+# Your code here
+```
+
+## Problem 17  
+
+Fix the errors in the following code
+
+```{r}
+#| eval: false
+# a) I'm trying to find the rows of mtcars with 4 cylinder cars:
+mtcars[mtcars$cyl = 4,]
+
+# b) I'm trying to get the column mtcars titled mpg
+mtcars[mpg]
+```
+
+
+## Problem 18 
+Write a function named `diff_median_mean()` that accepts a numeric vector and returns the difference between its median and mean. 
+
+```{r}
+# Your code here
+```
+
+## Problem 19 
+Write a function called `matrix_info()` that takes a matrix as an argument and returns a list with three elements:  
+1) the number of rows;  
+2) the number of columns;  
+3) a character string stating whether the matrix is "Square" or "Not square".  
+Test your function on the matrix:
+```{r}
+A <- matrix(c(3, 7, 2, 3, 1, 1), nrow = 3, byrow = TRUE)
+```
+
+```{r}
+# Your code here
+```
+
+## Problem 20  
+Rewrite the following code without using a for loop. The code calculates the sample standard deviation of a numeric vector `x`:
+```{r}
+set.seed(1)
+x <- sample(100)
+SumOfSquares <- 0
+for(i in 1:length(x)){
+  SumOfSquares <- SumOfSquares + (x[i] - mean(x))^2
+}
+sqrt(SumOfSquares / (length(x) - 1))
+```
+Your solution should compute the standard deviation using vectorized operations.
+
+```{r}
+# Your code here
+```
+
+## Problem 21  
+Write a function called `count_na_positions()` that takes two vectors of equal length and returns the number of positions where both vectors have `NA` values. Demonstrate your function with:
+```{r}
+x1 <- c(1:5, rep(NA, 3), 9, 10)
+x2 <- c(1:3, rep(NA, 6), 10)
+```
+
+```{r}
+# Your code here
+```
+
+## Problem 22  
+Write a function named `summary_stats()` that takes a vector as an argument. If the vector is numeric, return a list with named elements for its mean, median, standard deviation, minimum, and maximum. If the vector is not numeric, return a character string stating that the input must be numeric. Demonstrate your function using both a non-numeric vector (e.g., `letters`) and a numeric vector (e.g., `iris$Sepal.Length`).
+
+```{r}
+# Your code here
+```
+
+## Problem 23  
+Write R code to create a data frame named `train` by taking a simple random sample without replacement of 40 rows from the built-in dataset `state.x77`. Then, create a data frame named `test` that contains the remaining rows of `state.x77`.
+
+```{r}
+# Your code here
+```
+
+## Problem 25
+
+Create a Data Frame with 3 variables. The columns should be 
+
+- A variable `ID` that is a random number between 10000 and 99999
+- A variable `Group` that is a random draw from either `A` or `B`
+- A variable Dosage that is 10 if Group is A and 20 if Group is B
+
+```{r}
+# Your code here
+```
+
+

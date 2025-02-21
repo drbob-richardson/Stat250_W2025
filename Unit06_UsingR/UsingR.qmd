@@ -33,6 +33,7 @@ execute:
 summary(mtcars)
 ```
 
+
 ## Basics of Code Chunks in Quarto
 
 - Options for controlling execution:
@@ -132,6 +133,7 @@ plot(mtcars$mpg, mtcars$hp, main = "MPG vs Horsepower")
 ```{r}
 #| echo: true
 library(knitr)
+#mtcars[1:4,1:4]
 kable(mtcars[1:4,1:4], caption = "A Simple Table in Quarto")
 ```
 
@@ -342,7 +344,8 @@ Sometimes files include extra lines (e.g., metadata or comments) at the top. Use
 ```{r}
 #| echo: true
 # Skip the first 3 lines of the file, which contain metadata.
-data_skipped <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv", skip = 3)
+data_skipped <- read.csv("https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv", 
+      skip = 3)
 # Display the first few rows of the data after skipping the extra lines.
 head(data_skipped)
 ```

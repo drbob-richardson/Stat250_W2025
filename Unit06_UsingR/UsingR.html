@@ -568,7 +568,8 @@ Dr.&nbsp;Robert Richardson
 <h2>Formatting Tables in Quarto</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">library</span>(knitr)</span>
-<span id="cb7-2"><a href=""></a><span class="fu">kable</span>(mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">caption =</span> <span class="st">"A Simple Table in Quarto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href=""></a><span class="co">#mtcars[1:4,1:4]</span></span>
+<span id="cb7-3"><a href=""></a><span class="fu">kable</span>(mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">caption =</span> <span class="st">"A Simple Table in Quarto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <caption>A Simple Table in Quarto</caption>
@@ -860,9 +861,10 @@ Dr.&nbsp;Robert Richardson
 <h3 id="example-skipping-metadata-lines">Example: Skipping Metadata Lines</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Skip the first 3 lines of the file, which contain metadata.</span></span>
-<span id="cb31-2"><a href=""></a>data_skipped <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv"</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
-<span id="cb31-3"><a href=""></a><span class="co"># Display the first few rows of the data after skipping the extra lines.</span></span>
-<span id="cb31-4"><a href=""></a><span class="fu">head</span>(data_skipped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-2"><a href=""></a>data_skipped <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://drbob-richardson.github.io/Stat250_W2025/data/data_with_extra_lines.csv"</span>, </span>
+<span id="cb31-3"><a href=""></a>      <span class="at">skip =</span> <span class="dv">3</span>)</span>
+<span id="cb31-4"><a href=""></a><span class="co"># Display the first few rows of the data after skipping the extra lines.</span></span>
+<span id="cb31-5"><a href=""></a><span class="fu">head</span>(data_skipped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A B
 1 1 a
