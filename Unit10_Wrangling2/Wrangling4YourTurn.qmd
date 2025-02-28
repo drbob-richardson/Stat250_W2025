@@ -1,0 +1,139 @@
+---
+title: "Wrangling 4 Your Turn: Hotel Pricing Demand"
+author: YOUR NAME HERE
+format: 
+  html: 
+    embed-resources: true
+editor: visual
+---
+
+## Analysis Objective
+
+Goal is to predict the price a consumer would purchase a hotel room
+
+-   If offered price is too high, the hotel will lose revenue because the room goes unused.
+
+-   If the offered price is too low, the consumer will pay for the room because they got a good deal but the hotel will have lost potential revenue because they could have charged a higher price and still got the booking.
+
+## Import
+
+From the Tidy Tuesday website
+
+```{r}
+#| warning: false
+
+```
+
+## Tidy
+
+```{r}
+
+```
+
+## Understand
+
+-   pay less by staying longer?
+
+-   weekend stay costs more at City Hotel?
+
+## Transform
+
+Dataset is tall and wide. What are we focused on?
+
+-   Room Cost
+
+-   Focus on the City Hotel Property
+
+-   Focus on the Bookings not cancelled
+
+-   Do we have length of stay? How do we compute it?
+
+-   Do we know which bookings include a weekend? How do we compute it?
+
+```{r}
+
+```
+
+## Visualize
+
+Pay Less by Staying Longer?
+
+```{r}
+#| code-fold: true
+
+```
+
+Weekend Stay Costs More?
+
+```{r}
+#| code-fold: true
+
+```
+
+## Understand
+
+-   Learned A Lot. Need To Understand More!
+
+-   Price is more complicated. What are other possible effects?
+
+## Transform
+
+Add some lines to the previous creation of `cityhotel`
+
+-   Log transformation can't have `adr` zero
+
+-   additional columns
+
+```{r}
+
+```
+
+Create train and test datasets for modeling (70-30%)
+
+45,073 rows in `cityhotel` (70% is 31,551.1)
+
+```{r}
+
+```
+
+## Visualize
+
+```{r}
+
+```
+
+## Model
+
+Fit a regression model to `adr`
+
+```{r}
+
+```
+
+Prediction Performance
+
+```{r}
+
+```
+
+## Communicate
+
+Table 1
+
+```{r}
+
+```
+
+Table of forecast log returns and volatility
+
+Signs on regression coefficients make sense
+
+Prediction in the future can be trusted (no evidence of overfit)
+
+Naive prediction uncertainty
+
+$$
+\hat{Y}\ \pm\ 2 \sqrt{1320} = \hat{Y}\ \pm\  2 \cdot 36.3 = \hat{Y}\ \pm\ 73
+$$
+
+***Note:*** use `predict` and untransform for precise prediction interval

@@ -1,0 +1,440 @@
+---
+title: "Transform / Feature Engineering: Quantitative Data"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+    html-math-method: mathjax
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100)
+```
+
+## Announcements
+
+
+## Recap of last few lectures
+
+Row Operations (`filter`, `[ , ]`)
+
+Column Operations (`select`, `mutate`,`$`)
+
+## Outline
+
+Dividing a dataset into groups and performing computations on group chunks
+
+## Estimating 50 year Flood
+
+Goal is to predict the peak of a river for flood planning
+
+Imagine building a bridge over a river. How high does it need to be?
+
+Coal Creek, Cedar City UT
+
+::: {layout="[-5,40,45,-10]"}
+![](images/CoalCreekPic.png)
+
+![](images/CoalCreekMap.png)
+:::
+
+## Import {.smaller}
+
+From USGS website
+
+```{r}
+#| echo: true
+library(tidyverse)
+
+bigdata <- read_table("https://nwis.waterservices.usgs.gov/nwis/iv/?sites=10242000&parameterCd=00065&startDT=2000-01-01T00:00:00.000-06:00&endDT=2026-12-31T23:59:59.999-06:00&siteStatus=all&format=rdb",
+                      col_names = c("label1", "label2", "Date", "Time", "tz", "Height", "label3"),
+                      skip = 32) |>
+  mutate(Date = ymd_hms(paste(Date, Time), tz = "America/Denver")) |>
+  select(Date, Height)
+```
+
+## Tidy 
+
+```{r}
+#| echo: true
+tail(bigdata)
+```
+
+USGS has sensors that measures the Gage Height (ft) [**every 5 minutes**]{style="color:teal;"} !
+
+Cool they do that, but we don't need that level of detail because it only floods once a year at snowfall runoff
+
+## Transform
+
+We want the peak (max) for each year
+
+::: panel-tabset
+### Dataset Every 5 Min
+
+```{r}
+#| echo: false
+tail(bigdata)
+```
+
+### Conceptualize Computation
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+      2007    2008           2020    2021
+                     . . .                     . . .
+     Height  Height         Height  Height
+      4.77    5.51           4.28    4.46
+      4.79    4.83           4.38    4.77
+      4.74   13.03           4.51    4.47 
+      4.76    5.08           4.28    5.43
+      4.87    4.91           4.93    4.94
+       .       .              .       .
+       .       .              .       .
+       .       .              .       .
+
+Max: 14.2    13.9    . . .   6.94    9.68      . . .
+```
+:::
+
+## `group_by` and `summarize`
+
+Use `group_by` to divide the dataset into groups meaningful for the analysis
+
+-   `group_by` doesn't change the data (it's a new feature of the dataset that changes the behavior of subsequent data verbs)
+
+Use `summarize` to compute
+
+-   `mutate` computes using each row of an existing column (no change to number of rows)
+
+-   `summarize` computes across several rows and reduces the dataset
+
+## `group_by` and `summarize`
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+peak <- bigdata |>
+  mutate(Year = year(Date)) |>
+  group_by(Year) |>
+  summarize(
+    Max_Height = max(Height)
+  )
+```
+
+### New Dataset
+
+```{r}
+#| echo: false
+peak <- bigdata |>
+  mutate(Year = year(Date)) |>
+  group_by(Year) |>
+  summarize(Max_Height = max(Height))
+peak
+```
+:::
+
+## Programming Thinking
+
+For Loop
+
+```{r "code-line-numbers"="false"}
+#| echo: true
+#| eval: false
+FOR each value of YEAR
+
+  FILTER dataset to observations of YEAR
+  
+  COMPUTE max(Height) for filtered dataset
+  
+END
+```
+
+## Estimating 50 year Flood
+
+::: panel-tabset
+### Visualize
+
+```{r out.width = "40%"}
+#| echo: false
+ggplot(peak, aes(x = Max_Height)) +
+  geom_density(adjust = 1.8, bounds = c(0, Inf)) +
+  geom_point(aes(y = 0), size = 5, alpha = 0.5, color = "royalblue") +
+  xlim(0, 20) +
+  labs(x = "Annual Max Gage Height (ft)",
+       y = "Density",
+       title = "Coal Creek, Cedar City UT")
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(peak, aes(x = Max_Height)) +
+  geom_density(adjust = 1.8, bounds = c(0, Inf)) +
+  geom_point(aes(y = 0), size = 5, alpha = 0.5, color = "royalblue") +
+  xlim(0, 20) +
+  labs(x = "Annual Max Gage Height (ft)",
+       y = "Density",
+       title = "Coal Creek, Cedar City UT")
+```
+:::
+
+## Estimating 50 year Flood {.smaller}
+
+::: panel-tabset
+### Model
+
+Probability Models for Max (Gumbel, Weibull, Frechet, Gen Extreme Value)
+
+```{r}
+#| echo: true
+library(EnvStats)
+
+# mle of GEV
+out <- egevd(peak$Max_Height)
+out
+```
+
+```{r}
+#| echo: true
+# estimated quantile Q(0.98) for 50-year flood
+qgevd(0.98, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3])
+```
+
+### Communicate
+
+```{r out.width = "50%"}
+#| echo: true
+#| code-fold: true
+x <- seq(0, 30, length = 300)
+fx <- dgevd(x, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3])
+plot(x, fx, type = "l", xlab = "Coal Creek Height (ft)", ylab = "Density")
+abline(v = qgevd(0.98, location = out$parameters[1], scale = out$parameters[2], shape = out$parameters[3]), col = "royalblue", lwd = 3)
+points(peak$Max_Height, rep(0, length(peak$Max_Height)), cex = 2)
+text(28, 0.20, "50 year flood", adj = 1, col = "royalblue")
+```
+:::
+
+## Details of `summarize`
+
+`summarize` is similar to Base R functions
+
+::: columns
+::: {.column width="40%"}
+```{r}
+#| echo: true
+sd(peak$Max_Height)
+```
+:::
+
+::: {.column width="60%"}
+```{r}
+#| echo: true
+peak |>
+  summarize(StdDev = sd(Max_Height))
+```
+:::
+:::
+
+## Details of `summarize`
+
+`summarize` is similar to Base R functions
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: true
+sd(peak$Max_Height)
+IQR(peak$Max_Height)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+peak |>
+  summarize(
+    StdDev = sd(Max_Height),
+    IQR = IQR(Max_Height),
+    SampleSize = n()
+  )
+```
+:::
+:::
+
+## Something New!
+
+::: panel-tabset
+### `group_by`
+
+```{r}
+#| echo: true
+peak <- bigdata |>
+  mutate(Year = year(Date)) |>
+  group_by(Year) |>
+  summarize(
+    Max_Height = max(Height)
+  )
+tail(peak)
+```
+
+### New `.by`
+
+```{r}
+#| echo: true
+peak <- bigdata |>
+  mutate(Year = year(Date)) |>
+  summarize(
+    Max_Height = max(Height),
+    .by = Year
+  )
+tail(peak)
+```
+:::
+
+## {.smaller}
+
+### More with `summarize` and `group_by` / `.by`
+
+Table of Hydrology Summary Statistics by Year
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+bigdata |>
+  mutate(Year = year(Date)) |>
+  summarize(
+    Min = min(Height),
+    P5 = quantile(Height, 0.05),
+    Q1 = quantile(Height, 0.25),
+    Median = quantile(Height, 0.50),
+    Q3 = quantile(Height, 0.75),
+    P95 = quantile(Height, 0.95),
+    Max = max(Height),
+    .by = Year
+  )
+```
+
+### Table
+
+```{r}
+#| echo: false
+bigdata |>
+  mutate(Year = year(Date)) |>
+  summarize(
+    Min = min(Height),
+    P5 = quantile(Height, 0.05),
+    Q1 = quantile(Height, 0.25),
+    Median = quantile(Height, 0.50),
+    Q3 = quantile(Height, 0.75),
+    P95 = quantile(Height, 0.95),
+    Max = max(Height),
+    .by = Year
+  )
+```
+:::
+
+## Lecture Review {.smaller}
+
+Dividing a dataset into groups and performing computations on group chunks
+
+`summarize` and `group_by` / `.by`
+
+\
+
+-   Appendix:
+
+    -   Quantiles
+
+## Random Variables {.smaller}
+
+$X$ is a random variable
+
+-   pmf / pdf: $p(x) = {\rm P}(X=x)$ or $f(x)$ represents probability as area under curve
+
+-   Moments: ${\rm E}(X)$, ${\rm V}(X)$, mgf: $m(t)={\rm E}(e^{tX})$
+
+-   cdf: $F(x) = {\rm P}(X\leq x)$
+
+    -   What we call "percentiles" (My toddler is so tall! She is in the 90th percentile of height.)
+
+-   quantile function:
+
+    -   inverse of cdf
+
+    -   given probability $u$, what is the value $x$ such that ${\rm P}(X\leq x) = u$
+
+## Random Variables
+
+```{r}
+#: echo: false
+par(mfrow = c(1, 3))
+x <- seq(-3, 3, length = 300)
+plot(x, dnorm(x), type = "l", main = "pdf")
+plot(x, pnorm(x), type = "l", main = "cdf")
+u <- seq(0, 1, length = 300)
+plot(u, qnorm(u), type = "l", main = "Quantile Function")
+```
+
+## Median as Quantile
+
+```{r}
+#: echo: false
+par(mfrow = c(1, 3))
+x <- seq(-3, 3, length = 300)
+plot(x, dnorm(x), type = "l", main = "pdf")
+abline(v = 0, col = "royalblue")
+polygon(c(-3, x[x<0], 0), c(0, dnorm(x[x<0]), 0), col = "royalblue")
+plot(x, pnorm(x), type = "l", main = "cdf")
+arrows(0, 0, 0, 0.5, col = "royalblue", lwd = 3)
+arrows(0, 0.5, -3, 0.5, col = "royalblue", lwd = 3)
+u <- seq(0, 1, length = 300)
+plot(u, qnorm(u), type = "l", main = "Quantile Function")
+arrows(0.5, -3, 0.5, 0, col = "royalblue", lwd = 3)
+arrows(0.5, 0, 0, 0, col = "royalblue", lwd = 3)
+```
+
+## Quantile Function for Rare Events
+
+What large value only happens 1% of the time?
+
+```{r}
+#: echo: false
+par(mfrow = c(1, 3))
+x <- seq(-3, 3, length = 300)
+plot(x, dnorm(x), type = "l", main = "pdf")
+abline(v = qnorm(0.99), col = "royalblue")
+polygon(c(-3, x[x < qnorm(0.99)], qnorm(0.99)), c(0, dnorm(x[x < qnorm(0.99)]), 0), col = "royalblue")
+plot(x, pnorm(x), type = "l", main = "cdf")
+arrows(qnorm(0.99), 0, qnorm(0.99), 0.99, col = "royalblue", lwd = 3)
+arrows(qnorm(0.99), 0.99, -3, 0.99, col = "royalblue", lwd = 3)
+u <- seq(0, 1, length = 300)
+plot(u, qnorm(u), type = "l", main = "Quantile Function")
+arrows(0.99, -3, 0.99, qnorm(0.99), col = "royalblue", lwd = 3)
+arrows(0.99, qnorm(0.99), 0, qnorm(0.99), col = "royalblue", lwd = 3)
+```

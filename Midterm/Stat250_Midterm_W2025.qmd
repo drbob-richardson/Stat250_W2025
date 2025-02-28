@@ -1,0 +1,93 @@
+---
+title: "Stat 250 Midterm Exam: Winter 2025 - Richardson"
+format: pdf
+---
+
+## Problem 1
+
+Write an R function called `subset_between()` that takes a numeric vector and two numbers, `low` and `high`, and returns the elements of the vector that are strictly between `low` and `high` using logical subsetting.
+
+```{r}
+# Your code here
+```
+
+## Problem 2
+
+Create a 4x4 matrix containing the numbers 1 to 16 filled by row.
+
+```{r}
+# Your code here
+```
+
+## Problem 3
+
+Using the matrix from Problem 2, extract the submatrix consisting of rows 2 and 3 and columns 1 and 2.
+
+```{r}
+# Your code here
+```
+
+## Problem 4
+
+Write an R function named `grade_student` that takes a single numeric score (0–100) as input and returns a letter grade according to the following rules:\
+- "A" if score ≥ 90\
+- "B" if 80 ≤ score \< 90\
+- "C" if 70 ≤ score \< 80\
+- "D" if 60 ≤ score \< 70\
+- "F" if score \< 60\
+Use conditional statements (if/else) in your function.
+
+```{r}
+# Your code here
+```
+
+## Problem 5
+
+Construct a data frame named `students` with the following columns:\
+- `ID`: integers from 101 to 130\
+- `Score`: random integers between 50 and 100\
+- `Grade`: a character vector where the grade is assigned using the function from Problem 4
+
+```{r}
+# Your code here
+```
+
+## Problem 6
+
+Using the data frame created in Problem 4, extract the IDs where `Score` is at least 80.
+
+```{r}
+# Your code here
+```
+
+## Problem 7
+
+Write R code to compute and print the value of the expression: $$\frac{\pi\sqrt{3}}{\log(5)}$$
+
+```{r}
+# Your code here
+```
+
+## Problem 8
+
+Write a function that flips a fair coin 100 times. Store the outcomes in a character vector (with each element being either "Heads" or "Tails"). The function should return the proportion of "Heads" obtained.
+
+```{r}
+# Your code here
+```
+
+## Problem 9
+
+Using the function from Problem 8, repeat the 100-coin-flip simulation 1000 times (each simulation is independent). Compute and print the simulated probability that more heads than tails are flipped.
+
+```{r}
+# Your code here
+```
+
+## Problem 10
+
+Write a for loop that iterates over the numbers 1 through 20. For each number, if it is divisible by both 3 and 5, print "FizzBuzz"; if divisible by 3 (but not 5), print "Fizz"; if divisible by 5 (but not 3), print "Buzz"; otherwise, print the number.
+
+```{r}
+# Your code here
+```

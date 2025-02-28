@@ -1,0 +1,74 @@
+---
+title: "Drills 7"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(ggplot2)
+```
+
+## Drill 1: Changing Binwidth in a Histogram
+
+Below is the code for a ggplot2 histogram of diamond prices using a binwidth of 500.
+
+**Question:** Modify the code to change the binwidth to 200.
+
+```{r}
+#| echo: true
+ggplot(diamonds_ideal, aes(x = price)) +
+  geom_histogram() +
+  labs(x = "Price (USD)", y = "Frequency", title = "Histogram of Diamond Prices")
+```
+
+## Drill 2: Modifying a Density Plot
+  
+Below is a density plot code for diamond prices.
+
+**Question:** Change the fill color to `"steelblue"` and increase the opacity from 0.7.
+
+```{r}
+#| echo: true
+
+ggplot(diamonds_ideal, aes(x = price)) +
+  geom_density(adjust = 0.9) +
+  labs(x = "Price (USD)", y = "Density", title = "Density Plot of Diamond Prices")
+```
+
+## Drill 3: Fixing an Incorrect Scatterplot
+  
+Below is an incorrect Base R scatterplot code, but it throws an error
+ Identify and fix the error.
+
+```{r}
+#| echo: true
+#| eval: false
+# After fixing code, change above to eval: true
+# Incorrect code:
+plot(diamonds$car, diamonds$price,
+     pch = 19, col = "darkorange",
+     xlab = "Carat", ylab = "Price (USD)",
+     main = "Diamond Carat vs. Price")
+```
+
+## Drill 4: Enhancing a Q-Q Plot
+  
+  Below is the code for a Q-Q plot assessing the normality of diamond prices. Add a title "Corrected Q-Q Plot for Diamond Prices" to the plot.
+
+```{r}
+ggplot(diamonds_ideal, aes(sample = price)) +
+  geom_qq(color = "darkorange", size = 2) +
+  geom_qq_line(color = "royalblue")
+```
+
+## Drill 5: Modifying a Boxplot
+  
+Below is the code for a ggplot2 boxplot of diamond prices by clarity.
+Modify the code to change the box fill color to `"green"` and remove the outlier points.
+
+```{r}
+ggplot(diamonds, aes(x = clarity, y = price)) +
+  geom_boxplot(color = "black", fill = "darkorange") +
+  labs(x = "Clarity", y = "Price (USD)", title = "Diamond Prices by Clarity")
+```
+

@@ -1,0 +1,412 @@
+---
+title: "Grammar of Data Wrangling"
+subtitle: "BYU STAT 250"
+author: "Dr. Scott D. Grimshaw"
+format: 
+  revealjs:
+    theme: slides.scss
+    multiplex: true
+    transition: fade
+    slide-number: true
+    chalkboard: true
+    center: false
+execute:
+  freeze: auto
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.818,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%",
+  fig.align = "center"
+)
+options(scipen = 100, width = 105)
+```
+
+
+## Announcements
+
+
+## Recap of last lecture
+
+Tidy Data
+
+-   Tidy Data Rules
+
+-   Recognizing Untidy Data
+
+-   What needs to be done to tidy it
+
+## Outline
+
+Grammar of Data Wrangling
+
+-   Rows
+
+-   Columns
+
+Pipe Operator
+
+Base R Operations
+
+## Church of Jesus Christ of Latter-day Saints Facts by Country {.smaller}
+
+Please go to Wikipedia page and explore the data
+
+<https://en.wikipedia.org/wiki/Membership_statistics_of_the_Church_of_Jesus_Christ_of_Latter-day_Saints>
+
+::: {layout="[-5,45,-10]"}
+![](images/ChurchFacts1.png)
+:::
+
+## Church of Jesus Christ of Latter-day Saints Facts by Country {.smaller}
+
+Things you may have done:
+
+-   Row Operations
+
+    -   Look at `Country` meaningful to you by name
+
+    -   Use [**Find** `<ctrl>F`]{style="color:teal;"} to search for rows
+
+-   Column Operations
+
+    -   Look at how many `Temples` (ignoring other columns)
+
+-   Sort / Arrange to find Most Wards
+
+## Church of Jesus Christ of Latter-day Saints Facts by Country {.smaller}
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(rvest)
+
+# Import
+
+# from Wikipedia: Membership statistics of the Church of Jesus Christ of Latter-day Saints
+ChurchFacts <- "https://en.wikipedia.org/wiki/Membership_statistics_of_the_Church_of_Jesus_Christ_of_Latter-day_Saints" |>
+# read webpage and store in memory
+  read_html() |>
+# extract all the tables in the html code
+  html_nodes("table") |>
+# create R dataset from webpage contents (first table has the info we want)
+  html_table()
+
+# Select the 2nd table: "Congregations"
+ChurchFacts <- ChurchFacts[[2]]
+# eliminate first row (read in column names)
+ChurchFacts <- ChurchFacts[-1, ]
+
+# assign column names
+names(ChurchFacts) <- c("Country", "Area", "TemplesOpen", "TemplesConst", "TemplesAnnounced", "Temples", "Missions", "Districts", "Stakes", "Wards", "Branches", "Congregations", "FHC")
+
+# Convert counts from character to numeric
+ChurchFacts <- ChurchFacts |>
+  mutate_at(3 : 13, parse_number)
+
+print(ChurchFacts, n = 8, width = Inf)
+```
+
+## Row Operations {.smaller}
+
+10 or more Missions
+
+Go row-by-row through the dataset and ask `Missions >= 10`
+
+If `TRUE` then keep the row
+
+::: panel-tabset
+### ChurchFacts
+```{r}
+#| echo: false
+print(ChurchFacts, n = 8, width = Inf)
+```
+
+### filter
+```{r}
+#| echo: true
+filter(ChurchFacts, Missions >= 10)
+```
+:::
+
+## Row Operations {.smaller}
+
+More Temples Under Construction than Open
+
+Go row-by-row through the dataset and ask `TemplesConst > TemplesOpen`
+
+If `TRUE` then keep the row
+
+::: panel-tabset
+### ChurchFacts
+```{r}
+#| echo: false
+print(ChurchFacts, n = 8, width = Inf)
+```
+
+### filter
+```{r}
+#| echo: true
+filter(ChurchFacts, TemplesConst > TemplesOpen)
+```
+:::
+
+## Think With the Pipe Operator
+
+In programming, a pipe is a technique for passing information from one process to another.
+
+Advantage: Clearly expressing a sequence of multiple operations
+
+\
+
+Think about a sequence of actions:
+
+::: columns
+::: {.column width="65%"}
+1.  Fill a pot with water
+
+2.  Bring water to a boil
+
+3.  Add pasta to boiling water
+:::
+
+::: {.column width="35%"}
+| [Pot   \|\>]{style="color:teal;"}
+|   [Add Water  \|\>]{style="color:teal;"}
+|   [Boil   \|\>]{style="color:teal;"}
+|   [Add Pasta]{style="color:teal;"}
+:::
+:::
+
+## Pipe Operator `|>` {.smaller}
+
+The following are equivalent
+
+::: panel-tabset
+### `filter(dataset, rule)`
+
+Code Aloud: The filter function has two arguments. By default the first argument is the dataset name and the second is the rule you want to apply
+
+```{r}
+#| echo: true
+filter(ChurchFacts, TemplesConst > TemplesOpen)
+```
+
+### Pipe Operator
+
+Code Aloud: Take the dataset and "pipe it" to the filter function to apply the rule
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  filter(TemplesConst > TemplesOpen)
+```
+:::
+
+## Column Operations {.smaller}
+
+Only Ward and Branch Columns
+
+Go column-by-column through the dataset and ask column name `Wards` or `Branches`
+
+If `TRUE` then keep the column
+
+::: panel-tabset
+### ChurchFacts
+```{r}
+#| echo: false
+print(ChurchFacts, n = 8, width = Inf)
+```
+
+### select
+```{r}
+#| echo: true
+ChurchFacts |>
+  select(Wards, Branches)
+```
+:::
+
+## More Complex Data Wrangling
+
+Focusing only on Family History, what Countries don't have a Family History Center?
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  filter(FHC == 0) |>
+  select(Country)
+```
+
+## More Complex Data Wrangling
+
+`filter` with [or]{style="color:teal;"} `|`
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  filter(Missions >= 12 | Temples >= 6) |>
+  select(Country, Missions, Temples, Stakes, Wards, Branches)
+```
+
+## More Complex Data Wrangling
+
+`filter` with [and]{style="color:teal;"} `&`
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  filter(Missions >= 4 & Missions <= 6) |>
+  select(Country, Missions, Temples, Stakes, Wards, Branches)
+```
+
+## More Complex Data Wrangling
+
+[and]{style="color:teal;"} with multiple `filter` statements
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  filter(Missions >= 4) |>
+  filter(Missions <= 6) |>
+  select(Country, Missions, Temples, Stakes, Wards, Branches)
+```
+
+## More Complex Data Wrangling 
+
+Most Missions
+
+```{r}
+#| echo: false
+options(width = 70)
+```
+
+```{r}
+#| echo: true
+ChurchFacts |>
+  arrange(desc(Missions)) |>
+  select(Country, Missions, Temples, Wards, Branches, everything())
+```
+
+## Looking at the dataset 
+
+::: panel-tabset
+### head
+
+```{r}
+#| echo: true
+head(ChurchFacts)
+```
+
+### tail
+
+```{r}
+#| echo: true
+tail(ChurchFacts)
+```
+
+### slice
+
+```{r}
+#| echo: false
+set.seed(2319)
+```
+
+```{r}
+#| echo: true
+slice_sample(ChurchFacts, n = 8)
+```
+:::
+
+
+Could use `View` but please don't
+
+
+## Base R: Subsetting 
+
+A dataset is a rectangle of entries
+
+`data[ rows, columns]`
+
+::: panel-tabset
+### Select Rows
+
+```{r}
+#| echo: true
+ChurchFacts[c(4, 8, 20 : 26), ]
+```
+
+### Select Columns
+
+```{r}
+#| echo: true
+ChurchFacts[, c(2, 6, 9 : 11)]
+```
+:::
+
+## Base R: Row Operations 
+
+10 or more Missions
+
+```{r}
+#| echo: true
+ChurchFacts[ChurchFacts$Missions >= 10, ]
+```
+
+## Base R: Column Operations 
+
+Only Ward and Branch Columns
+
+```{r}
+#| echo: true
+ChurchFacts[ ,c("Wards", "Branches")]
+```
+
+## Lecture Review {.smaller}
+
+Grammar of Data Wrangling
+
+-   Rows (`filter`, `arrange`)
+
+-   Columns (`select`)
+
+Pipe Operator
+
+Base R Subsetting `data[ , ]`
+
+\
+
+-   Appendix:
+
+    -   SQL code
+
+    -   Python code
+
+
+## SQL: Row and Column Operations
+
+```{r}
+#| echo: true
+#| eval: false
+SELECT 
+  Country, 
+  Missions,
+  Temples
+FROM
+  ChurchFacts
+WHERE
+  Missions >= 12
+```
+
+## Python: Row and Column Operations {.smaller}
+
+```{r}
+#| echo: true
+#| eval: false
+ChurchFacts.loc[ChurchFacts['Missions'] >= 10, ["Country", "Missions", "Temples"]]
+```
+
