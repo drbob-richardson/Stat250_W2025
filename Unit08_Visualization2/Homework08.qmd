@@ -1,0 +1,98 @@
+---
+title: "Homework 8"
+format: pdf
+editor: visual
+---
+
+## Problem 1:
+
+Using the built-in `mtcars` dataset, create a scatterplot with the following specifications:
+
+-   Plot **weight** (`wt`) on the x-axis and **miles per gallon** (`mpg`) on the y-axis.
+-   Map the following aesthetics:
+-   **Color**: use `cyl` (number of cylinders) as a factor.
+-   **Shape**: use `am` (transmission; 0 = automatic, 1 = manual) as a factor.
+-   **Size**: use horsepower (`hp`).
+-   Add informative axis labels, a title, and a caption.
+
+```{r}
+#| echo: true
+library(ggplot2)
+# your code here
+```
+
+*In one or two sentences, briefly describe what the plot reveals about the relationship among weight, mpg, horsepower, cylinders, and transmission type.*
+
+## Problem 2
+
+Create two faceted versions of a scatterplot for `mpg` versus `wt` using the `mtcars` dataset:
+
+1.  **Facet Wrap**:\
+    Facet the scatterplot by the number of cylinders (`cyl`).
+
+```{r}
+#| echo: true
+
+```
+
+2.  **Facet Grid**:\
+    Create a grid of plots with rows corresponding to the number of cylinders (`cyl`) and columns corresponding to the number of gears (`gear`).
+
+For both plots, include appropriate axis labels and titles.
+
+```{r}
+#| echo: true
+
+```
+
+*In a few sentences, compare the facet_wrap and facet_grid approaches and discuss when each might be more appropriate.*
+
+## Problem 3
+
+Using the `mtcars` dataset, create a scatterplot matrix of the following variables:\
+- Miles per gallon (`mpg`) - Displacement (`disp`) - Horsepower (`hp`) - Weight (`wt`)
+
+Map the `cyl` variable (as a factor) to the color aesthetic using the **GGally** package's `ggpairs()` function. Customize the color scale to use `"darkorange"`, `"purple"`, and `"cyan4"`.
+
+```{r}
+#| echo: true
+
+# Load the GGally package for the scatterplot matrix
+library(GGally)
+
+```
+
+*Briefly summarize one interesting relationship you observe among these variables.*
+
+## Problem 4:
+
+The built-in `Orange` dataset records the growth (circumference) of orange trees measured at different ages. Create a line plot with the following specifications: - Plot **age** on the x-axis and **circumference** on the y-axis. - Draw one line per tree (group the data by `Tree`), using a different color for each tree. - Add appropriate axis labels, a title, and a caption.
+
+```{r}
+#| echo: true
+
+```
+
+*In one sentence, describe what the plot suggests about the growth patterns of the trees.*
+
+## Problem 5
+
+Using the **table1** package, produce a summary statistics table for the `mtcars` dataset that shows the variables:
+
+- Miles per gallon (`mpg`)
+- Weight (`wt`)
+- Horsepower (`hp`)
+- Displacement (`disp`)
+
+Display these statistics separately by the number of cylinders (`cyl`), and include an overall column labeled `"Total"`. Add a caption and a footnote indicating the data source.
+
+```{r}
+#| echo: true
+
+# Load the table1 package
+library(table1)
+
+```
+
+*In one sentence, explain how the summary statistics table helps you understand differences among cars with different numbers of cylinders.*
+

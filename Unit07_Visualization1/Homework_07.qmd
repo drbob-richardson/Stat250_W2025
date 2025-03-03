@@ -4,13 +4,13 @@ format: pdf
 editor: visual
 ---
 
-## Problem 1: Custom Histograms
+## Problem 1
 
 In this problem, you will work with the `diamonds` dataset from the **ggplot2** package. First, subset the data to include only diamonds with an **Ideal** cut using base R logical subsetting. Then complete the following tasks:
 
 1.  **ggplot2 Histogram**:
-    -   Create a histogram of the variable `price` using a binwidth of 500.\
-    -   Customize the plot by setting black borders and a darkorange fill.\
+    -   Create a histogram of the variable `price` using a binwidth of 500.
+    -   Customize the plot by setting black borders and a darkorange fill.
     -   Add appropriate x-axis and y-axis labels and a title.
 
 ```{r}
@@ -30,13 +30,13 @@ library(ggplot2)
 # Write code here
 ```
 
-## Problem 2: Density Plots and Normality Assessment
+## Problem 2
 
 Using the same `diamonds_ideal` dataset, complete the following tasks:
 
 1.  **Density Plot with ggplot2**:\
 
--   Create a density plot for `price` with an adjust value of 0.9.\
+-   Create a density plot for `price` with an adjust value of 0.9.
 -   Customize the plot with a darkorange fill at 50% opacity and limit the x-axis to the range 300 to 8000.
 
 ```{r}
@@ -46,7 +46,7 @@ Using the same `diamonds_ideal` dataset, complete the following tasks:
 
 2.  **Overlay Normal Density**:\
 
--   On the same plot, overlay a Normal probability density function using `stat_function()`.\
+-   On the same plot, overlay a Normal probability density function using `stat_function()`.
 -   Use the sample mean and standard deviation for the Normal curve and set its color to royalblue.
 
 ```{r}
@@ -72,13 +72,13 @@ Using the same `diamonds_ideal` dataset, complete the following tasks:
 
 ```
 
-## Problem 3: Scatterplots and Smoothing Curves
+## Problem 3
 
 Investigate the relationship between `carat` and `price` using the full `diamonds` dataset.
 
 1.  **ggplot2 Scatterplot**:\
 
--   Create a scatterplot with `carat` on the x-axis and `price` on the y-axis.\
+-   Create a scatterplot with `carat` on the x-axis and `price` on the y-axis.
 -   Customize the points (set size and color) and add a smoothing curve using `geom_smooth()` with a span of 1.0.
 
 ```{r}
@@ -95,13 +95,13 @@ Investigate the relationship between `carat` and `price` using the full `diamond
 
 ```
 
-## Problem 4: Overlaid Density and Bar Plots for Categorical Data
+## Problem 4
 
 Using the full `diamonds` dataset, complete the following tasks:
 
 1.  **Overlaid Density Plot**:\
 
--   Create an overlaid density plot of `price` by `cut` using ggplot2.\
+-   Create an overlaid density plot of `price` by `cut` using ggplot2.
 -   Use custom fill colors for each level of `cut` (e.g., darkorange, darkorchid, cyan4, gold, steelblue) and adjust the transparency so the curves can be compared.
 
 ```{r}
@@ -111,7 +111,7 @@ Using the full `diamonds` dataset, complete the following tasks:
 
 2.  **Bar Plots for Categorical Data**:\
 
--   Create a bar plot of the variable `color` to show the frequency of diamonds for each color using ggplot2.\
+-   Create a bar plot of the variable `color` to show the frequency of diamonds for each color using ggplot2.
 -   Then modify the bar plot to display the relative frequencies (proportions).
 
 ```{r}
@@ -127,3 +127,24 @@ Using the full `diamonds` dataset, complete the following tasks:
 #| echo: true
 
 ```
+
+## Problem 5
+
+Using the built-in `CO2` dataset, complete the following tasks:
+
+- Visualize the uptake variable with a fitted density overlaid. Use good labels. 
+
+```{r}
+#| echo: true
+
+```
+
+- Visualize the relationship between concentration and uptake. Use good labels. 
+
+```{r}
+#| echo: true
+
+```
+
+
+
