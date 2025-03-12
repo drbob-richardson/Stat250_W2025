@@ -4,7 +4,7 @@ format: pdf
 editor: visual
 ---
 
-## Problem 1:
+## Problem 1
 
 Using the built-in `mtcars` dataset, create a scatterplot with the following specifications:
 
@@ -64,25 +64,14 @@ library(GGally)
 
 *Briefly summarize one interesting relationship you observe among these variables.*
 
-## Problem 4:
-
-The built-in `Orange` dataset records the growth (circumference) of orange trees measured at different ages. Create a line plot with the following specifications: - Plot **age** on the x-axis and **circumference** on the y-axis. - Draw one line per tree (group the data by `Tree`), using a different color for each tree. - Add appropriate axis labels, a title, and a caption.
-
-```{r}
-#| echo: true
-
-```
-
-*In one sentence, describe what the plot suggests about the growth patterns of the trees.*
-
-## Problem 5
+## Problem 4
 
 Using the **table1** package, produce a summary statistics table for the `mtcars` dataset that shows the variables:
 
-- Miles per gallon (`mpg`)
-- Weight (`wt`)
-- Horsepower (`hp`)
-- Displacement (`disp`)
+-   Miles per gallon (`mpg`)
+-   Weight (`wt`)
+-   Horsepower (`hp`)
+-   Displacement (`disp`)
 
 Display these statistics separately by the number of cylinders (`cyl`), and include an overall column labeled `"Total"`. Add a caption and a footnote indicating the data source.
 
@@ -96,3 +85,26 @@ library(table1)
 
 *In one sentence, explain how the summary statistics table helps you understand differences among cars with different numbers of cylinders.*
 
+## Problem 5
+
+The built-in `Orange` dataset records the growth (circumference) of orange trees measured at different ages. Create a line plot with the following specifications:
+
+-   Plot **age** on the x-axis and **circumference** on the y-axis.
+-   Draw one line per tree, using a different color for each tree.
+-   Add appropriate axis labels, a title, and a caption.
+
+```{r}
+#| echo: true
+
+```
+
+*In one sentence, describe what the plot suggests about the growth patterns of the trees.*
+
+## Problem 6
+
+Instead of drawing one line per tree, use a facet grid to plot the data and add a smoothed line, one tree per facet.
+
+```{r}
+#| echo: true
+
+```

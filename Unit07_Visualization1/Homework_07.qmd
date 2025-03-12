@@ -22,7 +22,7 @@ library(ggplot2)
 ```
 
 2.  **Base R Histogram**:
-    -   Using the same subset of data, produce a histogram with 10 breaks.\
+    -   Using the same subset of data, produce a histogram with 10 breaks.
     -   Customize it by adding an x-axis label, y-axis label, and main title.
 
 ```{r}
