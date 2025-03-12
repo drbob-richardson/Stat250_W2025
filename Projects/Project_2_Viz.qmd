@@ -17,63 +17,35 @@ A data set may have more than just 5 good plotting variables. You will pick 5 ou
 
 *Note: Each TidyTuesday dataset file includes instructions on how to access and understand the data. Please review those instructions carefully.*
 
-# Example TidyTuesday Datasets
-
-Below are five TidyTuesday datasets that meet the above criteria. You do not have to use one of these, but they serve as examples:
 
 # Example TidyTuesday Datasets
 
 Below are five TidyTuesday datasets that meet the above criteria. You do not have to use one of these, but they serve as examples:
 
-1. **Netflix Movies and TV Shows (2020-04-21)**  
-   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-04-21)  
+1. **Netflix Movies and TV Shows (2021-04-20)**  
+   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-04-20)  
    - *Numeric Variables*: `release_year`, `duration`  
    - *Factor Variables*: `type` (Movie/TV Show), `rating`
 
-2. **Coffee Ratings (2020-09-08)**  
-   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-09-08)  
+2. **Coffee Ratings (2020-07-07)**  
+   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-07-07)  
    - *Numeric Variables*: `rating`, `aroma`, `flavor` scores  
    - *Factor Variables*: `country`, `variety`
 
-3. **Bird Collisions (2019-09-24)**  
+3. **Bird Collisions (2019-04-30)**  
    [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-09-24)  
    - *Numeric Variables*: e.g., `count`  
    - *Factor Variables*: `species`, `location_type`
 
-4. **Bike Share Data (2018-06-19)**  
-   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-06-19)  
-   - *Numeric Variables*: e.g., `trip_duration`, `start_hour`  
-   - *Factor Variables*: e.g., `user_type`, `station_category`
+4. **Tornado Data (2023-05-16)**  
+   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-05-16)  
+   - *Numeric Variables*: e.g., `state`, `month`  
+   - *Factor Variables*: e.g., `magnitude`, `loss`
 
-5. **Plastic Pollution (2020-10-20)**  
-   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-10-20)  
+5. **Plastic Pollution (2021-01-26)**  
+   [Dataset Link](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-01-26)  
    - *Numeric Variables*: e.g., `plastic_measurement`  
    - *Factor Variables*: e.g., `region`, `country`
-
-
-# Data Analysis Tasks
-
-Your analysis should include the following steps:
-
-1. **Individual Variable Exploration**
-   - Provide summary statistics and appropriate visualizations for each variable.
-   - For numeric variables: use histograms, boxplots, etc.
-   - For factor variables: use bar charts or pie charts.
-
-2. **Pairwise Relationships**
-   - Examine relationships between variable pairs:
-     - **Numeric-Numeric**: e.g., scatterplots with a trend line.
-     - **Factor-Factor**: e.g., contingency tables or mosaic plots.
-     - **Numeric vs. Factor**: e.g., boxplots or violin plots.
-
-3. **Multi-Variable Visualizations**
-   - Create at least two plots that incorporate three or more variables. For example:
-     - A scatterplot with point size or color representing a third variable.
-     - A faceted plot using `facet_wrap()` where panels are defined by a categorical variable.
-
-4. **Summary of Findings**
-   - Write a summary describing what your plots reveal about the relationships between the variables.
-   - Ensure all plots include clear labels, legends, and well-formatted axes.
 
 # Getting Started with the Data
 
@@ -86,8 +58,8 @@ library(dplyr)         # For data manipulation
 library(ggplot2)       # For plotting
 
 # Replace 'YYYY-MM-DD' with the date of the dataset you want to use.
-# Example: To load the Netflix Movies and TV Shows dataset from 2020-04-21:
-tues_data <- tidytuesdayR::tt_load('2020-04-21')
+# Example: To load the Netflix Movies and TV Shows dataset from 2021-04-20:
+tues_data <- tidytuesdayR::tt_load('2021-04-20')
 
 # View the names of the datasets included in this release
 names(tues_data)
