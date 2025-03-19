@@ -25,7 +25,7 @@ A subset of the dataset includes the following columns:
 
 ```{r}
 library(readr)
-url <- "https://drbob-richardson.github.io/Stat250_W2025/data/2019.csv"
+url <- "https://drbob-richardson.github.io/Stat250_W2025/data/world_happiness_wide.csv"
 happiness_data <- read_csv(url)
 head(happiness_data)
 
