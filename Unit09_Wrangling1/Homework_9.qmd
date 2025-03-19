@@ -4,103 +4,103 @@ format: pdf
 editor: visual
 ---
 
-# Statistics Homework: Tidy Data and Data Wrangling
+## **Problem 1**
 
-## Dataset: World Happiness Report
-
-For this assignment, you will use the **World Happiness Report** dataset. This dataset contains information about different countries, their happiness scores, and various socio-economic indicators.
-
-A subset of the dataset includes the following columns:
-
--   `Country` - Name of the country
--   `Year` - Year of the report
--   `Happiness_Score` - Overall happiness score (from 0 to 10)
--   `GDP_per_Capita` - Economic output per person
--   `Social_Support` - Quality of social support networks (higher is better)
--   `Life_Expectancy` - Average life expectancy in years
--   `Freedom` - Perceived freedom to make life choices
--   `Generosity` - Generosity score of the population
--   `Corruption` - Perceived corruption level (lower is better)
--   `Region` - The geographical region the country belongs to
+Read the data file <https://drbob-richardson.github.io/Stat250_W2025/data/world_happiness_wide.csv>and inspect the data.
 
 ```{r}
-library(readr)
-url <- "https://drbob-richardson.github.io/Stat250_W2025/data/world_happiness_wide.csv"
-happiness_data <- read_csv(url)
-head(happiness_data)
-
 
 ```
-
-------------------------------------------------------------------------
-
-## **Problem 1: Understanding Tidy Data**
 
 1.  Explain what makes a dataset "tidy" and why tidy data is useful for data analysis.
-2.  Is the World Happiness Report dataset in tidy format? If not, how would you transform it into a tidy format?
+2.  Is the World Happiness Report dataset in tidy format?
 
 ------------------------------------------------------------------------
 
-## **Problem 2: Pivoting Data**
+## **Problem 2**
 
-The dataset includes multiple years of happiness scores. Suppose you have data in **wide format**, where each year is a separate column (`Happiness_2018`, `Happiness_2019`, `Happiness_2020`).
-
-1\. Convert this wide-format dataset into **tidy format** where all years are in a single column named `Year` with corresponding happiness scores.
+1\. Convert this wide-format dataset into **tidy format** where all years are in a single column named `Year` with corresponding happiness scores in a column called `Happiness_Score`.
 
 ```{r}
 
 ```
 
-2\. Why is this transformation beneficial for data analysis?
+2\. Create a plot showing happiness over time where each country has a different color.
+
+```{r}
+
+```
+
+3\. Why was pivoting important in order to make this plot?
 
 ------------------------------------------------------------------------
 
-## **Problem 3: Selecting and Filtering Data**
+## **Problem 3**
 
-1.  Select only the `Country`, `Year`, `Happiness_Score`, `GDP_per_Capita`, and `Life_Expectancy` columns from the dataset.
-2.  Filter the dataset to include only the most recent available year.
-3.  Further filter the dataset to include only countries where the `Happiness_Score` is greater than **6.5**.
+Perform the following operations in a single statement chained together with pipes
+
+1.  a\. Filter the dataset to include only the most recent available year.
+
+    b\. Further filter the dataset to include only countries where the `Happiness_Score` is greater than **6.5**.
+
+    c\. Select only the `Country` and `Happiness_Score` variables.
+
+```{r}
+
+```
 
 ------------------------------------------------------------------------
 
-## **Problem 4: Creating New Variables with Mutate and Transmute**
+## **Problem 4**
+
+1.  Write code that groups by `Country` and prints the average `Happiness_Score` by country.
+
+```{r}
+
+```
+
+2.  Write code that groups by `Year` and prints the maximum `Happiness_Score` in each year
+
+```{r}
+
+```
+
+3.  Create and print a dataframe that includes one row for each `Year` along with the `Country` that has the highest `Happiness_Score` in that year.
+
+```{r}
+
+```
+
+## **Problem 5**
+
+Read in the 2019 happiness score data from <https://drbob-richardson.github.io/Stat250_W2025/data/2019.csv>
 
 1.  Create a new column `GDP_scaled` that standardizes the `GDP_per_Capita` variable.
-2.  Using `mutate()`, create a new variable called `Happiness_Index`, which is the sum of `Happiness_Score`, `Social_Support`, `Freedom`, and `Generosity`, minus `Corruption`.
+2.  Using `mutate()`, create a new variable called `Happiness_Index`, which is the sum of `Score`, `Social support`, `Freedom to make life choices`, and `Generosity`, minus `Perceptions of corruption`.
 3.  Use `transmute()` to create a new dataset that contains only `Country`, `Year`, and the newly created `Happiness_Index`.
 
-------------------------------------------------------------------------
+## **Problem 6**
 
-## **Problem 5: Summarizing Data by Groups**
+1.  Find the **top 50 happiest** and **bottom 50 least happy** countries in the dataset. Create a new variable that identifies the top 50, bottom 50, or neither.
 
-1.  Group the dataset by `Region` and calculate:
-    -   The **average Happiness Score** for each region.
-    -   The **median GDP per capita** for each region.
-    -   The **total number of countries** in each region.
-2.  What insights do you gain from these summaries?
+```{r}
 
-------------------------------------------------------------------------
+```
 
-## **Problem 6: Applying Group-Wise Transformations**
+2.  Create a new data set, called `Grouped_Vars` that includes the averages for each of the continuous variables in the data set grouped by if they are in the Top 50, Bottom 50, or Neither.
 
-1.  Within each **region**, create a new column that shows the **difference between each country's Happiness Score and the regional average**.
-2.  Why might this transformation be useful when analyzing regional disparities?
+```{r}
 
-------------------------------------------------------------------------
+```
 
-## **Problem 7: Data Visualization**
-
-1.  Create a scatter plot of `Happiness_Score` vs. `GDP_per_Capita`, colored by `Region`. What patterns do you observe?
-2.  Generate a bar chart showing the **average Happiness Score per region**.
-3.  Create a histogram of the `Happiness_Score` variable. Does the distribution appear normal, skewed, or bimodal?
-4.  Make a boxplot comparing `Happiness_Score` across regions. What does this tell you about happiness distribution by region?
+3.  What characteristics do the happiest countries share? What about the least happy ones?
+4.  Suppose a government wants to improve happiness in a country. Based on this dataset, which factors would you recommend focusing on, and why?
 
 ------------------------------------------------------------------------
 
-## **Bonus Question (Optional)**
+## **Problem 7**
+Read the data file <https://drbob-richardson.github.io/Stat250_W2025/data/global_temperatures_wide.csv>and inspect the data. These are yearly average temperatures over time. Perform the following task without manually adding or removing variables (i.e. only use tidyverse and ggplot functions):
 
-1.  Find the **top 5 happiest** and **bottom 5 least happy** countries in the dataset.
-2.  What characteristics do the happiest countries share? What about the least happy ones?
-3.  Suppose a government wants to improve happiness in a country. Based on this dataset, which factors would you recommend focusing on, and why?
-
-------------------------------------------------------------------------
+1.  For each country and year, compute the temperature anomaly, which is defined as the difference between the observed value and the average $$anom = x_{ij} - \bar{x}_j$$ where $x_{ij}$ is the $i$-th year in the $j$-th country and $\bar{x}_j$ is the average temperature in the $j$-th country.
+2.  Include only countries where the maximum anomaly over the time period is 1 or greater
+3. Plot the anomalies over time for each of those countries
