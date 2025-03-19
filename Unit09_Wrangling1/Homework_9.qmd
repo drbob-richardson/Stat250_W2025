@@ -99,8 +99,9 @@ Read in the 2019 happiness score data from <https://drbob-richardson.github.io/S
 ------------------------------------------------------------------------
 
 ## **Problem 7**
+
 Read the data file <https://drbob-richardson.github.io/Stat250_W2025/data/global_temperatures_wide.csv>and inspect the data. These are yearly average temperatures over time. Perform the following task without manually adding or removing variables (i.e. only use tidyverse and ggplot functions):
 
 1.  For each country and year, compute the temperature anomaly, which is defined as the difference between the observed value and the average $$anom = x_{ij} - \bar{x}_j$$ where $x_{ij}$ is the $i$-th year in the $j$-th country and $\bar{x}_j$ is the average temperature in the $j$-th country.
 2.  Include only countries where the maximum anomaly over the time period is 1 or greater
-3. Plot the anomalies over time for each of those countries
+3.  Plot the anomalies over time for each of those countries, each country getting a different color line.
