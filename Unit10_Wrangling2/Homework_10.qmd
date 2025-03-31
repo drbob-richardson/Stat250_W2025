@@ -1,0 +1,110 @@
+---
+title: "Homework_10"
+format: pdf
+editor: visual
+---
+
+## Problem 1
+
+Read in the dataset containing information on various cultural festivals: [https://drbob-richardson.github.io/Stat250_W2025/data/festivals.csv](https://drbob-richardson.github.io/Stat250_W2025/data/festivals.csv)
+
+1. Clean up the names of the columns to make them easier to work with
+```{r}
+
+```
+
+2. Convert the variable containing the date to a proper Date variable. 
+```{r}
+
+```
+
+3. Create a new vector labeled Month and a new vector labeled Year that extracts the respect month and year variables from the Date variable. Print the first 10 rows. 
+```{r}
+
+```
+
+
+## Problem 2
+
+Create a new column Type that categorizes festivals based on keywords in the Festival_Name:
+
+-If Festival_Name contains "music", "jazz", or "rock", assign "Music".
+-If it contains "film", "cinema", or "movie", assign "Film".
+-Otherwise, assign "Other".
+-Convert the new Type column to a factor with levels "Music", "Film", "Other".
+
+```{r}
+
+```
+
+## Problem 3
+
+A second dataset, [https://drbob-richardson.github.io/Stat250_W2025/data/festival_attendance.csv](https://drbob-richardson.github.io/Stat250_W2025/data/festival_attendance.csv), contains attendance data with the columns Festival_Name, Year, and Attendance. Read in the festival_attendance.csv dataset. Join the attendance data with the festivals dataset using the keys Festival_Name and Year.
+
+```{r}
+
+```
+
+## Problem 4
+
+A third dataset, [https://drbob-richardson.github.io/Stat250_W2025/data/festival_s_weather.csv](https://drbob-richardson.github.io/Stat250_W2025/data/festival_weather.csv), contains weather information with columns Location, Year, and Avg_Temperature.
+
+
+1. Read in the weather dataset. Join this dataset with the merged festival_data using Location and Year as keys.
+```{r}
+
+```
+
+2. Convert Year to a numeric variable. Create a scatter plot to explore the relationship between Avg_Temperature and Attendance, with points colored by Year. 
+```{r}
+
+```
+
+3. Convert Year to a factor variable and repeat the same plot. 
+```{r}
+
+```
+
+4. Discuss, why is there a difference and which one would you prefer?
+
+## Problem 5
+
+Using the merged dataset from the previous problems:
+
+1. Create a new variable Attendance_Level based on the Attendance variable. Assign: 
+
+- "High" if Attendance is in the top 25% quantile,
+- "Medium" if in the middle 50% quantile,
+- "Low" if in the bottom 25% quantile.
+
+2. Convert Attendance_Level to an ordered factor with levels "Low" < "Medium" < "High".
+```{r}
+
+```
+
+
+3. Create a summary table that shows the average Avg_Temperature for each combination of festival Type and Attendance_Level.
+```{r}
+
+```
+
+## Problem 6
+
+Look at the description of each festival. 
+
+1. Count how many descriptions contains either the word `Independent` or the word `Indie`
+```{r}
+
+```
+
+2. Convert the descriptions to contain only lowercase variables. Count how many descriptions contains either the word `independent` or the word `indie`
+```{r}
+
+```
+
+3. Create a new variable that contains the number of words in each description.
+```{r}
+
+```
+
+
