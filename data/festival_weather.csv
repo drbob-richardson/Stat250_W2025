@@ -1,0 +1,19 @@
+Location,Year,Avg_Temperature
+Austin,2021,31
+Austin,2022,33
+Austin,2023,32
+New Orleans,2022,34
+New Orleans,2023,35
+Los Angeles,2021,25
+Los Angeles,2022,26
+Los Angeles,2023,27
+Seattle,2021,18
+Seattle,2023,19
+San Francisco,2023,20
+Nashville,2022,28
+Chicago,2021,22
+Chicago,2022,23
+Portland,2022,19
+Portland,2023,20
+Denver,2022,16
+Boston,2023,17
