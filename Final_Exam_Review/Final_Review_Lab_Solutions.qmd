@@ -1,0 +1,264 @@
+---
+title: "Lab: Analyzing Crime Data with Weather Information"
+format: pdf
+editor: visual
+---
+
+## Introduction
+
+In this lab you will investigate how weather conditions may influence crime patterns. We will work with two real datasets:
+
+-   **crimes:** Records of crimes (see URL: [Crimes.csv](https://richardson.byu.edu/data_contest/2024/Crimes.csv))
+-   **weather:** Daily weather observations (see URL: [weather.csv](https://richardson.byu.edu/data_contest/2024/weather.csv))
+
+Your tasks include:
+
+1.  Subsetting and cleaning the data.
+2.  Merging the datasets by date.
+3.  Engineering features to better categorize precipitation types.
+4.  Filtering the data to focus on key crime types and specific hours.
+5.  Creating plots that explore the relationship between weather and crime patterns.
+
+------------------------------------------------------------------------
+
+## Part 1: Data Import and Preliminary Cleaning
+
+### Step 1: Import Data
+
+```{r}
+# Load necessary libraries
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(stringr)
+
+# Read the datasets
+crimes <- read_csv("https://richardson.byu.edu/data_contest/2024/Crimes.csv")
+weather <- read_csv("https://richardson.byu.edu/data_contest/2024/weather.csv")
+```
+
+### Step 2: Subset the `crimes` Data
+
+-   **Filter** the `crimes` data to remove domestic incidents.
+-   **Select** only the columns: `Date` and `Primary Type`.
+
+```{r}
+# Clean column names for consistency
+crimes <- crimes %>% clean_names()
+
+# Filter to remove domestic incidents (assuming there is a logical column 'domestic')
+# and select only Date and Primary Type
+crimes_subset <- crimes %>% 
+  filter(!domestic) %>% 
+  select(date, primary_type)
+```
+
+### Step 3: Subset the `weather` Data
+
+-   From the `weather` dataset, select only the columns: `datetime`, `temp`, and `preciptype`.
+
+```{r}
+# Clean column names
+weather <- weather %>% clean_names()
+
+# Subset the weather data
+weather_subset <- weather %>% 
+  select(datetime, temp, preciptype)
+```
+
+*Consider:*\
+- After cleaning, all column names are in lower case.\
+- The formats of `date` in crimes and `datetime` in weather may require standardization before merging.
+
+------------------------------------------------------------------------
+
+## Part 2: Merging the Datasets
+
+### Step 4: Prepare for Joining
+
+-   Convert `crimes_subset$date` and `weather_subset$datetime` to date-only formats using **lubridate**.
+
+```{r}
+# Convert to date format
+crimes_subset <- crimes_subset %>% 
+  mutate(crime_datetime = mdy_hms(date),
+         crime_date = as_date(crime_datetime))
+
+weather_subset <- weather_subset %>% 
+  mutate(weather_date = ymd(datetime))
+```
+
+### Step 5: Merging
+
+-   Merge the two datasets so that each crime record gets its corresponding weather data (temperature and precipitation type) for the date the crime occurred.
+-   **Note:** Since there are multiple crimes per day and one weather record per day, a left join is appropriate to retain all crime records.
+
+```{r}
+# Merge using a left join
+merged_data <- left_join(crimes_subset, weather_subset, 
+                         by = join_by("crime_date" == "weather_date"))
+```
+
+*Consider:*\
+- A left join ensures every crime is retained—even when weather data is missing.\
+- With one weather record per day, the weather fields will be repeated for each crime on that day.
+
+------------------------------------------------------------------------
+
+## Part 3: Further Data Cleaning and Feature Engineering
+
+### Step 6: Handling Missing Weather Information
+
+-   Replace any `NA` values in the `preciptype` column with `"None"`.
+
+```{r}
+merged_data <- merged_data %>% 
+  mutate(preciptype = replace_na(preciptype, "None"))
+```
+
+### Step 7: Create a Consolidated Precipitation Variable
+
+-   Use `str_detect()` to create a new variable `precip_group` that categorizes precipitation into `"None"`, `"Rain"`, and `"Snow"`.
+
+```{r}
+merged_data <- merged_data %>% 
+  mutate(precip_group = case_when(
+    str_detect(tolower(preciptype), "snow") ~ "Snow",
+    str_detect(tolower(preciptype), "rain") ~ "Rain",
+    .default = "None"
+  ))
+```
+
+*Consider:*\
+- The use of `tolower()` ensures case-insensitive matching for rain and snow patterns.
+
+### Step 8: Limit Crime Types
+
+-   Identify the 5 most frequent `primary_type` values.
+-   Filter the data to include only these top 5 crime types.
+
+```{r}
+# Identify the top 5 crime types by frequency
+top_crime_types <- merged_data %>% 
+  group_by(primary_type) %>%
+  summarize(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  slice_head(n = 5) %>% 
+  select(primary_type)
+
+# Filter the merged data to include only these crime types
+merged_data <- merged_data %>% 
+  filter(primary_type %in% top_crime_types$primary_type)
+```
+
+*Consider:*\
+- Functions like `fct_infreq()` can be used to reorder factors for plotting.
+
+------------------------------------------------------------------------
+
+## Part 4: Data Aggregation and Plotting
+
+### Step 9: Crimes by Day (Filtering by Time)
+
+-   Filter crime records to include only those that occurred between 5 PM and 1 AM.
+-   Aggregate the crime data by day (using the date from the crime) and count the number of crimes.
+
+```{r}
+# Convert the 'date' column to POSIXct to extract time information (assuming time data exists)
+merged_data <- merged_data %>% 
+  mutate(date_time = mdy_hms(date, truncated = 3))
+
+# Filter to include crimes that occurred between 5 PM and 1 AM
+crime_time_filtered <- merged_data %>% 
+  mutate(crime_hour = hour(date_time)) %>% 
+  filter(crime_hour >= 17 | crime_hour < 1)
+
+# Aggregate crimes by day (using crime_date) along with weather info
+daily_crimes <- crime_time_filtered %>% 
+  group_by(crime_date, temp, precip_group) %>% 
+  summarize(total_crimes = n(), .groups = "drop")
+```
+
+### Step 10: Plotting Crimes by Precipitation
+
+-   Create a plot displaying the number of crimes for each `precip_group`.
+
+```{r}
+
+ggplot(daily_crimes, aes(x = total_crimes,fill = precip_group)) +
+  geom_density() +
+  labs(title = "Number of Crimes by Precipitation Group",
+       x = "Precipitation Group",
+       y = "Number of Crimes") +
+  theme_minimal()
+```
+
+```{r}
+daily_crimes %>%
+  filter(total_crimes < 50) %>%
+  ggplot(aes(x = total_crimes,fill = precip_group)) +
+  geom_density() +
+  labs(title = "Number of Crimes by Precipitation Group",
+       x = "Precipitation Group",
+       y = "Number of Crimes") +
+  theme_minimal()
+```
+
+```{r}
+daily_crimes %>%
+  filter(total_crimes < 50) %>%
+  ggplot(aes(x = total_crimes,y = precip_group)) +
+  geom_boxplot(fill = "green") +
+  labs(title = "Number of Crimes by Precipitation Group",
+       x = "Precipitation Group",
+       y = "Number of Crimes") +
+  theme_minimal()
+```
+
+### Step 11: Examining Crimes Versus Temperature
+
+-   Create a plot that demonstrates the relationship between daily temperature and the number of crimes, while also differentiating by the precipitation grouping.
+
+```{r}
+daily_crimes %>%
+  filter(total_crimes < 50) %>%
+  ggplot(aes(x = temp, y = total_crimes, color = precip_group)) +
+  geom_point(size = .2) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Daily Crime Count vs Temperature by Precipitation",
+       x = "Temperature",
+       y = "Total Crime Count",
+       color = "Precipitation Group") +
+  theme_minimal()
+```
+
+```{r}
+daily_crimes %>%
+  filter(total_crimes < 50) %>%
+  ggplot(aes(x = temp, y = total_crimes)) +
+  geom_point(size = .2) +
+  facet_wrap(~ precip_group) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Daily Crime Count vs Temperature by Precipitation",
+       x = "Temperature",
+       y = "Total Crime Count",
+       color = "Precipitation Group") +
+  theme_minimal()
+```
+
+*Consider:*\
+- Structuring the aggregate data so that each day is represented once with its corresponding weather variables.
+
+\- Adding further aesthetics (such as faceting) might reveal additional insights.
+
+------------------------------------------------------------------------
+
+## Extra Reflection
+
+-   **Weather and Crime Rates:** Weather conditions could influence outdoor activities—extreme temperatures or precipitation may reduce the number of people outside, which could affect the rate of crimes.
+-   **Data Limitations:** Reflect on potential issues like missing values, the granularity of crime timestamps, or the fact that weather data is only recorded once per day.
+-   **Further Improvements:** How might incorporating additional variables (such as time of day, location coordinates, or socioeconomic indicators) refine your analysis?
+
+------------------------------------------------------------------------
+
+Happy analyzing and coding!
