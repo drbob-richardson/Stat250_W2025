@@ -1,0 +1,511 @@
+---
+title: "Focused R4DS Topics Review Questions – With Datasets"
+format: html
+editor: visual
+---
+
+## Setup
+
+Below we create two datasets that will be used throughout these questions.
+
+-   **stays:** Contains hotel stay information.
+-   **hotels:** Contains hotel details.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(forcats)
+
+set.seed(123)
+
+# Create the 'stays' dataset
+stays <- tibble(
+  stay_id = 1:15,
+  hotel_id = sample(1:3, 15, replace = TRUE),
+  check_in_date = seq.Date(from = as.Date("2024-01-25"), by = "day", length.out = 15),
+  # Generate check-in times by adding a random number of hours/minutes to the date
+  check_in_time = as.POSIXct(check_in_date) + hours(sample(0:23, 15, replace = TRUE)) + minutes(sample(0:59, 15, replace = TRUE)),
+  stay_length = sample(1:7, 15, replace = TRUE),
+  room_rate = round(runif(15, min = 80, max = 300), 2),
+  customer_type = sample(c("Business", "Leisure", "Family", "Solo"), 15, replace = TRUE)
+)
+
+# Create the 'hotels' dataset
+hotels <- tibble(
+  hotel_id = 1:3,
+  hotel_name = c("Grand Plaza", "City Inn", "Coastal Retreat"),
+  region = c("North", "East", "South")
+)
+
+# View the datasets
+stays
+hotels
+```
+
+------------------------------------------------------------------------
+
+## Question 1
+
+Below is code for a histogram of the room rates from the `stays` dataset. Modify the code to adjust make the fill color more transparent.
+
+```{r}
+library(ggplot2)
+ggplot(stays, aes(x = room_rate)) +
+  geom_histogram(binwidth = 20, fill = "blue", color = "black",alpha = 0.5)
+```
+
+------------------------------------------------------------------------
+
+## Question 2
+
+From the `stays` dataset, extract the month from the `check_in_date` column and add it as a new column called `month`.
+
+```{r}
+stays %>%
+  mutate(month = month(check_in_date,label = TRUE))
+```
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Using the `stays` dataset, calculate the mean hotel stay length grouped by month.
+
+```{r}
+stays %>%
+  mutate(month = month(check_in_date,label = TRUE)) %>%
+  group_by(month) %>%
+  summarize(Averge_Stay_Length = mean(stay_length))
+```
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Write a code snippet that selects only the columns from the `stays` dataset whose names begin with `"check_"`.
+
+```{r}
+# Write your code here using the select() function with the starts_with() helper.
+stays %>%
+  select(starts_with("check"))
+```
+
+------------------------------------------------------------------------
+
+## Question 5
+
+In the `stays` dataset, create a new column called `rate_per_day` that calculates the ratio of `room_rate` to `stay_length`.
+
+```{r}
+stays %>%
+  mutate(rate_per_day = room_rate/stay_length)
+```
+
+------------------------------------------------------------------------
+
+## Question 6
+
+For the `customer_type` column in the `stays` dataset, use a function from **forcats** to relabel `Solo` as `Individual` and `Family` as `Group` while leaving the other labels the same.
+
+```{r}
+stays %>%
+  mutate(
+    customer_type = fct_recode(customer_type,Individual = "Solo",
+                               Group = "Family")
+  )
+```
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Join the `stays` dataset with the `hotels` dataset by `hotel_id` in such a way that keeps the all the rows in the same order from the `stays` data sets.
+
+```{r}
+stays %>% left_join(hotels, by = "hotel_id")
+```
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Display the number of each customer type in order from most to least frequent
+
+```{r}
+stays %>%
+  group_by(customer_type) %>%
+  summarize(Count = n()) %>%
+  arrange(desc(Count))
+```
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Below is code for a scatter plot that shows the relationship between `room_rate` and `stay_length` in the `stays` dataset. Modify the code to add a smooth regression line without the shaded confidence interval.
+
+```{r}
+ggplot(stays, aes(x = room_rate, y = stay_length)) +
+  geom_point() +
+  geom_smooth(se = FALSE,span = 1.5)
+```
+
+------------------------------------------------------------------------
+
+## Question 10
+
+Write code to filter the `stays` dataset so that only rows with a total cost above \$1,000 are kept. Note that the total cost is the room rate times the length of the stay.
+
+```{r}
+stays %>%
+  mutate(total_cost = room_rate*stay_length) %>%
+  filter(total_cost > 1000)
+```
+
+------------------------------------------------------------------------
+
+---
+title: "Focused R4DS Topics Review Questions – Fresh Dataset"
+format: html
+editor: visual
+---
+
+## Setup
+
+Below we create a new dataset, **sales_data**, which contains a mix of dates, times, characters, factors, and numeric values representing sales transactions.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(forcats)
+
+set.seed(123)
+
+sales_data <- tibble(
+  transaction_id = 1:25,
+  transaction_date = seq.Date(from = as.Date("2023-05-01"), by = "day", length.out = 25),
+  # Generate a transaction time by adding random hours/minutes to the date
+  transaction_time = as.POSIXct(seq.Date(from = as.Date("2023-05-01"), by = "day", length.out = 25)) +
+    hours(sample(0:23, 25, replace = TRUE)) + minutes(sample(0:59, 25, replace = TRUE)),
+  customer = sample(c("Alice", "Bob", "Charlie", "Diana", "Eddie"), 25, replace = TRUE),
+  product = sample(c(" Widget", "Gadget", "Sprocket ", "Doohickey"), 25, replace = TRUE),
+  sales_amount = round(runif(25, min = 50, max = 500), 2),
+  quantity = sample(1:10, 25, replace = TRUE),
+  discount = sample(c(0, 5, 10, 15, 20), 25, replace = TRUE),
+  region = factor(sample(c("North", "South", "East", "West"), 25, replace = TRUE)),
+  payment_method = sample(c("Credit", "Cash", "Check", "Mobile"), 25, replace = TRUE),
+  sale_status = sample(c("SALE", "sale", "Sale", "No Sale", "no sale"), 25, replace = TRUE)
+)
+
+sales_data
+```
+
+------------------------------------------------------------------------
+
+## Question 1
+
+Modify the `product` column in **sales_data** so that all product names are converted to uppercase and any leading or trailing whitespace is removed.
+
+```{r}
+sales_data %>%
+  mutate(product = str_to_upper(str_trim(product)))
+```
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Use the `wday` function to extract the day of the week from the `transaction_date` column and add it to **sales_data** as a new column called `day_of_week`.
+
+```{r}
+sales_data %>%
+  mutate(day_of_week = wday(transaction_date))
+```
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Using **sales_data**, group by `region` and calculate the average `sales_amount` and total `quantity` for each region.
+
+```{r}
+sales_data %>%
+  group_by(region) %>%
+  summarize(avg_sales = mean(sales_amount),
+            total_quantity = sum(quantity))
+```
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Select and display only the columns from **sales_data** whose names contain the substring `"time"` (case-insensitive).
+
+```{r}
+sales_data %>%
+  select(contains("time"))
+```
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Create a new column in **sales_data** called `unit_price` that calculates the price per unit (i.e. sales_amount divided by quantity).
+
+```{r}
+sales_data %>%
+  mutate(unit_price = sales_amount/quantity)
+```
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Currently the `sale_status` variable has 5 unique groups. Investigate the variable and devise a solution to update the `sale_status` in such a way that appropriately uses two groups, `Sale` and `No Sale`
+
+```{r}
+print(length(unique(sales_data$sale_status)))
+
+sales_data %>%
+  mutate(sale_status = str_to_title(sale_status)) %>%
+  summarize(length(unique(sale_status)))
+```
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Create a scatter plot that shows the relationship between `quantity` (x-axis) and `sales_amount` (y-axis). Color the points by `region`.
+
+```{r}
+sales_data %>%
+  ggplot(aes(x = quantity, y = sales_amount, color = region)) +
+  geom_point() + 
+  labs(x = "Quantity",y = "Sales Amount")
+```
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Create a scatter plot that shows the relationship between `quantity` (x-axis) and `sales_amount` (y-axis). Create a facet aspect divided by payment method.
+
+```{r}
+sales_data %>%
+  ggplot(aes(x = quantity, y = sales_amount)) +
+  geom_point() + 
+  facet_wrap(~ payment_method)
+  labs(x = "Quantity",y = "Sales Amount")
+```
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Filter **sales_data** to retain only transactions that occurred on weekends (Saturday or Sunday).
+
+```{r}
+sales_data %>%
+  mutate(day_of_week = wday(transaction_date)) %>%
+  filter(day_of_week %in% c(6,7))
+```
+
+------------------------------------------------------------------------
+
+## Question 10
+
+Using **sales_data**, create a new variable named `final_amount` that computes the final cost after applying the discount. Assume the discount percentage is applied to the sales_amount. Then, plot the distribution of `final_amount` with an appropriate plot.
+
+```{r}
+sales_data %>%
+  mutate(final_amount = (1-discount/100)*sales_amount) %>%
+  ggplot(aes(x = final_amount)) + 
+  geom_density(fill = "blue",alpha = .5)
+```
+
+------------------------------------------------------------------------
+
+---
+title: "Focused R4DS Topics Review Questions – Advanced Dataset"
+format: html
+editor: visual
+---
+
+## Setup
+
+Below we create a new dataset, which contains a variety of data types including longer text descriptions, several numeric columns, factor variables, and dates.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(forcats)
+library(table1)   # Ensure the table1 package is installed
+library(GGally)    # For creating a pairs plot
+
+set.seed(123)
+
+advanced_data <- tibble(
+  id = 1:30,
+  long_description = sample(c(
+    "This product is excellent and durable. It comes with a limited warranty and outstanding performance over time.",
+    "An average item with standard features. It meets the basic requirements and offers satisfactory value.",
+    "A premium product that exceeds expectations with remarkable quality and innovative design.",
+    "Budget option that provides essential functionality. Economical and practical for everyday use.",
+    "High-end model with advanced features and top-of-the-line specifications. Designed for professionals."
+  ), 30, replace = TRUE),
+  numeric_1 = round(runif(30, min = 10, max = 100), 2),
+  numeric_2 = round(runif(30, min = 50, max = 500), 2),
+  numeric_3 = round(rnorm(30, mean = 100, sd = 20), 2),
+  category = sample(LETTERS[1:6], 30, replace = TRUE),
+  group = sample(c("East", "West", "North", "South"), 30, replace = TRUE),
+  transaction_date = seq.Date(from = as.Date("2023-01-01"), by = "day", length.out = 30)
+)
+
+advanced_data
+```
+
+------------------------------------------------------------------------
+
+## Question 1
+
+Update the `long_description` column by replacing all occurrences of the word "product" with "item" and ensure the resulting text is in sentence case (i.e., first letter uppercase and the rest lowercase).
+
+```{r}
+advanced_data %>%
+  mutate(long_description = str_to_sentence(str_replace_all(long_description,"product","item")))
+```
+
+------------------------------------------------------------------------
+
+## Question 2
+
+Extract the first three words from `long_description` and add them as a new column called `short_summary`.
+
+```{r}
+advanced_data %>%
+  mutate(short_summary = str_c(str_split(long_description," ")[[1]][1:3],collapse = " "))
+```
+
+------------------------------------------------------------------------
+
+## Question 3
+
+Compute summary statistics (mean, median, and standard deviation) for all numeric columns in **advanced_data**.
+
+```{r}
+advanced_data %>%
+  summarise(across(
+    where(is.numeric), 
+    list(mean = mean, median = median, sd = sd),
+    na.rm = TRUE
+  ))
+```
+
+------------------------------------------------------------------------
+
+## Question 4
+
+Using the table1 package, generate a summary table of the variables that starts with `numeric` in **advanced_data** stratified by `group`.
+
+```{r}
+library(table1)
+
+table1(~ numeric_1 + numeric_2 + numeric_3 | group, data = advanced_data)
+
+```
+
+------------------------------------------------------------------------
+
+## Question 5
+
+Create a pairs plot of the numeric columns (`numeric_1`, `numeric_2`, and `numeric_3`) from **advanced_data**.
+
+```{r}
+pairs_plot <- advanced_data %>% 
+  select(numeric_1, numeric_2, numeric_3) %>% 
+  ggpairs()
+
+# Display the plot
+print(pairs_plot)
+```
+
+------------------------------------------------------------------------
+
+## Question 6
+
+Recode the `category` column by lumping together all levels except for the most frequent one. The most frequent category should remain unchanged, and all other categories should be combined into "Other".
+
+```{r}
+advanced_data %>% 
+  mutate(category = fct_lump(category, n = 1, other_level = "Other"))
+
+```
+
+------------------------------------------------------------------------
+
+## Question 7
+
+Generate a plot showing the frequency of each `group` in **advanced_data**.
+
+```{r}
+ggplot(advanced_data, aes(x = group)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(
+    title = "Frequency of Groups in advanced_data",
+    x = "Group",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+## Question 8
+
+Create a new variable called `largest_numeric` that contains the numeric, (1, 2, or 3) that is the largest out of the three of them.
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+## Question 9
+
+Filter **advanced_data** to include only rows where `numeric_3` is above the overall mean of `numeric_3` and `group` is either "North" or "East". Display the resulting dataset.
+
+```{r}
+advanced_data$largest_numeric <- apply(
+  advanced_data[, c("numeric_1", "numeric_2", "numeric_3")],
+  1,
+  function(x) which.max(x)
+)
+
+# or 
+
+advanced_data %>%
+  rowwise() %>%                                   # Process each row individually
+  mutate(largest_numeric = which.max(c(numeric_1, numeric_2, numeric_3))) %>%
+  ungroup()    
+```
+
+\
+
+------------------------------------------------------------------------
+
+## Question 10
+
+Construct a scatter plot with `numeric_1` on the x-axis and `numeric_2` on the y-axis. Color the points by `group` and use different shapes for `category`.
+
+```{r}
+ggplot(advanced_data, aes(x = numeric_1, y = numeric_2, color = group, shape = category)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Scatter Plot of numeric_1 vs numeric_2",
+    x = "Numeric 1",
+    y = "Numeric 2"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
