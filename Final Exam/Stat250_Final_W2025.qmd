@@ -9,7 +9,7 @@ editor: visual
 -   No ChatGPT or internet searches while in the exam
 -   No built-in AI from R or RStudio
 -   R help files, your personal folders, and the tidyverse cheatsheets are perfectly okay, and even recommended to use
--   Some useful cheat sheet links:
+-   Some useful cheatsheet links:
     -   stringr for characters and strings: [stringr cheat sheet](https://rstudio.github.io/cheatsheets/html/strings.html?_gl=1*1egbnc1*_ga*MTI5MTE3MjM0MS4xNzQzNDQ3MTAy*_ga_2C0WZ1JHG0*MTc0NTI1Njc5NS41LjAuMTc0NTI1Njc5NS4wLjAuMA..)
     -   forcats for factor variables: [forcats cheat sheet](https://rstudio.github.io/cheatsheets/html/factors.html?_gl=1*73ogpb*_ga*MTI5MTE3MjM0MS4xNzQzNDQ3MTAy*_ga_2C0WZ1JHG0*MTc0NTI1Njc5NS41LjAuMTc0NTI1Njc5NS4wLjAuMA..)
     -   lubridate for date and time variables: [lubridate cheat sheet](https://rstudio.github.io/cheatsheets/html/lubridate.html?_gl=1*yuxrh1*_ga*MTI5MTE3MjM0MS4xNzQzNDQ3MTAy*_ga_2C0WZ1JHG0*MTc0NTI1Njc5NS41LjAuMTc0NTI1Njc5NS4wLjAuMA..)
