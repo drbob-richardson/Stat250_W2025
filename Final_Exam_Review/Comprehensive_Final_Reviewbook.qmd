@@ -6,14 +6,13 @@ editor: visual
 
 # Introduction
 
-This notebook is designed to review key elements required for the Stat 250 Final for Dr. Richardson. 
+This notebook is designed to review key elements required for the Stat 250 Final for Dr. Richardson.
 
 ------------------------------------------------------------------------
 
 ```{r, echo = FALSE,message = FALSE}
 library(tidyverse)
 ```
-
 
 # Univariate Data
 
@@ -96,7 +95,7 @@ ggplot(data_univariate, aes(x = value)) +
 
 Consider
 
-* You do not need to memorize every possible customization, but be aware of how to use resources to determine how to modify different elements, like font size, rotating axis labels, etc. 
+-   You do not need to memorize every possible customization, but be aware of how to use resources to determine how to modify different elements, like font size, rotating axis labels, etc.
 
 ------------------------------------------------------------------------
 
@@ -104,7 +103,7 @@ Consider
 
 ## Choosing the Right Plot
 
-For bivariate data, the type of plot depends on the variables’ types. For numerical vs. numerical, a scatterplot works best. For numerical vs. categorical, side-by-side boxplots or violin plots are very informative. You should be able to choose which plot to use based on the data types. 
+For bivariate data, the type of plot depends on the variables’ types. For numerical vs. numerical, a scatterplot works best. For numerical vs. categorical, side-by-side boxplots or violin plots are very informative. You should be able to choose which plot to use based on the data types.
 
 ## Scatterplots
 
@@ -123,11 +122,11 @@ ggplot(data_bivariate, aes(x = x, y = y)) +
        x = "X Variable",
        y = "Y Variable")
 ```
+
 Consider
 
-* How we get the fitted line with shaded interval, and how to adjust the wiggliness
-* How to customize the color, shape, size of the scatterplot points
-
+-   How we get the fitted line with shaded interval, and how to adjust the wiggliness
+-   How to customize the color, shape, size of the scatterplot points
 
 ## Side by Side Box Plots and Violin Plots
 
@@ -155,10 +154,10 @@ ggplot(data_bivariate, aes(x = group, y = x, fill = group)) +
   theme_minimal()
 ```
 
-Consider 
+Consider
 
-* How do I flip the orientation
-* If there are too many categorical variables, how might I modify my data sat to get a better plot (we'll do this later)
+-   How do I flip the orientation
+-   If there are too many categorical variables, how might I modify my data sat to get a better plot (we'll do this later)
 
 ## Side-by-Side Density Plots
 
@@ -179,10 +178,10 @@ ggplot(data_density, aes(x = value, fill = group)) +
        y = "Density") +
   theme_minimal()
 ```
-Consider 
 
-* How might I modify the transparency, color, wiggliness of each. 
+Consider
 
+-   How might I modify the transparency, color, wiggliness of each.
 
 ## Bar and Pareto Charts
 
@@ -212,7 +211,7 @@ ggplot(categories, aes(x = fct_infreq(category))) +
 
 ## Two-Way Tables
 
-Create and display a two-way table using the **table1** package. 
+Create and display a two-way table using the **table1** package.
 
 ```{r}
 # Install table1 if necessary
@@ -229,7 +228,6 @@ data_twoway <- data.frame(
 # Generate a summary table by group
 table1(~ outcome | group, data = data_twoway)
 ```
-
 
 ------------------------------------------------------------------------
 
@@ -258,9 +256,9 @@ ggplot(data_multivariate, aes(x = x, y = y, color = category)) +
 
 Consider
 
-* How would I instead modify the shape/size.
-* What if I wanted a fourth variable also included
-* What if the color of the scatterplot points depended on a numeric variable
+-   How would I instead modify the shape/size.
+-   What if I wanted a fourth variable also included
+-   What if the color of the scatterplot points depended on a numeric variable
 
 ## Facet Wraps
 
@@ -275,10 +273,11 @@ ggplot(data_multivariate, aes(x = x, y = y)) +
        y = "Y Variable") +
   theme_minimal()
 ```
+
 Consider
 
-* How might I modify the layout of the facet wrap
-* What if there are two variables I want to split the plot by?
+-   How might I modify the layout of the facet wrap
+-   What if there are two variables I want to split the plot by?
 
 ## Stacked Bar Plots
 
@@ -316,10 +315,9 @@ library(GGally)
 ggpairs(mtcars[, 1:5])
 ```
 
-* How can I modify the individual compenents of these plots, i.e. color, splitting on an additional category, etc. 
+-   How can I modify the individual compenents of these plots, i.e. color, splitting on an additional category, etc.
 
 ------------------------------------------------------------------------
-
 
 # Data Operations
 
@@ -377,10 +375,10 @@ data_ops %>%
 
 Consider:
 
-- The distinction between `mutate` (which retains all columns) and `transmute` (which only returns newly created variables).
-- What if you need to filter by multiple conditions. 
-- What if column names aren't valid R variable names
-- Advanced consideration with string operations: How you might use helpers such as `starts_with()`, `ends_with()`, or `contains()` with `select`.
+-   The distinction between `mutate` (which retains all columns) and `transmute` (which only returns newly created variables).
+-   What if you need to filter by multiple conditions.
+-   What if column names aren't valid R variable names
+-   Advanced consideration with string operations: How you might use helpers such as `starts_with()`, `ends_with()`, or `contains()` with `select`.
 
 ------------------------------------------------------------------------
 
@@ -415,9 +413,7 @@ data_ops_group %>%
   mutate(centered_score = score - mean(score))
 ```
 
-Consider:
-- How you might apply functions across multiple columns using `across()`.
-- Strategies for grouping by more than one variable.
+Consider: - How you might apply functions across multiple columns using `across()`. - Strategies for grouping by more than one variable.
 
 ------------------------------------------------------------------------
 
@@ -454,8 +450,8 @@ data_dates %>%
 ```
 
 Consider:
-- Other parsing functions like `mdy()` or `dmy()` for different date formats.
 
+\- Other parsing functions like `mdy()` or `dmy()` for different date formats.
 
 ------------------------------------------------------------------------
 
@@ -513,9 +509,12 @@ print(p2)
 ```
 
 Consider:
-- How functions like `fct_infreq()`, `fct_rev()`, or `fct_drop()` can further modify factor levels.
-- The importance of setting factor orders when plotting for more readable graphs.
-- Using `fct_lump_min()` or specifying a proportion threshold to control lumping.
+
+\- How functions like `fct_infreq()`, `fct_rev()`, or `fct_drop()` can further modify factor levels.
+
+\- The importance of setting factor orders when plotting for more readable graphs.
+
+\- Using `fct_lump_min()` or specifying a proportion threshold to control lumping.
 
 ------------------------------------------------------------------------
 
@@ -566,9 +565,12 @@ data_strings %>%
 ```
 
 Consider:
-- Functions such as `str_sub()`, `str_trim()`, and `str_pad()` to further manipulate text.
-- How to use more complex regular expressions for pattern matching.
-- Combining multiple string operations to form custom cleaning pipelines.
+
+\- Functions such as `str_sub()`, `str_trim()`, and `str_pad()` to further manipulate text.
+
+\- How to use more complex regular expressions for pattern matching.
+
+\- Combining multiple string operations to form custom cleaning pipelines.
 
 ------------------------------------------------------------------------
 
@@ -607,9 +609,12 @@ right_join(df1, df2, by = "id")
 ```
 
 Consider:
-- When to use joins such as full, semi, or anti joins.
-- How to join on multiple keys by passing a named vector to the `by` argument.
-- Strategies for ensuring unique join keys before merging.
+
+\- When to use joins such as full, semi, or anti joins.
+
+\- How to join on multiple keys by passing a named vector to the `by` argument.
+
+\- Strategies for ensuring unique join keys before merging.
 
 ------------------------------------------------------------------------
 
@@ -653,9 +658,12 @@ bind_cols(df_col1, df_col2)
 ```
 
 Consider:
-- The differences between joining (merging on keys) and binding (stacking or combining dimensions).
-- How mismatches in row or column counts are handled.
-- Techniques for aligning data frames before binding.
+
+\- The differences between joining (merging on keys) and binding (stacking or combining dimensions).
+
+\- How mismatches in row or column counts are handled.
+
+\- Techniques for aligning data frames before binding.
 
 ------------------------------------------------------------------------
 
@@ -695,8 +703,4 @@ data_clean_names %>%
   clean_names()
 ```
 
-
 ------------------------------------------------------------------------
-
-
-
