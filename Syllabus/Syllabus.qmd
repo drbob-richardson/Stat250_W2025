@@ -80,16 +80,7 @@ Both the **midterm** and the **final exam** will have two parts:
 
 # Homework {.smaller}
 
--   The course is split into several units, each unit has
-    -   Slides for the material
-    -   A homework set
-        -   This will be completed, turned in, and graded
-        -   Part of this will always be done in class together
-    -   A second set of problems
-        -   I call these drills because they are extra non-comprehensive practice often focusing on a single concept
-        -   These are not turned in, but are expected to be understood
-        -   Solutions to these will be posted as well, but try to answer them and undestand them without the solutions first
--   Homework will be in the form of quarto files you will need to fill in
+The course is split into several units, each unit has a homework set that needs to be completed and turned in. Part of this will always be done in class together. There will often be about half that follows the lectures and half that are non-comprehensive, mainly drill-like questions. Homework will be in the form of quarto files you will need to fill in.
 
 # Import technologies and tools
 
@@ -134,12 +125,16 @@ Violations may result in disciplinary action.
 
 I am in the camp of professors who think AI is amazing and we should be using it. This class is a great place for you to understand the limits of an AI tool, like ChatGPT, in helping you code. For example, debugging with ChatGPT is much easier than before. We will do a significant amount of coding in class, often in settings where you can work with other people. I would ask the following:
 
+#
+
 ### In Class
 
 1.  First, look at the course material and notes.
 2.  If you’re stuck, ask a neighbor, TA, or the instructor.
 3.  Only after those steps, feel free to use AI or Google.
     -   Use these tools not to get “the answer” directly, but to learn *how* you would solve the problem.
+
+#
 
 ### At Home
 
@@ -149,11 +144,15 @@ I am in the camp of professors who think AI is amazing and we should be using it
     -   Ask a question on Discord.\
         Both options are fine.
 
+#
+
 ### Exams
 
 -   The **midterm** and **final** each have two parts:
     1.  **Part I**: Taken in class, **AI-free**.\
     2.  **Part II**: A take-home re-take where you redo Part I and may use AI or other resources to check and improve your work.
+
+#
 
 ## Accessibility Services
 
