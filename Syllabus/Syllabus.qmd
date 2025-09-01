@@ -14,135 +14,157 @@ editor: visual
 
 # Course Information
 
-- **Course**: Stat 250 - Introduction to Statistical Programming  
-- **Schedule**: MWF 2:00 - 2:50  
-- **Location**: 1161 WVB  
-
+-   **Course**: Stat 250 - Introduction to Statistical Programming\
+-   **Schedule**: MWF 12:00 - 12:50\
+-   **Location**: 1159 WVB
 
 # Instructor Information
 
-- **Professor**: Robert Richardson  
-  - **Email**: [richardson@stat.byu.edu](mailto:richardson@stat.byu.edu)  
-  - **Office**: 2186 WVB  
-  - **Zoom Room**: 8014223736  
-  - **Office Hours**: Wednesday and Thursday, 10:15 to 11:00  
-
+-   **Professor**: Robert Richardson
+    -   **Email**: [richardson\@stat.byu.edu](mailto:richardson@stat.byu.edu)\
+    -   **Office**: 2186 WVB\
+    -   **Zoom Room**: 8014223736\
+    -   **Office Hours**:
 
 # TA Information
 
-- **TA**: Riley Rawhouser 
-  - **Email**: [rawhouse@student.byu.edu](mailto:rawhouse@student.byu.edu)  
-  - **Office**: 1151 WVB  
-  - **Office Hours**: Tue, Thu 12:00pm - 1:00pm 
+-   **TA**: Rich Huang
+    -   **Email**: [rhuang00\@byu.edu](mailto:rhuang00@byu.edu)\
+    -   **Office**: 1151 WVB\
+    -   **Office Hours**: TBD
+-   **TA**: Kate West
+    -   **Email**: [westkat\@byu.edu](mailto:westkat@byu.edu)
+    -   **Office**: 1151 WVB
+    -   **Office Hours**: TBD
 
 # Course Description
 
 Introduce programming concepts essential for success as a statistician. These include
 
-- Basic to Advanced Programming Knowledge
-- Data Wrangling and Visualization
-- Simulation, sampling, and testing
-
-
+-   Basic to Advanced Programming Knowledge
+-   Data Wrangling and Visualization
+-   Simulation, sampling, and testing
 
 # Course Materials
 
-**Texts**:  
-- *R For Data Science*, 2nd Edition [https://r4ds.hadley.nz](https://r4ds.hadley.nz)
-- *Hands on Programming in R*, 4th Edition [https://rstudio-education.github.io/hopr/](https://rstudio-education.github.io/hopr/) 
+**Texts**:\
+- *R For Data Science*, 2nd Edition <https://r4ds.hadley.nz> - *Hands on Programming in R*, 4th Edition <https://rstudio-education.github.io/hopr/>
 
-**Course Management**: Learning Suite  
-**Materials**: [GitHub Repository](https://github.com/drbob-richardson/Stat250_W2025.git)  
-
-
+**Course Management**: Learning Suite\
+**Materials**: [GitHub Repository](https://github.com/drbob-richardson/Stat250_W2025.git)
 
 # Grade Distribution
 
-- Homework: 40%  
-- Projects: 25%  
-- Midterm Exam: 15% 
-- Final Exam: 20%
+-   Homework: 40%\
+-   Projects: 25%\
+-   Midterm Exam: 15%
+-   Final Exam: 20%
 
-# Exams
+## Exams
 
-- **Midterm**: Details to come  
-- **Final Exam**: Details to come 
+Both the **midterm** and the **final exam** will have two parts:
+
+1.  **Part I (In-Class, AI-Free)**
+    -   Taken in class under standard exam conditions.\
+    -   No AI tools may be used.
+    -   Anything in your Stat 250 Project directory can be used, including course material and any notes you have made
+2.  **Part II (Take-Home, AI-Allowed)**
+    -   After completing Part I, you will receive the same exam to redo at home.\
+    -   You may use your notes, AI tools, Google, or other resources to check and improve your work.\
+    -   The goal is for you to reflect on and learn from your initial attempt.
+
+### Schedule
+
+-   **Midterm**: TBD (will be held around the first or second week of October).\
+-   **Final Exam**: Friday, December 13 at 11:00 AM (Part I in class, Part II as a take-home).
 
 # Homework {.smaller}
 
-* The course is split into several units, each unit has 
-  + Slides for the material
-  + A homework set
-      - This will be completed, turned in, and graded
-      - Part of this will always be done in class together
-  + A second set of problems
-    - I call these drills because they are extra non-comprehensive practice often focusing on a single concept
-    - These are not turned in, but are expected to be understood
-    - Solutions to these will be posted as well, but try to answer them and undestand them without the solutions first
-  
-  
-* Homework will be in the form of quarto files you will need to fill in  
-
-
+-   The course is split into several units, each unit has
+    -   Slides for the material
+    -   A homework set
+        -   This will be completed, turned in, and graded
+        -   Part of this will always be done in class together
+    -   A second set of problems
+        -   I call these drills because they are extra non-comprehensive practice often focusing on a single concept
+        -   These are not turned in, but are expected to be understood
+        -   Solutions to these will be posted as well, but try to answer them and undestand them without the solutions first
+-   Homework will be in the form of quarto files you will need to fill in
 
 # Import technologies and tools
 
-- **RStudio**: An IDE, or Integrated Development Environment that helps to organize a coding environment
-- **R**: Is a programming software that is especially tuned to data analysis problems
+-   **RStudio**: An IDE, or Integrated Development Environment that helps to organize a coding environment
+-   **R**: Is a programming software that is especially tuned to data analysis problems
 
-Download both from  [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
-
+Download both from <https://posit.co/download/rstudio-desktop/>
 
 # Tentative Schedule {.smaller}
 
-| **Week**   | **Topics**                                |  
-|------------|------------------------------------------|  
-| Unit 1     | Hypothesis Testing Using R        |  
-| Unit 2     | Random Sampling and Data Structures     |  
-| Unit 3     | Simulation Basics                 |  
-| Unit 4     | Simulation Studies and Coding Efficiency            |  
-| Midterm    |                  |  
-| Unit 5  |  Data Import and Visualization                   |  
-| Unit 6  | More Visualization                   |  
-| Unit 7 | Tidy Data and Wrangling                              |  
-| Unit 8    | More Wrangling                  |  
-| Unit 9    | Text Processing                                  |  
+| **Week** | **Topics**                               |
+|----------|------------------------------------------|
+| Unit 1   | Hypothesis Testing Using R               |
+| Unit 2   | Random Sampling and Data Structures      |
+| Unit 3   | Simulation Basics                        |
+| Unit 4   | Simulation Studies and Coding Efficiency |
+| Midterm  |                                          |
+| Unit 5   | Data Import and Visualization            |
+| Unit 6   | More Visualization                       |
+| Unit 7   | Tidy Data and Wrangling                  |
+| Unit 8   | More Wrangling                           |
+| Unit 9   | Text Processing                          |
+
 # Praying in Class
 
-I have an opt-in prayer schedule. Sign up for days here:
-[https://docs.google.com/spreadsheets/d/1w7S-xuLLaKEXfCRjYYCHJgcB2KtbtwevKuAwSWWIoYM/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1w7S-xuLLaKEXfCRjYYCHJgcB2KtbtwevKuAwSWWIoYM/edit?usp=sharing)
+I have an opt-in prayer schedule. Sign up for days here: <https://docs.google.com/spreadsheets/d/1w7S-xuLLaKEXfCRjYYCHJgcB2KtbtwevKuAwSWWIoYM/edit?usp=sharing>
 
 # Discord
 
 Discord is a handy tool for asking quick simple questions. Both the TA and myself or other students can help out when you are stuck. This link should be good through Jan 15, after which you can message me to join the class discord.
 
-[https://discord.gg/x6GYFmaE](https://discord.gg/x6GYFmaE)
+[https://discord.gg/QeUrhR3H](https://discord.gg/x6GYFmaE)
 
 # Policies
 
 ## Honor Code
 
-Students are expected to maintain academic honesty and adhere to BYU's Dress and Grooming Standards.  
+Students are expected to maintain academic honesty and adhere to BYU's Dress and Grooming Standards.\
 Violations may result in disciplinary action.
 
 ## AI
 
-I am in the camp of professors who think AI is amazing and we should be using it. This class is a great place for you to understand the limits of an AI tool, like ChatGPT in helping you code. For example, debugging with ChatGPT is much easier than before. To get the most out of this class, I would ask that you try to code first before turning to ChatGPT. 
+I am in the camp of professors who think AI is amazing and we should be using it. This class is a great place for you to understand the limits of an AI tool, like ChatGPT, in helping you code. For example, debugging with ChatGPT is much easier than before. We will do a significant amount of coding in class, often in settings where you can work with other people. I would ask the following:
 
+### In Class
 
-#
+1.  First, look at the course material and notes.
+2.  If you’re stuck, ask a neighbor, TA, or the instructor.
+3.  Only after those steps, feel free to use AI or Google.
+    -   Use these tools not to get “the answer” directly, but to learn *how* you would solve the problem.
+
+### At Home
+
+1.  First, look at the course notes and materials.
+2.  If you’re still stuck, you may:
+    -   Ask Google or an AI tool, **or**\
+    -   Ask a question on Discord.\
+        Both options are fine.
+
+### Exams
+
+-   The **midterm** and **final** each have two parts:
+    1.  **Part I**: Taken in class, **AI-free**.\
+    2.  **Part II**: A take-home re-take where you redo Part I and may use AI or other resources to check and improve your work.
+
 ## Accessibility Services
 
-If you require accommodations, contact the University Accessibility Center (UAC) at 801-422-2767.  
-
+If you require accommodations, contact the University Accessibility Center (UAC) at 801-422-2767.
 
 ## Mental Health Support
 
-Confidential counseling is available through CAPS:  
-- Phone: 801-422-3035  
-- Website: [caps.byu.edu](https://caps.byu.edu)  
-
+Confidential counseling is available through CAPS:\
+- Phone: 801-422-3035\
+- Website: [caps.byu.edu](https://caps.byu.edu)
 
 # Questions?
 
-Feel free to email me or stop by during office hours!  
+Feel free to email me or stop by during office hours!
