@@ -14,16 +14,7 @@ Let us assign treatment groups A or B randomly to individuals. (Done together in
 # Individuals in the study
 Name = c("Alice","Bob","Hector","Steve","Tony","Steph","Mary", "Charlie", "Diana", "Ethan")
 
-# two things in data frame
-# 1. Names
-# 2. Assignments
 
-n_names <- length(Name)
-study <- data.frame(
-  Names = Name,
-  Assignments = sample(c("Treatment A","Treatment B"),n_names,replace=TRUE)
-)
-print(study)
 ```
 
 ## Problem 2
@@ -35,9 +26,7 @@ Write code to get only individuals from treatment group B. (Done together in cla
 ```{r}
 #| echo: true
 
-mask <- study$Assignments == "Treatment B"
-study_Bgroup <- study[mask,]
-study_Bgroup
+
 ```
 
 Write code to get the first 5 individuals of the group.
@@ -45,8 +34,6 @@ Write code to get the first 5 individuals of the group.
 ```{r}
 #| echo: true
 
-study_first5 <- study[1:5,]
-study_first5
 ```
 
 ## Problem 3
@@ -62,14 +49,7 @@ Create these lists using subsetting and logicals as opposed to hard coding the n
 ```{r}
 #| echo: true
 
-mask <- study$Assignments == "Treatment A"
-study_Agroup <- study[mask,]
-study_list <- list(
-  full_study <- study,
-  group_A <- study_Agroup,
-  group_B <- study_Bgroup
-)
-study_list
+
 ```
 
 ## Problem 4
@@ -79,25 +59,7 @@ We have a new clinical trial approaching. We have 300 individuals. Instead of na
 ```{r}
 #| echo: true
 
-set.seed(1234)
 
-# make ID numbers
-ID <- seq(501,800,1) # 501:800
-
-# M/F
-Gender <- c(rep("M",100),rep("F",200))
-
-# Random Assignments
-Assignments <- sample(c("A","B","C","D"),length(ID),replace=TRUE)
-
-# Create Data Frame
-another_study <- data.frame(
-  ID,
-  Gender,
-  Assignments
-)
-
-another_study[1:10,]
 ```
 
 ## Problem 5
@@ -108,4 +70,92 @@ You receive some new instruction to have exactly 75 in each group. So instead of
 #| echo: true
 
 
+```
+
+
+## Problem 6
+
+Use the sample() function to complete the following tasks:
+
+-   Randomly reorder the names in the vector names below.
+-   Select 4 names without replacement.
+-   Select 5 names with replacement.
+
+```{r}
+#| echo: true
+names <- c("Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona", "George", "Helen")
+# Write your code here
+
+```
+
+## Problem 7
+
+Perform the following tasks:
+
+-   Create a 3x4 matrix where the elements are the numbers 1 through 12, filled row-wise.
+-   Extract the element in the 2nd row, 3rd column.
+-   Extract the 2nd column.
+
+```{r}
+#| echo: true
+# Write your code here
+
+```
+
+## Problem 8
+
+Given the matrix below, use logical masks to extract:
+
+-   All rows where the value in the first column is greater than 2.
+-   The elements in the second column that are even numbers.
+
+```{r}
+#| echo: true
+matrix_example <- matrix(1:12, nrow = 4, byrow = TRUE)
+matrix_example
+# Write your code here
+```
+
+## Problem 9
+
+Given the list below, complete the following tasks:
+
+-   Extract the second element as a list.
+-   Extract the contents of the second element.
+-   Extract the third element and subset its first two rows.
+
+```{r}
+#| echo: true
+example_list <- list(
+  vector = c(10, 20, 30),
+  matrix = matrix(1:9, nrow = 3),
+  data_frame = data.frame(ID = 1:3, Value = c("A", "B", "C"))
+)
+# Write your code here
+```
+
+## Problem 10:
+
+Given the vector below:
+
+Create a logical mask to identify elements greater than 15. Use the mask to subset the vector. Count how many elements are greater than 15.
+
+```{r}
+#| echo: true
+vec <- c(10, 25, 5, 18, 30, 12, 20)
+# Write your code here
+```
+
+## Problem 11
+
+Create a logical mask to check which rows have the Name column equal to "Alice" or "Charlie". Use the mask to subset the data frame and show only those rows.
+
+```{r}
+#| echo: true
+df_example <- data.frame(
+  ID = 1:5,
+  Name = c("Alice", "Bob", "Charlie", "Diana", "Ethan"),
+  Age = c(25, 30, 35, 40, 28)
+)
+# Write your code here
 ```
