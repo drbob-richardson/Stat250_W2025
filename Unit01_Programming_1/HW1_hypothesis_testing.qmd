@@ -2,7 +2,7 @@
 title: "Assignment: Hypothesis Testing in R"
 author: "YOUR_NAME_HERE"
 output: visual
-format: html
+format: pdf
 editor: 
   markdown: 
     wrap: 72
@@ -29,27 +29,24 @@ Significance level: $\alpha = 0.05$
 ```{r}
 #| echo: true
 # Step 1: Store the data in a vector
-sleep_hours <- c(6.5, 7.5, 9.0, 5.0, 6.5, 5.0, 6.0, 8.0, 4.5, 8.5, 6.5, 6.0)
+
 
 
 # Step 2: Calculate the sample mean and sample standard deviation
-sample_mean <- mean(sleep_hours)
-sample_sd <- sd(sleep_hours)
+
 
 
 # Step 3: Define the hypothesized mean and sample size
-mu_0 <- 8
-n <- length(sleep_hours)
+
 
 
 # Step 4: Calculate the test statistic
-test_statistic <- (sample_mean - mu_0)/(sample_sd / sqrt(n))
+
 
 # Step 5: Compute the p-value for a one-tailed test
-p_value <- pt(test_statistic,n-1)
 
 # Step 6: Make a conclusion based on p-value and significance level
-print("Because the p value is less than the significance level, we reject the null hypothesis and conclude that the true number of sleep hours in less than 8.")
+
 
 
 # Reject the null hypothesis and conclude that the true number of sleep hours is less than 8
@@ -76,28 +73,6 @@ from the first scenario.
 
 ```{r}
 #| echo: true
-
-# Step 1: Store the data in a vector
-caffeine <- c(400, 250, 0, 300, 0, 600, 250, 200, 0, 275)
-
-# Step 2: Calculate the sample mean and sample standard deviation
-x_bar <- mean(caffeine)
-s <- sd(caffeine)
-
-# Step 3: Define the hypothesized mean and sample size
-mu_0 = 260
-n <- length(caffeine)
-
-# Step 4: Calculate the test statistic
-test_statistic <- (x_bar - mu_0)/(s/sqrt(n))
-
-# Step 5: Compute the p-value for a one-tailed test
-p_value <- 1-pt(test_statistic,n-1)
-
-# Step 6: Make a conclusion based on p-value and significance level
-sprintf("We compute a p-value of %.3f which is larger than our alpha, and so we fail to \n reject the null hypothesis and conclude that caffeine consumption \n could reasinably be %d mg",p_value,mu_0)
-
-# Fail to reject
 
 
 ```

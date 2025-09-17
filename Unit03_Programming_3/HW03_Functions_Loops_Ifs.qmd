@@ -14,31 +14,6 @@ Use `loop`s and `if` statements to create the sequence. (Done together in class)
 ```{r}
 #| echo: true
 
-n <- 20
-# Initialize an empty vector for the sequence
-sequence <- character(n)
-
-# Define the possible bases
-possible_bases <- c("A", "T", "C", "G")
-
-  # Loop through and create the sequence
-for (i in 1:n) {
-  if (i %% 2 != 0) {
-    # If index is odd, assign a random base
-    sequence[i] <- sample(possible_bases, 1)
-  } else {
-     # If index is even, assign the complement of the previous base
-    if (sequence[i - 1] == "A") {
-      sequence[i] <- "T"
-    } else if (sequence[i - 1] == "T") {
-      sequence[i] <- "A"
-    } else if (sequence[i - 1] == "C") {
-      sequence[i] <- "G"
-    } else if (sequence[i - 1] == "G") {
-      sequence[i] <- "C"
-    }
-  }
-}
 
 ```
 
@@ -116,5 +91,92 @@ samples <- data.frame(
 )
 
 ## Write code to resample values here
+
+```
+
+
+
+## Problem 6
+
+Write a `for` loop that calculates the sum of all even numbers between 1 and 20. Print the result.
+
+```{r}
+#| echo: true
+
+# Write your for loop here
+
+```
+
+## Problem 7
+
+Write a `while` loop that starts with the value `x = 1` and repeatedly doubles `x` until it exceeds 100. Print the final value of `x`.
+
+```{r}
+#| echo: true
+
+# Write your while loop here
+
+```
+
+## Problem 8
+
+Write an R script that checks if a given number `num` is positive, negative, or zero, and prints a message for each case.
+
+```{r}
+#| echo: true
+
+# Example number
+num <- -5
+
+# Write your if statement here
+
+```
+
+## Problem 9
+
+Write an R script that checks if a given number `num` is:
+- Between 10 and 20 (inclusive), or
+- Greater than 50.
+
+If either condition is true, print `"Condition met"`, otherwise print `"Condition not met"`.
+
+```{r}
+#| echo: true
+
+# Example number
+num <- 15
+
+# Write your code here
+
+```
+
+## Problem 10
+
+Write a function `multiply_by_two()` that takes a single argument, doubles its value, and returns the result. Test the function with the input `5`.
+
+```{r}
+#| echo: true
+
+# Write your function here
+
+```
+
+## Problem 11
+
+Consider the following incomplete R script. Fill in the missing code and explain the difference between the global variable `a` and the local variable `a` inside the function.
+
+```{r}
+#| echo: true
+
+# Global variable
+a <- 10
+
+# Function
+modify_a <- function() {
+  a <- 20  # Local variable
+  return(a)
+}
+
+# Call the function and print both values of `a`
 
 ```
