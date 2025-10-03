@@ -342,7 +342,7 @@ Certain shapes of data often lead us to describe them with formulas. You will le
 ## Common Probability Distributions {.smaller}
 
 | Distribution | R Function | Description                                     |
-|---------------|---------------|------------------------------------------|
+|--------------|------------|-------------------------------------------------|
 | Uniform      | `runif()`  | Evenly distributed values between min/max       |
 | Normal       | `rnorm()`  | Bell-shaped curve, common in real-world data    |
 | Poisson      | `rpois()`  | Counts of events occurring in fixed intervals   |

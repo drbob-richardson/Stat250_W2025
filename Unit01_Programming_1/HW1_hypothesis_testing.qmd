@@ -2,7 +2,11 @@
 title: "Assignment: Hypothesis Testing in R"
 author: "YOUR_NAME_HERE"
 output: visual
-format: pdf
+format:
+  pdf
+
+
+
 editor: 
   markdown: 
     wrap: 72
@@ -51,6 +55,8 @@ Significance level: $\alpha = 0.05$
 
 # Reject the null hypothesis and conclude that the true number of sleep hours is less than 8
 
+answer <- sprintf("This is a really long sentence This is a really long sentence This is a really long sentence This is a really long sentence This is really long sentence This is a really long sentence This is a really long sentence This is a really long sentence This is a really long sentence")
+cat(answer,width = 80)
 
 ```
 
